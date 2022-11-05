@@ -1,10 +1,10 @@
-package ru.spbstu.povorenok;
+package ru.spbstu.povarenok;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class TrkpoApplicationTests {
+class RecipeWebsiteApplicationTests {
 
     @Test
     void contextLoads() {

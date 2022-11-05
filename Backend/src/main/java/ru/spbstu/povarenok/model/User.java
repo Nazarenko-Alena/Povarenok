@@ -1,4 +1,4 @@
-package ru.spbstu.povorenok.model;
+package ru.spbstu.povarenok.model;
 
 public class User {
 

@@ -1,11 +1,11 @@
-package ru.spbstu.povorenok.model;
+package ru.spbstu.povarenok.model;
 
-public class Category {
+public class Cuisine {
 
     Long id;
     String name;
 
-    public Category(Long id, String name) {
+    public Cuisine(Long id, String name) {
         this.id = id;
         this.name = name;
     }

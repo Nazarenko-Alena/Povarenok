@@ -1,4 +1,6 @@
-package ru.spbstu.povorenok.model;
+package ru.spbstu.povarenok.model;
+
+import java.util.LinkedList;
 
 public class Recipe {
 
@@ -10,10 +12,12 @@ public class Recipe {
     private String cuisine;
     private String category;
     private Integer cookingTime;
+    private LinkedList<Ingredient> ingredients;
     private String description;
     private String recipe;
 
-    public Recipe(Long id, String userLogin, String name, String imageUrl, String dateAdded, String cuisine, String category, Integer cookingTime, String description, String recipe) {
+    public Recipe(Long id, String userLogin, String name, String imageUrl, String dateAdded, String cuisine, String category,
+                  Integer cookingTime, LinkedList<Ingredient> ingredients, String description, String recipe) {
         this.id = id;
         this.userLogin = userLogin;
         this.name = name;
@@ -22,6 +26,7 @@ public class Recipe {
         this.cuisine = cuisine;
         this.category = category;
         this.cookingTime = cookingTime;
+        this.ingredients = ingredients;
         this.description = description;
         this.recipe = recipe;
     }
@@ -88,6 +93,14 @@ public class Recipe {
 
     public void setCookingTime(Integer cookingTime) {
         this.cookingTime = cookingTime;
+    }
+
+    public LinkedList<Ingredient> getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(LinkedList<Ingredient> ingredients) {
+        this.ingredients = ingredients;
     }
 
     public String getDescription() {

@@ -1,13 +1,15 @@
-package ru.spbstu.povorenok.model;
+package ru.spbstu.povarenok.model;
 
 public class Ingredient {
 
     private Long id;
+    private Long idRecipe;
     private String name;
     private Double grams;
 
-    public Ingredient(Long id, String name, Double grams) {
+    public Ingredient(Long id, Long idRecipe, String name, Double grams) {
         this.id = id;
+        this.idRecipe = idRecipe;
         this.name = name;
         this.grams = grams;
     }
@@ -18,6 +20,14 @@ public class Ingredient {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getIdRecipe() {
+        return idRecipe;
+    }
+
+    public void setIdRecipe(Long idRecipe) {
+        this.idRecipe = idRecipe;
     }
 
     public String getName() {
