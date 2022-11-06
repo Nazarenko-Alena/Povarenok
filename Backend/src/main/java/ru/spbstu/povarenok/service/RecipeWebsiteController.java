@@ -1,8 +1,8 @@
 package ru.spbstu.povarenok.service;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import java.util.LinkedList;
 
 import ru.spbstu.povarenok.repository.*;
@@ -94,9 +94,9 @@ public class RecipeWebsiteController
     }
 
     @GetMapping("/recipes/{name}")
-    public ResponseEntity<?> getRecipeByName(@PathVariable(name = "name") String name) {
+    public ResponseEntity<?> getRecipe(@PathVariable(name = "name") String name) {
 
-        Recipe recipe = repository.getRecipeByName(name);
+        Recipe recipe = repository.getRecipe(name);
 
         return recipe != null
                 ? new ResponseEntity<>(recipe, HttpStatus.OK)
@@ -110,5 +110,35 @@ public class RecipeWebsiteController
         repository.saveRecipe(login, name);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @GetMapping("/recipes/last")
+    public ResponseEntity<?> getRecipes(@RequestParam Integer count) {
+        LinkedList<Recipe> recipes = repository.getLastRecipes(count);
+
+        return recipes != null
+                ? new ResponseEntity<>(recipes, HttpStatus.OK)
+                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @GetMapping("/recipes/{category}/{cuisine}")
+    public ResponseEntity<?> getRecipes(@PathVariable(name = "category") String category,
+                                        @PathVariable(name = "cuisine") String cuisine) {
+
+        LinkedList<Recipe> recipes = repository.getRecipes(category, cuisine);
+
+         return recipes != null
+                 ? new ResponseEntity<>(recipes, HttpStatus.OK)
+                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+     }
+
+    @GetMapping("/recipes/keywords/{keywords}")
+    public ResponseEntity<?> getRecipeByKeywords(@PathVariable(name = "keywords") String keywords) {
+
+        LinkedList<Recipe> recipes = repository.getRecipes(keywords);
+
+        return recipes != null
+                ? new ResponseEntity<>(recipes, HttpStatus.OK)
+                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }
