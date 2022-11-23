@@ -1,0 +1,346 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300&display=swap');
+
+@media screen  {
+  * {
+    margin: 0;
+    padding: 0;
+    font-family: 'Nunito', sans-serif;
+  }
+
+  body {
+    background-color: white;
+    line-height: 21px;
+  }
+  /*Ширина = 1536, Высота = 750*/
+
+  /*ШАПКА*/
+  #headerBlock {
+    background: #e9ba93;
+    width: 1536px;
+    height: 110px;
+    border-bottom: 3px solid #af6343;
+    position: absolute;
+  }
+
+  #logoImage {
+    float: left;
+    position: absolute;
+    top: 15px;
+    left: 49px;
+    height: 79px;
+    width:83px;
+    object-fit:cover;
+  }
+
+  #textPovarenok {
+    color: black;
+    font-size: 34px;
+    float: left;
+    top: 49px;
+    position: absolute;
+    left: 155px;
+  }
+
+  #searchBlock {
+    background: white;
+    height: 50px;
+    border: 3px solid #af6343;
+    border-radius: 20px;
+
+    width: 700px;
+    position: absolute;
+    top: 57px;
+    left: 460px;
+  }
+
+  #lupa {
+    position: absolute;
+    top: 15px;
+    left: 26px;
+    width: 20px;
+    height: 20px;
+  }
+
+  #searchLine {
+    color: black;
+    width: 500px;
+    position: absolute;
+    top: 12px;
+    left: 60px;
+    border: none;
+    font-size: 18px;
+  }
+
+  #searchLine:focus {
+    outline: none;
+  }
+
+  #findButton {
+    color: black;
+    font-size: 18px;
+    width: 100px;
+    position: absolute;
+    top: 8px;
+    left: 570px;
+    background-color: white;
+    border: 3px solid #af6343;
+    border-radius: 20px;
+  }
+
+  #findButton:hover {
+    background-color: #af6343;
+    color: white;
+  }
+
+  #signInImage {
+    width: 35px;
+    height: 35px;
+    position: absolute;
+    top: 43px;
+    left: 1340px;
+  }
+
+  #signInButton {
+    color: black;
+    font-size: 22px;
+    position: absolute;
+    top: 49px;
+    left: 1383px;
+    text-decoration: none;
+    padding: 2px 5px;
+  }
+
+  #signInButton:hover {
+    border: 2px solid #af6343;
+    border-radius: 20px;
+  }
+
+  /*КАТЕГОРИЯ И ТИП КУХНИ INDEX*/
+  .comboBox {
+    color: black;
+    font-size: 16px;
+    width: 150px;
+    position: absolute;
+    background-color: white;
+    padding: 9px 10px;
+    border: 3px solid #af6343;
+    top: 149px;
+  }
+
+  .comboBox:focus {
+    outline: none;
+  }
+
+  #categoryIndex {
+    left:593px;
+  }
+
+  #typeCuis {
+    border-left: none;
+    left:743px;
+  }
+
+  #applyButton {
+    color: black;
+    font-size: 16px;
+    background-color: white;
+    border: 3px solid #af6343;
+    border-radius: 20px;
+    width: 118px;
+    height: 32px;
+    position: absolute;
+    left: 910px;
+    top: 158px;
+  }
+
+  #applyButton:hover {
+    background-color: #af6343;
+    color: white;
+  }
+
+  /*НЕДАВНИЕ РЕЦЕПТЫ INDEX*/
+  #textRecentlyAddedRecipes {
+    color: black;
+    font-size: 28px;
+    position: absolute;
+    top: 235px;
+    left: 560px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .blockRec {
+    height: 400px;
+    width: 310px;
+    background-color: #f6f3ef;
+    border: 3px solid #af6343;
+    position: absolute;
+    top: 290px;
+  }
+
+  #blockOne {
+    left: 73px;
+  }
+
+  #blockTwo {
+    left: 433px;
+  }
+
+  #blockThree {
+    left: 793px;
+  }
+
+  #blockFour {
+    left: 1153px;
+  }
+
+  /*СОДЕРЖИМОЕ БЛОКОВ С РЕЦЕПТАМИ INDEX*/
+  .recImage{
+    width: 220px;
+    height: 180px;
+    border: 3px solid black;
+    position: absolute;
+    top: 26px;
+    left: 45px;
+  }
+
+  #recImageOne{}
+
+  #recImageTwo{}
+
+  #recImageThree{}
+
+  #recImageFour{}
+
+  .nameRec {
+    color: black;
+    text-decoration: none;
+    font-size: 22px;
+    text-transform: uppercase;
+    position: absolute;
+    top: 235px;
+    left: 50px;
+    right: 50px;
+    text-align: center;
+  }
+
+  .nameRec:hover {
+    color: #af6343;
+  }
+
+  .nameAuthor {
+    color: black;
+    font-size: 16px;
+    position: absolute;
+    top: 300px;
+    left: 50px;
+    right: 50px;
+    text-align: center;
+  }
+
+  .timeCookingRec {
+    color: black;
+    font-size: 16px;
+    position: absolute;
+    top: 340px;
+    left: 50px;
+    right: 50px;
+    text-align: center;
+  }
+
+  /*ФОРМА ВХОДА SIGNIN*/
+
+  #signInBlock {
+    height: 400px;
+    width: 600px;
+    background-color: #f6f3ef;
+    border: 3px solid #af6343;
+    border-radius: 20px;
+    position: absolute;
+    top: 200px;
+    left: 468px;
+  }
+
+  #textSignIn{
+    color: black;
+    font-size: 28px;
+    position: absolute;
+    top: 32px;
+    left: 115px;
+    white-space: nowrap;
+    text-transform: uppercase;
+  }
+
+  .inputSignIn{
+    background: white;
+    height: 30px;
+    font-size: 18px;
+    border: 3px solid #af6343;
+    width: 450px;
+    position: absolute;
+    left: 75px;
+  }
+
+  .inputSignIn::placeholder{
+    text-align:center;
+  }
+
+  #inputLogin{
+    top: 90px;
+  }
+
+  #inputPassword{
+    top: 150px;
+  }
+
+  #enterButton{
+    color: black;
+    font-size: 16px;
+    width: 115px;
+    height: 37px;
+    position: absolute;
+    top: 207px;
+    left: 245px;
+    background-color: white;
+    border: 3px solid #af6343;
+    border-radius: 20px;
+  }
+
+  #enterButton:disabled{
+    background-color: lightgrey;
+    border: 3px solid lightgrey;
+    cursor: not-allowed;
+  }
+
+  #enterButton:hover:enabled{
+    background-color: #af6343;
+    color: white;
+  }
+
+  #textSignInQuestion{
+    color: #767676;
+    font-size: 12px;
+    position: absolute;
+    top: 290px;
+    left: 225px;
+    white-space: nowrap;
+    text-transform: uppercase;
+  }
+
+  #signUpButton{
+    color: black;
+    font-size: 16px;
+    width: 190px;
+    height: 37px;
+    position: absolute;
+    top: 320px;
+    left: 212px;
+    background-color: white;
+    border: 3px solid #af6343;
+    border-radius: 20px;
+  }
+  #signUpButton:hover{
+    background-color: #af6343;
+    color: white;
+  }
+}
