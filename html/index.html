@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="Главная страница сайта с рецептами">
+  <meta name="keywords" content="Povarenok, рецепты, html">
+  <title>Povarenok</title>
+  <link rel="stylesheet" href="/css/app.css">
+</head>
+<body>
+
+    <div id="headerBlock">
+      <div> <a href="index.html"><img src="../img/logo.png" id="logoImage" alt="Логотип"> </a> </div>
+
+      <div id="textPovarenok"> Povarenok </div>
+
+      <div id="searchBlock">
+        <div> <img src="../img/lupa.png" id="lupa" alt=""> </div>
+
+        <div>
+          <input type="searchLine" placeholder="Поиск по рецептам" maxlength="100" required
+                 oninput="this.value = this.value.replace(/[^а-яёА-ЯЁ\s]/gi, '');"
+                 name="searchLine" id="searchLine">
+        </div>
+
+        <div>
+          <a href="searchRes.html"><button type="submit" id="findButton" name="findButton"> Найти </button> </a>
+        </div>
+      </div>
+
+      <div>
+        <img src="../img/user.png" id="signInImage" alt="Пользователь">
+      </div>
+
+      <div>
+        <a id="signInButton"  href="signIn.html"  target="_self"> Войти </a>
+      </div>
+    </div>
+
+    <div>
+      <select class="comboBox" name="categoryIndex" id="categoryIndex">
+        <option selected value="">Категория</option>
+        <option value="cat1">Категория 1</option>
+        <option value="cat2">Категория 2</option>
+        <option value="cat3">Категория 3</option>
+      </select>
+    </div>
+
+    <div>
+      <select class="comboBox"  name="typeCuis" id="typeCuis">
+        <option selected value="">Тип кухни</option>
+        <option value="type1">Тип 1</option>
+        <option value="type2">Тип 2</option>
+        <option value="type3">Тип 3</option>
+      </select>
+    </div>
+
+    <div>
+      <a href="searchRes.html"><button type="submit" id="applyButton" name="applyButton">
+        Применить </button> </a>
+    </div>
+
+     <div id="textRecentlyAddedRecipes"> Недавно добавленные рецепты </div>
+
+    <div class="blockRec" id="blockOne">
+      <div> <img src="../img/exampleRec.jpg" class="recImage" id="recImageOne" alt="Изображение рецепта"> </div>
+      <div> <a href="recipe.html" class="nameRec" id="nameRecOne" target="_self"> Киш с курицей и сыром </a> </div>
+      <div class="nameAuthor" id="nameAuthorOne"> Автор: nkazimirov </div>
+      <div class="timeCookingRec" id="timeCookingOne"> Время приготовления: 1 час 20 минут </div>
+    </div>
+
+    <div class="blockRec" id="blockTwo">
+      <div> <img src="../img/exampleRec.jpg" class="recImage" id="recImageTwo" alt="Изображение рецепта"> </div>
+      <div> <a href="recipe.html" class="nameRec" id="nameRecTwo" target="_self"> Киш с курицей и сыром </a> </div>
+      <div class="nameAuthor" id="nameAuthorTwo"> Автор: nkazimirov </div>
+      <div class="timeCookingRec" id="timeCookingTwo"> Время приготовления: 100 час 20 минут </div>
+    </div>
+
+    <div class="blockRec" id="blockThree">
+      <div> <img src="../img/exampleRec.jpg" class="recImage" id="recImageThree" alt="Изображение рецепта"> </div>
+      <div> <a href="recipe.html" class="nameRec" id="nameRecThree" target="_self"> Киш с курицей и сыром </a> </div>
+      <div class="nameAuthor" id="nameAuthorThee"> Автор: nkazimirov </div>
+      <div class="timeCookingRec" id="timeCookingThree"> Время приготовления: 1000 час 20 минут </div>
+    </div>
+
+    <div class="blockRec" id="blockFour">
+      <div> <img src="../img/exampleRec.jpg" class="recImage" id="recImageFour" alt="Изображение рецепта"> </div>
+      <div> <a href="recipe.html" class="nameRec" id="nameRecFour" target="_self"> Киш с курицей и сыром </a> </div>
+      <div class="nameAuthor" id="nameAuthorFour"> Автор: nkazimirov </div>
+      <div class="timeCookingRec" id="timeCookingFour"> Время приготовления: 1 час 2 минут </div>
+    </div>
+
+</body>
+
+</html>
