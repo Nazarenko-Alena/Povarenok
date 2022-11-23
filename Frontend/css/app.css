@@ -248,9 +248,8 @@
     text-align: center;
   }
 
-  /*ФОРМА ВХОДА SIGNIN*/
-
-  #signInBlock {
+  /*Общее для SIGNIN и SIGNUP*/
+  .signInUpBlock{
     height: 400px;
     width: 600px;
     background-color: #f6f3ef;
@@ -261,28 +260,32 @@
     left: 468px;
   }
 
-  #textSignIn{
+  .signInUpText{
     color: black;
     font-size: 28px;
     position: absolute;
     top: 32px;
-    left: 115px;
     white-space: nowrap;
     text-transform: uppercase;
   }
 
-  .inputSignIn{
+  .inputSignInUp{
     background: white;
     height: 30px;
     font-size: 18px;
     border: 3px solid #af6343;
     width: 450px;
     position: absolute;
-    left: 75px;
+    left: 73px;
   }
 
-  .inputSignIn::placeholder{
+  .inputSignInUp::placeholder{
     text-align:center;
+  }
+  /*ФОРМА ВХОДА SIGNIN*/
+
+  #textSignIn{
+    left: 115px;
   }
 
   #inputLogin{
@@ -340,6 +343,48 @@
     border-radius: 20px;
   }
   #signUpButton:hover{
+    background-color: #af6343;
+    color: white;
+  }
+
+  /*ФОРМА ВХОДА SIGNUP*/
+  #textSignUp{
+    top: 35px;
+    left: 205px;
+  }
+
+  #signUpLogin{
+    top: 95px;
+  }
+
+  #signUpPassword{
+    top: 155px;
+  }
+
+  #signUpEmail{
+    top: 215px;
+  }
+
+  #registerButton{
+    color: black;
+    font-size: 16px;
+    width: 190px;
+    height: 37px;
+    position: absolute;
+    top: 290px;
+    left: 210px;
+    background-color: white;
+    border: 3px solid #af6343;
+    border-radius: 20px;
+  }
+
+  #registerButton:disabled{
+    background-color: lightgrey;
+    border: 3px solid lightgrey;
+    cursor: not-allowed;
+  }
+
+  #registerButton:hover:enabled{
     background-color: #af6343;
     color: white;
   }

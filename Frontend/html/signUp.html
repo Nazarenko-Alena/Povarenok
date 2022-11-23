@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="Страница регистрации">
+  <title>Povarenok</title>
+  <link rel="stylesheet" href="/css/app.css">
+
+  <script type="text/javascript">
+    function toggleButton()
+    {
+      var username = document.getElementById('signUpLogin').value;
+      var password = document.getElementById('signUpPassword').value;
+      var email = document.getElementById('signUpEmail').value;
+
+      document.getElementById('registerButton').disabled = !((username.length > 1) && (password.length > 7)
+                                && (email.length > 0));
+    }
+
+    function isCorrect() {
+      /*Добавить проверку, существует ли такой пользователь и проверку корректности введённых данных*/
+    }
+  </script>
+</head>
+<body>
+    <div id="headerBlock">
+      <div> <a href="index.html"><img src="../img/logo.png" id="logoImage" alt="Логотип"> </a> </div>
+      <div id="textPovarenok"> Povarenok </div>
+    </div>
+
+    <div class="signInUpBlock" id="signUpBlock">
+      <div id="textSignUp" class="signInUpText"> Регистрация </div>
+
+      <form action="index.html" method="post" onsubmit="isCorrect()"> <!-- Вместо index.html должна быть последняя открытая страница-->
+        <div>
+          <input class="inputSignInUp" type="text" placeholder="Введите логин" minlength="2" maxlength="30" required
+                 oninput="this.value = this.value.replace(/[^а-яёЁa-zA-Z0-9\s]/gi, '');"
+                 name="signUpLogin" id="signUpLogin" onkeydown="toggleButton()">
+        </div>
+
+        <div>
+          <input class="inputSignInUp" type="text" placeholder="Введите пароль" minlength="8" maxlength="12" required
+                 oninput="this.value = this.value.replace(/[^а-яёЁa-zA-Z0-9\s]/gi, '');"
+                 name="signUpPassword" id="signUpPassword" onkeydown="toggleButton()">
+        </div>
+
+        <div>
+          <input class="inputSignInUp" type="text" placeholder="Введите почту" minlength="4" maxlength="30" required
+                 oninput="this.value = this.value.replace(/[^а-яёЁa-zA-Z0-9\s][/@][^а-яёЁa-zA-Z0-9\s][.][^а-яёЁa-zA-Z0-9\s]/gi, '');"
+                 name="signUpEmail" id="signUpEmail" onkeydown="toggleButton()">
+        </div>
+
+        <div>
+          <button type="submit" id="registerButton" name="registerButton" disabled>
+            Зарегистрироваться
+          </button>
+        </div>
+      </form>
+    </div>
+</body>
+</html>
