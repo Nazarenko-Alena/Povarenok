@@ -50,7 +50,7 @@
     width: 700px;
     position: absolute;
     top: 57px;
-    left: 460px;
+    left: 440px;
   }
 
   #lupa {
@@ -112,7 +112,7 @@
 
   #signInButton:hover {
     border: 2px solid #af6343;
-    border-radius: 20px;
+    border-radius: 15px;
   }
 
   /*КАТЕГОРИЯ И ТИП КУХНИ INDEX*/
@@ -279,6 +279,10 @@
     left: 73px;
   }
 
+  .inputSignInUp:focus {
+    outline: none;
+  }
+
   .inputSignInUp::placeholder{
     text-align:center;
   }
@@ -385,6 +389,429 @@
   }
 
   #registerButton:hover:enabled{
+    background-color: #af6343;
+    color: white;
+  }
+
+  /*ФОРМА ДОБАВЛЕНИЯ РЕЦЕПТА ADDRECIPE*/
+
+  /*ПРАВАЯ ЧАСТЬ*/
+  .inputAddRec{
+    background: white;
+    font-size: 18px;
+    border: 3px solid #AF63434D;
+    border-radius: 15px;
+    position: absolute;
+  }
+
+  .inputAddRec:focus {
+    outline: none;
+  }
+
+  #inputNameRec{
+    top: 160px;
+    height: 40px;
+    width: 450px;
+    left: 270px;
+    padding-left: 20px;
+  }
+
+  .line{
+    position: absolute;
+    background: #AF6343;
+    border: 1.25px solid #AF6343;
+    height: 0px;
+  }
+
+  #lineNameRec{
+    width: 480px;
+    top: 220px;
+    left: 268px;
+  }
+
+  #inputDecRec{
+    width: 850px;
+    height: 100px;
+    top: 240px;
+    left: 68px;
+    padding: 10px 10px 10px 20px;
+    resize: none;
+    box-sizing: border-box;
+  }
+
+  #lineDecRec{
+    width: 380px;
+    left: 65px;
+    top: 359px;
+  }
+
+  .addIngRec{
+    position: absolute;
+    background: white;
+    font-size: 18px;
+    width: 650px;
+    height: 30px;
+    padding-left: 20px;
+    left: 68px;
+    border: 2px solid #AF63434D;
+    border-radius: 15px;
+  }
+
+  #inputIngRec1{
+    top: 381px;
+  }
+
+  .addGrRec{
+    position: absolute;
+    background: white;
+    font-size: 18px;
+    width: 70px;
+    height: 30px;
+    left: 760px;
+    border: 2px solid #AF63434D;
+    border-radius: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+  .addGrRec::placeholder{
+    text-align: center;
+  }
+
+  #inputGrRec1{
+    top: 381px;
+  }
+
+  .deleteIngButton{
+    position: absolute;
+    left: 890px;
+    border: none;
+    background: none;
+    width: 17px;
+    height: 17px;
+  }
+  .deleteIngButton:hover .deleteIngImg{
+    width: 19px;
+    height: 19px;
+    outline: none;
+  }
+
+  .deleteIngImg{
+    width: 17px;
+    height: 17px;
+  }
+
+  #addIngButton{
+    position: absolute;
+    left: 68px;
+    top: 445px;
+    border: none;
+    background: none;
+    width: 25px;
+    height: 25px;
+  }
+  #addIngButton:hover .addIngImg{
+    width: 27px;
+    height: 27px;
+    outline: none;
+  }
+
+  .addIngImg{
+    width: 25px;
+    height: 25px;
+  }
+
+  #addIngText{
+    color: black;
+    font-size: 19px;
+    top: 447px;
+    position: absolute;
+    left: 105px;
+  }
+
+  #lineAddIngRec{
+    width: 380px;
+    left: 65px;
+    top: 490px;
+  }
+
+  #inputStepRec{
+    width: 850px;
+    height: 100px;
+    top: 514px;
+    left: 68px;
+    padding: 10px 10px 10px 20px;
+    resize: none;
+    box-sizing: border-box;
+  }
+
+  /*ЛЕВАЯ ЧАСТЬ*/
+
+  #dropImgZone{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    position: absolute;
+    width: 350px;
+    height: 250px;
+    left: 1050px;
+    top: 140px;
+    background: #F5F5F5;
+    border: 3px solid #AF6343;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  }
+
+  #addImgRecText{
+    font-size: 20px;
+  }
+
+  #addImg{
+    height: 70px;
+    width: 70px;
+    margin-bottom: 15px;
+  }
+
+  #comboBoxBlockAddRec{
+    position: absolute;
+    top: 420px;
+    left: 1080px;
+  }
+
+  #chooseCatText{
+    font-size: 18px;
+  }
+
+  .comboBoxAddRec {
+    position: absolute;
+    top: 35px;
+    color: black;
+    font-size: 16px;
+    width: 150px;
+    padding: 9px 10px;
+    background: #FFFFFF;
+    border: 3px solid rgba(175, 99, 67, 0.3);
+    box-shadow: 0px 0px 14px rgba(53, 64, 82, 0.05);
+  }
+
+  .comboBoxAddRec:focus {
+    outline: none;
+  }
+
+  #typeCuisAddRec{
+    left: 150px;
+    border-left: none;
+  }
+
+  #inputTimeCook{
+    font-size: 16px;
+    width: 320px;
+    position: absolute;
+    top: 110px;
+    left: -10px;
+    text-align: center;
+  }
+
+  #createRecButton{
+    color: black;
+    font-size: 20px;
+    width: 170px;
+    height: 60px;
+    position: absolute;
+    top: 180px;
+    left: 70px;
+    background-color: white;
+    border: 3px solid #af6343;
+    border-radius: 20px;
+  }
+  #createRecButton:disabled{
+    background-color: lightgrey;
+    border: 3px solid lightgrey;
+    cursor: not-allowed;
+  }
+  #createRecButton:hover:enabled{
+    background-color: #af6343;
+    color: white;
+  }
+
+  /*ИНФО О РЕЦЕПТЕ RECIPE*/
+  /*ЛЕВЫЙ БЛОК*/
+  .infoRec{
+    color: black;
+    outline: none;
+    background-color: white;
+    resize: none;
+    box-sizing: border-box;
+    border: none;
+    border-bottom: 3px solid #AF6343;
+    position: absolute;
+    padding-bottom: 20px;
+  }
+
+  #infoNameRec{
+    font-size: 24px;
+    top: 145px;
+    left: 300px;
+    width: 600px;
+    font-weight: bold;
+    text-align: center;
+    text-transform: uppercase;
+    padding-bottom: 0px;
+  }
+
+  #infoRecLeftBlock{
+    position: absolute;
+    outline: none;
+    background-color: white;
+    left: 61px;
+  }
+
+  #infoDecRec{
+    font-size: 20px;
+    width: 900px;
+    display: flex;
+    align-items: center;
+    text-align: justify;
+    letter-spacing: 0.07875px;
+    padding-left: 0px;
+  }
+
+  #infoIngBlock{
+    font-size: 20px;
+    position: absolute;
+  }
+
+  #infoIngRec{
+    font-size: 20px;
+    width: 700px;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    text-align: justify;
+    letter-spacing: 0.07875px;
+    padding-left: 0px;
+  }
+
+  #infoIngText{
+    padding-left: 0px;
+    padding-bottom: 15px;
+  }
+
+  #infoStepText{
+    padding-left: 0px;
+    padding-bottom: 15px;
+  }
+
+  #infoStepBlock{
+    font-size: 20px;
+    position: absolute;
+    width: 1000px;
+  }
+
+  #infoStepRec{
+    font-size: 20px;
+    width: 1000px;
+    display: flex;
+    align-items: center;
+    text-align: justify;
+    letter-spacing: 0.07875px;
+    border-bottom: none;
+    padding-left: 0px;
+  }
+
+  /*ПРАВЫЙ БЛОК*/
+  #infoRecRightBlock{
+    position: absolute;
+    left: 980px;
+    top: 135px;
+    font-size: 16px;
+    width: 400px;
+  }
+
+  #infoRecImage{
+    width: 400px;
+    height: 300px;
+  }
+
+  #catBlockInfoRec{
+    position: absolute;
+    top: 350px;
+    left: 170px;
+  }
+
+  #infoCatRec{
+    position: absolute;
+    top: 0px;
+    left: 85px;
+  }
+
+  #typeCusBlockInfoRec{
+    position: absolute;
+    top: 380px;
+    left: 170px;
+  }
+
+  #infoTypeCusRec{
+    position: absolute;
+    top: 0px;
+    left: 85px;
+  }
+
+  #authorBlockInfoRec{
+    position: absolute;
+    top: 410px;
+    left: 170px;
+  }
+
+  #infoAuthorRec{
+    position: absolute;
+    top: 0px;
+    left: 55px;
+  }
+
+  #timeCookingBlockInfoRec{
+    position: absolute;
+    top: 440px;
+    left: 125px;
+  }
+
+  #infoTimeCookingRec{
+    position: absolute;
+    top: 0px;
+    left: 175px;
+    width: 80px;
+  }
+
+  #dateBlockInfoRec{
+    position: absolute;
+    top: 470px;
+    left: 140px;
+  }
+
+  #infoDateRec{
+    position: absolute;
+    top: 0px;
+    left: 138px;
+    width: 80px;
+  }
+
+  #addFavorites{
+    color: black;
+    font-size: 16px;
+    width: 210px;
+    height: 40px;
+    position: absolute;
+    top: 510px;
+    left: 150px;
+    background-color: white;
+    border: 3px solid #af6343;
+    border-radius: 15px;
+  }
+  #addFavorites:disabled{
+    background-color: lightgrey;
+    border: 3px solid lightgrey;
+    cursor: not-allowed;
+  }
+  #addFavorites:hover:enabled{
     background-color: #af6343;
     color: white;
   }

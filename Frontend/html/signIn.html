@@ -28,7 +28,7 @@
       if ((password.length < 8) || (password.length > 12)
             || (username.length < 2) || (username.length > 30)){
         document.addEventListener('submit', remEvent );
-      } /*Добавить проверку, существует ли такой пользователь*/
+      } /*Добавить проверку, существует ли такой пользователь и корректность данных*/
     }
   </script>
 </head>
@@ -38,18 +38,18 @@
       <div id="textPovarenok"> Povarenok </div>
     </div>
 
-    <div id="signInBlock">
-      <div id="textSignIn"> Вход в личный кабинет </div>
+    <div class="signInUpBlock" id="signInBlock">
+      <div class="signInUpText" id="textSignIn"> Вход в личный кабинет </div>
 
       <form action="user.html" method="post" onsubmit="isCorrect()"> <!-- Вместо user.html должна быть последняя открытая страница-->
         <div>
-          <input class="inputSignIn" type="text" placeholder="Введите логин" minlength="2" maxlength="30" required
+          <input class="inputSignInUp" type="text" placeholder="Введите логин" minlength="2" maxlength="30" required
                  oninput="this.value = this.value.replace(/[^а-яёЁa-zA-Z0-9\s]/gi, '');"
                  name="inputLogin" id="inputLogin" onkeydown="toggleButton()">
         </div>
 
         <div>
-          <input class="inputSignIn" type="password" placeholder="Введите пароль" minlength="8" maxlength="12" required
+          <input class="inputSignInUp" type="password" placeholder="Введите пароль" minlength="8" maxlength="12" required
                  oninput="this.value = this.value.replace(/[^а-яёЁa-zA-Z0-9\s]/gi, '');"
                  name="inputPassword" id="inputPassword" onkeydown="toggleButton()">
         </div>

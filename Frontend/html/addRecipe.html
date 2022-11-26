@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="Страница добавления рецепта">
+  <title>Povarenok</title>
+  <link rel="stylesheet" href="/css/app.css">
+
+  <script type="text/javascript">
+    var indexBlockIng = 1;
+    var currTopIng = 381;
+
+    function deleteIngBlock(id){
+      document.getElementById("inputIngRec" + id).remove();
+      document.getElementById("inputGrRec" + id).remove();
+      document.getElementById("deleteIng" + id).remove();
+
+      document.getElementById('addIngButton').style.top = document.getElementById('addIngButton').offsetTop - 50 + 'px';
+      document.getElementById('addIngText').style.top = document.getElementById('addIngText').offsetTop - 50 + 'px';
+      document.getElementById('lineAddIngRec').style.top = document.getElementById('lineAddIngRec').offsetTop - 50 + 'px';
+      document.getElementById('inputStepRec').style.top = document.getElementById('inputStepRec').offsetTop - 50 + 'px';
+
+
+      for(var i = Number(id) + 1; i <= indexBlockIng; i++){
+        var newIdIng = "inputIngRec" + i;
+        var newIdGr = "inputGrRec" + i;
+        var newIdImg = "deleteIng" + i;
+
+        if(document.getElementById(newIdIng)){
+          document.getElementById(newIdIng).style.top = document.getElementById(newIdIng).offsetTop - 50 + 'px';
+          document.getElementById(newIdGr).style.top = document.getElementById(newIdGr).offsetTop - 50 + 'px';
+          document.getElementById(newIdImg).style.top =  document.getElementById(newIdImg).offsetTop - 50 + 'px';
+        }
+      }
+
+      toggleButton();
+    }
+
+    function addBlock(){
+      document.getElementById('createRecButton').disabled = true;
+      for(var i = 1; i <= indexBlockIng; i++){
+        var newIdIng = "inputIngRec" + i;
+
+        if(document.getElementById(newIdIng)){
+          currTopIng = document.getElementById(newIdIng).offsetTop;
+        }
+      }
+
+      currTopIng += 50;
+      indexBlockIng++;
+
+      newIdIng = "inputIngRec" + indexBlockIng;
+      var newIdGr = "inputGrRec" + indexBlockIng;
+      var newIdImg = "deleteIng" + indexBlockIng;
+
+      var divId = document.createElement('div');
+      divId.innerHTML = '<input class="addIngRec" type="text" ' +
+        'placeholder="Добавьте название ингредиента" minlength="2" maxlength="100" required\n' +
+        '            oninput="this.value = this.value.replace(/[^а-яёЁ\\s]/gi, \'\');"\n' +
+        '            id=' + newIdIng + ' onchange="toggleButton()">';
+
+      var divGr = document.createElement('div');
+      divGr.innerHTML = '<div>\n' +
+        '        <input class="addGrRec" type="text" placeholder="граммы" minlength="1" maxlength="5" required\n' +
+        '               oninput="this.value = this.value.replace(/[^0-9\\s]/gi, \'\');"\n' +
+        '               id=' + newIdGr + ' onchange="toggleButton()">\n' +
+        '      </div>';
+
+      var divImg = document.createElement('div');
+      divImg.innerHTML = '<div>\n' +
+        '        <button type="button" class="deleteIngButton" id=' + newIdImg + '>\n' +
+        '          <img src="../img/deleteIng.png" class="deleteIngImg" alt="Удалить ингредиент" ' +
+        'onclick="deleteIngBlock('+ indexBlockIng + ')">\n' +
+        '        </button>\n' +
+        '      </div>';
+
+      document.getElementById("addedIngRec").append(divId);
+      document.getElementById("addedIngRec").append(divGr);
+      document.getElementById("addedIngRec").append(divImg);
+
+      document.getElementById(newIdIng).style.top = currTopIng + 'px';
+      document.getElementById(newIdGr).style.top = currTopIng + 'px';
+      document.getElementById(newIdImg).style.top = currTopIng + 11 + 'px';
+    }
+
+    function addIngBlock(){
+      addBlock();
+
+      document.getElementById('addIngButton').style.top = document.getElementById('addIngButton').offsetTop + 50 + 'px';
+      document.getElementById('addIngText').style.top = document.getElementById('addIngText').offsetTop + 50 + 'px';
+      document.getElementById('lineAddIngRec').style.top = document.getElementById('lineAddIngRec').offsetTop + 50 + 'px';
+      document.getElementById('inputStepRec').style.top = document.getElementById('inputStepRec').offsetTop + 50 + 'px';
+    }
+
+    function toggleButton()
+    {
+      var nameRec = document.getElementById('inputNameRec').value;
+      var DecRec = document.getElementById('inputDecRec').value;
+
+      var inputIngRecOne = document.getElementById('inputIngRec1').value;
+
+      var inputGrRecOne = document.getElementById('inputGrRec1').value;
+
+      var inputStepRec = document.getElementById('inputStepRec').value;
+      var inputTimeCook = document.getElementById('inputTimeCook').value;
+
+      var typeCuisAddRec = document.getElementById('typeCuisAddRec');
+      var categoryAddRec = document.getElementById('categoryAddRec');
+
+      document.getElementById('createRecButton').disabled = !((nameRec.length > 1) && (DecRec.length > 1)
+        && (inputIngRecOne.length > 1) && (inputGrRecOne.length > 0)
+        && (inputStepRec.length > 20) && (inputTimeCook.length > 0)
+        && !(typeCuisAddRec.selectedIndex == 0) && !(categoryAddRec.selectedIndex == 0));
+
+      for(var i = 1; i <= indexBlockIng; i++){
+        var newIdIng = "inputIngRec" + i;
+        var newIdGr = "inputGrRec" + i;
+
+        if(document.getElementById(newIdIng)){
+          console.log(document.getElementById(newIdIng).value.length);
+
+          if((document.getElementById(newIdIng).value.length < 2)
+            || (document.getElementById(newIdGr).value.length == 0)){
+            document.getElementById('createRecButton').disabled = true;
+          }
+        }
+      }
+      /*Добавить проверку изображения на существование*/
+    }
+
+    function isCorrect() {
+      /*Добавить проверку корректности введённых данных*/
+    }
+  </script>
+</head>
+<body>
+    <div id="headerBlock">
+      <div> <a href="index.html"><img src="../img/logo.png" id="logoImage" alt="Логотип"> </a> </div>
+      <div id="textPovarenok"> Povarenok </div>
+      <div>
+        <img src="../img/user.png" id="signInImage" alt="Пользователь">
+      </div>
+
+      <div>
+        <a id="signInButton"  href="signIn.html"  target="_self"> Войти </a>
+      </div>
+    </div>
+
+    <div>
+      <input class="inputAddRec" type="text" placeholder="Введите название блюда" minlength="2" maxlength="100" required
+             oninput="this.value = this.value.replace(/[^а-яёЁ\s]/gi, '');"
+             name="inputNameRec" id="inputNameRec" onchange="toggleButton()">
+    </div>
+
+    <div class="line" id="lineNameRec"> </div>
+
+    <div>
+      <textarea class="inputAddRec" placeholder="Добавьте описание блюда" rows="8" cols="70" minlength="2" maxlength="500" required
+                oninput="this.value = this.value.replace(/[^а-яёЁ\s]/gi, '');"
+                name="inputDecRec" id="inputDecRec" onchange="toggleButton()"></textarea>
+    </div>
+
+    <div class="line" id="lineDecRec"> </div>
+
+    <div>
+       <input class="addIngRec" type="text" placeholder="Добавьте название ингредиента" minlength="2" maxlength="100" required
+            oninput="this.value = this.value.replace(/[^а-яёЁ\s]/gi, '');"
+            name="inputIngRec1" id="inputIngRec1" onchange="toggleButton()">
+    </div>
+
+    <div>
+       <input class="addGrRec" type="text" placeholder="граммы" minlength="1" maxlength="5" required
+              oninput="this.value = this.value.replace(/[^0-9\s]/gi, '');"
+              name="inputGrRec1" id="inputGrRec1" onchange="toggleButton()">
+    </div>
+
+    <div id="addedIngRec">
+    </div>
+
+
+    <div>
+      <button type="button" id="addIngButton" onclick="addIngBlock()">
+        <img src="../img/addIngrImg.png" class="addIngImg" alt="Добавить ингредиент">
+      </button>
+    </div>
+
+    <div id="addIngText"> Добавить ингредиент </div>
+
+    <div class="line" id="lineAddIngRec"> </div>
+
+    <div>
+      <textarea class="inputAddRec" placeholder="Добавьте пошаговый рецепт" rows="71" cols="70" minlength="20"
+                maxlength="5000" required
+                oninput="this.value = this.value.replace(/[^а-яёЁ0-9\s]/gi, '');"
+                name="inputStepRec" id="inputStepRec" onchange="toggleButton()"></textarea>
+    </div>
+
+    <div id="dropImgZone" > <!--Добавить драг энд дроп-->
+      <img src="../img/addImg.png" id="addImg" alt="добавить фото">
+      <div id="addImgRecText"> Добавьте фото блюда </div>
+    </div>
+
+    <div id="comboBoxBlockAddRec">
+      <div id="chooseCatText"> Выберите категорию и тип кухни </div>
+
+      <div>
+        <select class="comboBoxAddRec" name="categoryAddRec" id="categoryAddRec" onchange="toggleButton()">
+          <option selected value="">Категория</option>
+          <option value="cat1">Категория 1</option>
+          <option value="cat2">Категория 2</option>
+          <option value="cat3">Категория 3</option>
+        </select>
+      </div>
+
+      <div>
+        <select class="comboBoxAddRec"  name="typeCuisAddRec" id="typeCuisAddRec" onchange="toggleButton()">
+          <option selected value="">Тип кухни</option>
+          <option value="type1">Тип 1</option>
+          <option value="type2">Тип 2</option>
+          <option value="type3">Тип 3</option>
+        </select>
+      </div>
+
+      <div>
+        <input class="inputAddRec" type="text" placeholder="Введите время приготовления в минутах"
+               minlength="1" maxlength="4" required
+               oninput="this.value = this.value.replace(/[^0-9\s]/gi, '');"
+               name="inputTimeCook" id="inputTimeCook" onchange="toggleButton()">
+      </div>
+
+      <div>
+        <a href="user.html">
+          <button type="submit" id="createRecButton" name="createRecButton" disabled>
+            Создать рецепт
+          </button>
+        </a>
+      </div>
+    </div>
+
+</body>
+</html>
