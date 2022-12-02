@@ -815,4 +815,234 @@
     background-color: #af6343;
     color: white;
   }
+
+  /*ЛИЧНЫЙ КАБИНЕТ*/
+  #textUserName{
+    color: black;
+    font-size: 24px;
+    position: absolute;
+    top: 49px;
+    left: 1390px;
+  }
+
+  #textUserAccount{
+    color: black;
+    font-size: 24px;
+    position: absolute;
+    top: 170px;
+    left: 680px;
+    white-space: nowrap;
+    text-transform: uppercase;
+  }
+
+  .blockUserRec {
+    height: 550px;
+    width: 625px;
+    background-color: #f6f3ef;
+    border: 3px solid #af6343;
+    border-radius: 25pt;
+    position: absolute;
+    top: 230px;
+  }
+
+  .blockFavUserRec {
+    height: 550px;
+    width: 625px;
+    background-color: #f6f3ef;
+    border: 3px solid #af6343;
+    border-radius: 25pt;
+    position: absolute;
+    top: 230px;
+  }
+
+  #blockUserRecOne{
+    left: 73pt;
+  }
+
+  #blockUserRecTwo{
+    left: 615pt;
+  }
+
+  #textUserRec{
+    color: black;
+    font-size: 24px;
+    position: absolute;
+    top: 25px;
+    left: 220px;
+    white-space: nowrap;
+    text-transform: uppercase;
+    text-align: center;
+  }
+
+  #textFavUserRec{
+    color: black;
+    font-size: 24px;
+    position: absolute;
+    top: 25px;
+    left: 175px;
+    white-space: nowrap;
+    text-transform: uppercase;
+    text-align: center;
+  }
+
+  .subblockUserRec {
+    height: 200px;
+    width: 550px;
+    background-color: #f6f3ef;
+    border: 3px solid #af6343;
+    border-radius: 15pt;
+    position: absolute;
+  }
+
+  #subblockUserRecOne{
+    top: 60pt;
+    left: 27pt;
+  }
+
+  #subblockUserRecTwo{
+    top: 230pt;
+    left: 27pt;
+  }
+
+  #subblockUserRecThree{
+    top: 60pt;
+    left: 27pt;
+  }
+
+  #subblockUserRecFour{
+    top: 230pt;
+    left: 27pt;
+  }
+
+  .nameAuthorRec {
+    color: black;
+    font-size: 16px;
+    position: absolute;
+    left: 50px;
+    right: 50px;
+    text-align: center;
+    top: 65pt;
+    left: 200pt;
+  }
+
+  .nameUserRec {
+    color: black;
+    text-decoration: none;
+    font-size: 22px;
+    text-transform: uppercase;
+    position: absolute;
+    top: 235px;
+    left: 50px;
+    right: 50px;
+    text-align: center;
+    top: 15pt;
+    left: 200pt;
+  }
+
+  .nameUserRec:hover {
+    color: #af6343;
+  }
+
+  .UserTimeCooking{
+    color: black;
+    font-size: 16px;
+    position: absolute;
+    top: 140px;
+    left: 275px;
+    right: 50px;
+    text-align: center;
+  }
+
+  #recUserImageOne{
+    top: 5pt;
+    left: 10pt;
+  }
+
+  #recUserImageTwo{
+    top: 5pt;
+    left: 10pt;
+  }
+
+  #recUserImageThree{
+    top: 5pt;
+    left: 10pt;
+  }
+
+  #recUserImageFour{
+    top: 5pt;
+    left: 10pt;
+  }
+
+  #AddRecButton{
+    color: black;
+    font-size: 18px;
+    width: 210px;
+    height: 40px;
+    position: absolute;
+    top: 825px;
+    left: 680px;
+    background-color: white;
+    border: 3px solid #af6343;
+    border-radius: 15px;
+  }
+
+  #AddRecButton:hover {
+    background-color: #af6343;
+    color: white;
+  }
+
+  /*СТРАНИЦА РЕЗУЛЬТАТОВ ПОИСКА/ФИЛЬТРАЦИИ*/
+  #textSearchRes{
+    color: black;
+    font-size: 24px;
+    position: absolute;
+    top: 170px;
+    left: 630px;
+    white-space: nowrap;
+    text-transform: uppercase;
+  }
+
+  #textFilterRes{
+    color: black;
+    font-size: 24px;
+    position: absolute;
+    top: 220px;
+    left: 610px;
+    white-space: nowrap;
+  }
+
+  #textCountRes{
+    color: black;
+    font-size: 24px;
+    position: absolute;
+    top: 275px;
+    left: 595px;
+    white-space: nowrap;
+    text-transform: uppercase;
+  }
+
+  .blockSearchRec {
+    height: 400px;
+    width: 310px;
+    background-color: #f6f3ef;
+    border: 3px solid #af6343;
+    position: absolute;
+    top: 350px;
+  }
+
+  #blockSearchOne {
+    left: 73px;
+  }
+
+  #blockSearchTwo {
+    left: 433px;
+  }
+
+  #blockSearchThree {
+    left: 793px;
+  }
+
+  #blockSearchFour {
+    left: 1153px;
+  }
 }
