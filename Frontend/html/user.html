@@ -6,9 +6,10 @@
     <meta name="keywords" content="Povarenok, рецепты, личный кабинет, html">
     <title>Povarenok</title>
     <link rel="stylesheet" href="/css/app.css">
+  <script type="text/javascript" src="../js/app.js"> </script>
 </head>
 
-<body onload="changeHeightRec()">
+<body onload="loadInfoUserRec()">
 <div id="headerBlock">
     <div> <a href="index.html"><img src="../img/logo.png" id="logoImage" alt="Логотип"> </a> </div>
 
@@ -39,38 +40,21 @@
 
 </div>
 
-<div class="blockUserRec" id="blockUserRecOne">
-    <div id="textUserRec"> Мои рецепты </div>
-    <div class="subblockUserRec" id="subblockUserRecOne">
-        <div> <img src="../img/exampleRec.jpg" class="recImage" id="recUserImageOne" alt="Изображение рецепта"> </div>
-        <div> <a href="recipe.html" class="nameUserRec" id="nameUserRecOne" target="_self"> Киш с курицей и сыром </a> </div>
-        <div class="nameAuthorRec" id="nameAuthorRecOne"> Автор: nkazimirov </div>
-        <div class="UserTimeCooking" id="nameUserTimeCookingOne"> Время приготовления: 1 час 20 минут </div>
-    </div>
-
-    <div class="subblockUserRec" id="subblockUserRecTwo">
-        <div> <img src="../img/exampleRec.jpg" class="recImage" id="recUserImageTwo" alt="Изображение рецепта"> </div>
-        <div> <a href="recipe.html" class="nameUserRec" id="nameUserRecTwo" target="_self"> Киш с курицей и сыром </a> </div>
-        <div class="nameAuthorRec" id="nameAuthorRecTwo"> Автор: nkazimirov </div>
-        <div class="UserTimeCooking" id="nameUserTimeCookingTwo"> Время приготовления: 1 час 20 минут </div>
-    </div>
-</div>
-
-<div class="blockFavUserRec" id="blockUserRecTwo">
-    <div id="textFavUserRec"> Избранные рецепты </div>
-    <div class="subblockUserRec" id="subblockUserRecThree">
-        <div> <img src="../img/exampleRec.jpg" class="recImage" id="recUserImageThree" alt="Изображение рецепта"> </div>
-        <div> <a href="recipe.html" class="nameUserRec" id="nameUserRecThree" target="_self"> Киш с курицей и сыром </a> </div>
-        <div class="nameAuthorRec" id="nameAuthorRecThree"> Автор: nkazimirov </div>
-        <div class="UserTimeCooking" id="nameUserTimeCookingThree"> Время приготовления: 1 час 20 минут </div>
-    </div>
-</div>
-
 </div>
 <a href="addRecipe.html">
-    <button type="submit" id="AddRecButton" name="AddRecButton"> Добавить рецепт</button>
+  <button type="submit" id="AddRecButton" name="AddRecButton"> Добавить рецепт</button>
 </a>
 </div>
+
+<div class="blockUserRec" id="blockUserRecOne">
+    <div id="textUserRec"> Мои рецепты </div>
+</div>
+
+<div class="blockUserRec" id="blockUserRecTwo">
+    <div id="textFavUserRec"> Избранные рецепты </div>
+</div>
+
+
 
 </body>
 </html>

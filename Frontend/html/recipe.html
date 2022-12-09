@@ -7,40 +7,7 @@
   <title>Povarenok</title>
   <link rel="stylesheet" href="/css/app.css">
 
-  <script type="text/javascript">
-    function changeHeightRec() {
-      var top = 145;
-      var offset = 21;
-
-      var nameHeight = document.getElementById('infoNameRec').scrollHeight;
-      document.getElementById('infoNameRec').style.height = nameHeight + 'px';
-
-      document.getElementById('infoRecLeftBlock').style.top = offset + top + nameHeight + 'px';
-
-      var decHeight = document.getElementById('infoDecRec').scrollHeight + 5;
-      document.getElementById('infoDecRec').style.height = decHeight + 'px';
-
-      var ingHeight = document.getElementById('infoIngRec').scrollHeight + 5;
-      document.getElementById('infoIngRec').style.height = ingHeight + 'px';
-      document.getElementById('infoIngBlock').style.top = offset + decHeight + 'px';
-
-      document.getElementById('infoStepBlock').style.top = offset + offset + 40 + decHeight + ingHeight + 'px';
-      document.getElementById('infoStepRec').style.height = document.getElementById('infoStepRec').scrollHeight + 'px';
-
-      document.getElementById('addFavorites').disabled = !(document.getElementById('signInButton').innerText != "Войти");
-    }
-
-    function changeNameButton(){
-      console.log(document.getElementById('addFavorites').innerText);
-      if(document.getElementById('addFavorites').innerText == "Добавить в избранное"){
-        document.getElementById('addFavorites').innerText = "Удалить из избранного";
-      }
-      else if(document.getElementById('addFavorites').innerText == "Удалить из избранного"){
-        document.getElementById('addFavorites').innerText = "Добавить в избранное";
-      }
-    }
-
-  </script>
+  <script type="text/javascript" src="../js/app.js"> </script>
 </head>
 <body onload="changeHeightRec()">
     <div id="headerBlock">

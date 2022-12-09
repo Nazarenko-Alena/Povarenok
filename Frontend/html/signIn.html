@@ -6,31 +6,7 @@
   <title>Povarenok</title>
   <link rel="stylesheet" href="/css/app.css">
 
-  <script type="text/javascript">
-    function toggleButton()
-    {
-      var username = document.getElementById('inputLogin').value;
-      var password = document.getElementById('inputPassword').value;
-
-      document.getElementById('enterButton').disabled = !((username.length > 1) && (password.length > 7));
-    }
-
-    function remEvent(event) {
-      event.preventDefault();
-      alert("Пароль или Логин введены неверно");
-    }
-
-    function isCorrect() {
-      var username = document.getElementById("inputLogin").value;
-      var password = document.getElementById("inputPassword").value;
-      document.removeEventListener('submit', remEvent);
-
-      if ((password.length < 8) || (password.length > 12)
-            || (username.length < 2) || (username.length > 30)){
-        document.addEventListener('submit', remEvent );
-      } /*Добавить проверку, существует ли такой пользователь и корректность данных*/
-    }
-  </script>
+  <script type="text/javascript" src="../js/app.js"> </script>
 </head>
 <body>
     <div id="headerBlock">
@@ -41,17 +17,17 @@
     <div class="signInUpBlock" id="signInBlock">
       <div class="signInUpText" id="textSignIn"> Вход в личный кабинет </div>
 
-      <form action="user.html" method="post" onsubmit="isCorrect()"> <!-- Вместо user.html должна быть последняя открытая страница-->
+      <form action="user.html" method="post" onsubmit="isCorrectSignIn()"> <!-- Вместо user.html должна быть последняя открытая страница-->
         <div>
           <input class="inputSignInUp" type="text" placeholder="Введите логин" minlength="2" maxlength="30" required
                  oninput="this.value = this.value.replace(/[^а-яёЁa-zA-Z0-9\s]/gi, '');"
-                 name="inputLogin" id="inputLogin" onkeydown="toggleButton()">
+                 name="inputLogin" id="inputLogin" onkeydown="toggleButtonSignIn()">
         </div>
 
         <div>
           <input class="inputSignInUp" type="password" placeholder="Введите пароль" minlength="8" maxlength="12" required
                  oninput="this.value = this.value.replace(/[^а-яёЁa-zA-Z0-9\s]/gi, '');"
-                 name="inputPassword" id="inputPassword" onkeydown="toggleButton()">
+                 name="inputPassword" id="inputPassword" onkeydown="toggleButtonSignIn()">
         </div>
 
         <div>
