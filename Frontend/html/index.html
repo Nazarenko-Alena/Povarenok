@@ -6,8 +6,9 @@
   <meta name="keywords" content="Povarenok, рецепты, html">
   <title>Povarenok</title>
   <link rel="stylesheet" href="/css/app.css">
+  <script type="text/javascript" src="../js/app.js"> </script>
 </head>
-<body>
+<body onload="loadInfoIndexRec()">
 
     <div id="headerBlock">
       <div> <a href="index.html"><img src="../img/logo.png" id="logoImage" alt="Логотип"> </a> </div>
@@ -62,35 +63,8 @@
 
      <div id="textRecentlyAddedRecipes"> Недавно добавленные рецепты </div>
 
-    <div class="blockRec" id="blockOne">
-      <div> <img src="../img/exampleRec.jpg" class="recImage" id="recImageOne" alt="Изображение рецепта"> </div>
-      <div> <a href="recipe.html" class="nameRec" id="nameRecOne" target="_self"> Киш с курицей и сыром </a> </div>
-      <div class="nameAuthor" id="nameAuthorOne"> Автор: nkazimirov </div>
-      <div class="timeCookingRec" id="timeCookingOne"> Время приготовления: 1 час 20 минут </div>
+    <div id="indexRec">
     </div>
-
-    <div class="blockRec" id="blockTwo">
-      <div> <img src="../img/exampleRec.jpg" class="recImage" id="recImageTwo" alt="Изображение рецепта"> </div>
-      <div> <a href="recipe.html" class="nameRec" id="nameRecTwo" target="_self"> Киш с курицей и сыром </a> </div>
-      <div class="nameAuthor" id="nameAuthorTwo"> Автор: nkazimirov </div>
-      <div class="timeCookingRec" id="timeCookingTwo"> Время приготовления: 100 час 20 минут </div>
-    </div>
-
-    <div class="blockRec" id="blockThree">
-      <div> <img src="../img/exampleRec.jpg" class="recImage" id="recImageThree" alt="Изображение рецепта"> </div>
-      <div> <a href="recipe.html" class="nameRec" id="nameRecThree" target="_self"> Киш с курицей и сыром </a> </div>
-      <div class="nameAuthor" id="nameAuthorThee"> Автор: nkazimirov </div>
-      <div class="timeCookingRec" id="timeCookingThree"> Время приготовления: 1000 час 20 минут </div>
-    </div>
-
-    <div class="blockRec" id="blockFour">
-      <div> <img src="../img/exampleRec.jpg" class="recImage" id="recImageFour" alt="Изображение рецепта"> </div>
-      <div> <a href="recipe.html" class="nameRec" id="nameRecFour" target="_self"> Киш с курицей и сыром </a> </div>
-      <div class="nameAuthor" id="nameAuthorFour"> Автор: nkazimirov </div>
-      <div class="timeCookingRec" id="timeCookingFour"> Время приготовления: 1 час 2 минут </div>
-    </div>
-
-
 </body>
 
 </html>
