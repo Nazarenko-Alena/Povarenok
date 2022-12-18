@@ -10,6 +10,7 @@ import ru.spbstu.povarenok.repository.*;
 import ru.spbstu.povarenok.model.*;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/povarenok")
 public class RecipeWebsiteController
 {

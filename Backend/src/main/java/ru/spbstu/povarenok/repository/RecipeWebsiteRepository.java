@@ -16,7 +16,7 @@ public class RecipeWebsiteRepository
     @Value("${database.user}")
     public String DB_USER;
 
-    @Value("${database.password")
+    @Value("${database.password}")
     public String DB_PASSWORD;
 
     public Connection getConnection() {
