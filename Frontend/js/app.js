@@ -192,6 +192,9 @@ function isCorrectSignUp() {
 let files;
 let index;
 
+let addedCatAddRec = false;
+let addedCusAddRec = false;
+
 function dragAndDropFunc(){
   const types = ['image/jpeg', 'image/png'];
   imageTmpUrl = "";
@@ -228,6 +231,48 @@ function dragAndDropFunc(){
 
     dragAndDrop.classList.remove('active');
   })
+
+  $.ajax({
+    type: 'GET',
+    url: 'http://localhost:8080/povarenok/categories', // адрес запроса
+    dataType: 'json', // тип ожидаемых данных,
+    contentType: 'application/json',
+    success: function(data) {
+      if(!addedCatAddRec) {
+        for (let i = 0; i < data.length; i++) {
+          let divCat = document.createElement('option');
+          divCat.innerHTML = '<option value="' + data[i]["id"] + '">' + data[i]["name"] + '</option>';
+          document.getElementById("categoryAddRec").append(divCat);
+          if (i == data.length - 1) {
+            addedCatAddRec = true;
+          }
+        }
+      }
+      console.log(data);
+    }, // обработка ответа от сервера
+    error: function(data) { console.log(data); },
+  });
+
+  $.ajax({
+    type: 'GET',
+    url: 'http://localhost:8080/povarenok/cuisines', // адрес запроса
+    dataType: 'json', // тип ожидаемых данных,
+    contentType: 'application/json',
+    success: function(data) {
+      if(!addedCusAddRec) {
+        for (let i = 0; i < data.length; i++) {
+          let divCat = document.createElement('option');
+          divCat.innerHTML = '<option value="' + data[i]["id"] + '">' + data[i]["name"] + '</option>';
+          document.getElementById("typeCuisAddRec").append(divCat);
+          if (i == data.length - 1) {
+            addedCusAddRec = true;
+          }
+        }
+      }
+      console.log(data);
+    }, // обработка ответа от сервера
+    error: function(data) { console.log(data); },
+  });
 }
 
 function uploadImages() {
@@ -272,6 +317,9 @@ function loadInfoSearchRec(){
   }
 }
 
+let addedCat = false;
+let addedCus = false;
+
 function loadInfoIndexRec(){
   let countSearchBlock = 4; /*ДОБАВИТЬ ПОЛУЧЕНИЕ ЧИСЛА НЕДАВНО ДОБАВЛЕННЫХ РЕЦЕПТОВ, максимум 4, но может быть меньше*/
   let currLeftOff = 73;
@@ -297,6 +345,49 @@ function loadInfoIndexRec(){
     document.getElementById(newIdBlockSearch).style.left = currLeftOff + 'px';
 
     currLeftOff += 360;
+
+
+    $.ajax({
+      type: 'GET',
+      url: 'http://localhost:8080/povarenok/categories', // адрес запроса
+      dataType: 'json', // тип ожидаемых данных,
+      contentType: 'application/json',
+      success: function(data) {
+        if(!addedCat) {
+          for (let i = 0; i < data.length; i++) {
+            let divCat = document.createElement('option');
+            divCat.innerHTML = '<option value="' + data[i]["id"] + '">' + data[i]["name"] + '</option>';
+            document.getElementById("categoryIndex").append(divCat);
+            if (i == data.length - 1) {
+              addedCat = true;
+            }
+          }
+        }
+        console.log(data);
+        }, // обработка ответа от сервера
+      error: function(data) { console.log(data); },
+    });
+
+    $.ajax({
+      type: 'GET',
+      url: 'http://localhost:8080/povarenok/cuisines', // адрес запроса
+      dataType: 'json', // тип ожидаемых данных,
+      contentType: 'application/json',
+      success: function(data) {
+        if(!addedCus) {
+          for (let i = 0; i < data.length; i++) {
+            let divCat = document.createElement('option');
+            divCat.innerHTML = '<option value="' + data[i]["id"] + '">' + data[i]["name"] + '</option>';
+            document.getElementById("typeCuis").append(divCat);
+            if (i == data.length - 1) {
+              addedCus = true;
+            }
+          }
+        }
+        console.log(data);
+      }, // обработка ответа от сервера
+      error: function(data) { console.log(data); },
+    });
   }
 }
 
