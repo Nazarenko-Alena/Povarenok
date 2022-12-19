@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script type="text/javascript" src="/js/jquery-3.6.2.js"></script>
   <meta charset="utf-8">
   <meta name="description" content="Страница описания рецепта">
   <meta name="keywords" content="Povarenok, рецепты, html">
@@ -103,8 +104,9 @@
           <div name="infoDateRec" id="infoDateRec" >10.10.2022</div>
         </div>
 
+<!--        changeNameButton()-->
         <div>
-          <button type="submit" id="addFavorites" name="addFavorites" disabled onclick="changeNameButton()">
+          <button type="submit" id="addFavorites" name="addFavorites" onclick="postSaveReq()">
             Добавить в избранное</button>
         </div>
       </div>

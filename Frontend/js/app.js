@@ -49,13 +49,13 @@ function addBlock(){
   divId.innerHTML = '<input class="addIngRec" type="text" ' +
     'placeholder="Добавьте название ингредиента" minlength="2" maxlength="100" required\n' +
     '            oninput="this.value = this.value.replace(/[^а-яёЁ\\s]/gi, \'\');"\n' +
-    '            id=' + newIdIng + ' onchange="toggleButton()">';
+    '            id=' + newIdIng + ' onchange="toggleButtonAddRec()">';
 
   let divGr = document.createElement('div');
   divGr.innerHTML = '<div>\n' +
     '        <input class="addGrRec" type="text" placeholder="граммы" minlength="1" maxlength="5" required\n' +
     '               oninput="this.value = this.value.replace(/[^0-9\\s]/gi, \'\');"\n' +
-    '               id=' + newIdGr + ' onchange="toggleButton()">\n' +
+    '               id=' + newIdGr + ' onchange="toggleButtonAddRec()">\n' +
     '      </div>';
 
   let divImg = document.createElement('div');
@@ -456,6 +456,109 @@ function loadInfoUserRec(){
   }
 }
 
+//запрос сохраняет новый рецепт в базу данных исполь в файлк addRecipe.html
+function postAddReq() {
+  let dateTime = new Date();
+  let dateNew = dateTime.toISOString().split('T')[0];
+  console.log(dateNew);
+
+  var userLogin = "test24";
+  var name = document.getElementById('inputNameRec').value;
+  var imageUrl = "url47";
+  var dateAdded = dateNew;
+  var cuisine = document.getElementById('typeCuisAddRec').value;
+  var category = document.getElementById('categoryAddRec').value;
+  var cookingTime = document.getElementById('inputTimeCook').value;
+  var description = document.getElementById('inputDecRec').value;
+  var recipe = document.getElementById('inputStepRec').value;
+
+
+  let ingredients = [];
+  let div = document.querySelectorAll('.addIngRec');
+  console.log(div);
+
+  for(let i = 1; i < div.length + 1; i++) {
+
+    let newIdIng = `inputIngRec${i}`;
+    let newIdGr = `inputGrRec${i}`;
+
+    let ingredient = {
+      idRecipe: null,
+      name: document.getElementById(newIdIng).value,
+      grams: document.getElementById(newIdGr).value
+    };
+
+    ingredients.push(ingredient);
+  }
+
+  console.log(ingredients);
+
+  let rec = {
+    userLogin: userLogin,
+    name: name,
+    imageUrl: imageUrl,
+    dateAdded: dateAdded,
+    cuisine: cuisine,
+    category: category,
+    cookingTime: cookingTime,
+    ingredients: ingredients,
+    description: description,
+    recipe: recipe
+  }
+
+  console.log(JSON.stringify(rec));
+
+  $.ajax({
+    type: 'POST',
+    url: 'http://localhost:8080/povarenok/recipes/new', // адрес запроса
+    data: JSON.stringify(rec), // данные запроса
+    dataType: 'json', // тип ожидаемых данных,
+    contentType: 'application/json',
+    success: function (data) {
+      console.log(data);
+    }, // обработка ответа от сервера
+    error: function (data) {
+      console.log(data);
+    },
+  });
+}
+
+//запрос сохраняет пользователя в базу данных
+function postSignUpReq() {
+  var login = document.getElementById('signUpLogin').value;
+  var pass = document.getElementById('signUpPassword').value;
+  var email = document.getElementById('signUpEmail').value;
+
+  let user = {
+    login: login,
+    password: pass,
+    email: email
+  }
+
+  $.ajax({
+    type: 'POST',
+    url: 'http://localhost:8080/povarenok/registration', // адрес запроса
+    data: JSON.stringify(user), // данные запроса
+    dataType: 'json', // тип ожидаемых данных,
+    contentType: 'application/json',
+    success: function(data) { console.log(data); }, // обработка ответа от сервера
+    error: function(data) { console.log(data); },
+  });
+}
+
+//запрос сохраняет рецепт с указанным наименованием в избранные рецепты пользователя с указанным логином
+function postSaveReq(){
+  var login = "test27"; // -----придумать как хранить пользователя
+  var name = "Морепродукты";  //document.getElementById('infoNameRec').value; ------раскоменитить когда будут готова реализация обработки пробелов
+  $.ajax({
+    type: 'POST',
+    url: 'http://localhost:8080/povarenok/recipes/'+ login + '/save/' + name, // адрес запроса
+    dataType: 'json', // тип ожидаемых данных,
+    contentType: 'application/json',
+    success: function(data) { console.log(data); }, // обработка ответа от сервера
+    error: function(data) { console.log(data); },
+  });
+}
 
 
 

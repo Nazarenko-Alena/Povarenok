@@ -797,11 +797,13 @@
     border: 3px solid #af6343;
     border-radius: 15px;
   }
-  #addFavorites:disabled{
-    background-color: lightgrey;
-    border: 3px solid lightgrey;
-    cursor: not-allowed;
-  }
+
+  /*#addFavorites:disabled{*/
+  /*  background-color: lightgrey;*/
+  /*  border: 3px solid lightgrey;*/
+  /*  cursor: not-allowed;*/
+  /*}*/
+
   #addFavorites:hover:enabled{
     background-color: #af6343;
     color: white;
