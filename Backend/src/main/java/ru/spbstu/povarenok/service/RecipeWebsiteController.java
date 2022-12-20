@@ -4,10 +4,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.LinkedList;
 
 import org.springframework.web.server.ResponseStatusException;
@@ -188,26 +184,6 @@ public class RecipeWebsiteController
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "Recipe with this step-by-step recipe already exists!");
         }
-
-        File folder1 = new File(repository.DOWNLOADS_FOLDER);
-        File[] listOfFiles1 = folder1.listFiles();
-
-        File folder2 = new File(repository.IMAGES_FOLDER);
-        File[] listOfFiles2 = folder2.listFiles();
-
-        if (listOfFiles2 != null)
-            for (File file : listOfFiles2)
-                file.delete();
-
-        Path destDir = folder2.toPath();
-        if (listOfFiles1 != null)
-            for (File file : listOfFiles1) {
-                try {
-                    Files.copy(file.toPath(), destDir.resolve(file.getName()));
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
 
         if (!repository.addRecipe(recipe)) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
