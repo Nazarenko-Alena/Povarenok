@@ -1077,4 +1077,23 @@ public class RecipeWebsiteRepository
 
         return recipes;
     }
+
+    public boolean deleteRecipe(String login, String name) {
+
+        Long idUser = getUser(login).getId();
+        Long idRecipe = getRecipe(name).getId();
+
+        String query = "DELETE FROM saved_recipes WHERE id_user = " + idUser + " AND id_recipe = " + idRecipe;
+
+        try (Connection connection = getConnection(); Statement statement = connection.createStatement()) {
+
+            statement.execute(query);
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+
+        return true;
+    }
 }
