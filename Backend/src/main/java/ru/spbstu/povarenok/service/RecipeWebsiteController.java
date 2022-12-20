@@ -3,6 +3,11 @@ package ru.spbstu.povarenok.service;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.LinkedList;
 
 import org.springframework.web.server.ResponseStatusException;
@@ -39,14 +44,27 @@ public class RecipeWebsiteController
         }
 
         if (user.getEmail().length() > 30 ||
-                !user.getEmail().matches("[a-zA-Zа-яА-Я0-9]+@[a-zA-Zа-яА-Я0-9]+[.][a-zA-Zа-яА-Я0-9]+$")) {
+                !user.getEmail().matches("[a-zA-Zа-яА-Я0-9.]+@[a-zA-Zа-яА-Я0-9]+[.][a-zA-Zа-яА-Я0-9]+$")) {
 
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "Mail must contain no more than 30 characters " +
                             "and match the template ***@***.*** (*** - any number of characters)!");
         }
 
-        repository.addUser(user);
+        if(repository.getUser(user.getLogin()) != null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "User with this login already exists!");
+        }
+
+        if(repository.getUserByEmail(user.getEmail()) != null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "User with this email already exists!");
+        }
+
+        if (!repository.addUser(user)){
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+                    "Failed to add user!");
+        }
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -71,13 +89,9 @@ public class RecipeWebsiteController
 
         User user = repository.getUser(login, password);
 
-        if (user == null) {
-
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-                    "There is no user with this login and password!");
-        }
-
-        return new ResponseEntity<>(user, HttpStatus.OK);
+        return user != null
+                ? new ResponseEntity<>(user, HttpStatus.OK)
+                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @GetMapping("/users/{login}")
@@ -92,13 +106,9 @@ public class RecipeWebsiteController
 
         User user = repository.getUser(login);
 
-        if (user == null) {
-
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-                    "There is no user with this login!");
-        }
-
-        return new ResponseEntity<>(user, HttpStatus.OK);
+        return user != null
+                ? new ResponseEntity<>(user, HttpStatus.OK)
+                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @GetMapping("/categories")
@@ -124,19 +134,19 @@ public class RecipeWebsiteController
     @PostMapping("/recipes/new")
     public ResponseEntity<?> addRecipe(@RequestBody Recipe recipe) {
 
-        if (recipe.getName().length() > 100 || !recipe.getName().matches("[а-яА-Я]+$")) {
+        if (recipe.getName().length() > 100 || !recipe.getName().matches("[а-яА-Я0-9 ]+$")) {
 
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "The recipe name must contain no more than 100 characters " +
-                            "and contain only Russian letters!");
+                            "and contain only numbers and Russian letters!");
         }
 
         for (Ingredient ingredient : recipe.getIngredients()) {
-            if (ingredient.getName().length() > 100 || !ingredient.getName().matches("[а-яА-Я]+$")) {
+            if (ingredient.getName().length() > 100 || !ingredient.getName().matches("[а-яА-Я0-9 ]+$")) {
 
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                         "The ingredient name must contain no more than 100 characters " +
-                                "and contain only Russian letters!");
+                                "and contain only numbers and Russian letters!");
             }
             if (ingredient.getGrams().toString().length() > 5) {
 
@@ -145,21 +155,64 @@ public class RecipeWebsiteController
             }
         }
 
-        if (recipe.getDescription().length() > 500 || !recipe.getDescription().matches("[а-яА-Я]+$")) {
+        if (recipe.getDescription().length() > 500 || !recipe.getDescription().matches("[а-яА-Я0-9 ]+$")) {
 
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "The recipe description must contain no more than 500 characters " +
-                            "and contain only Russian letters!");
+                            "and contain only numbers and Russian letters!");
         }
 
-        if (recipe.getRecipe().length() > 5000 || !recipe.getRecipe().matches("[а-яА-Я]+$")) {
+        if (recipe.getRecipe().length() > 5000 || !recipe.getRecipe().matches("[а-яА-Я0-9 ]+$")) {
 
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "The recipe must contain no more than 5000 characters " +
-                            "and contain only Russian letters!");
+                            "and contain only numbers and Russian letters!");
         }
 
-        repository.addRecipe(recipe);
+        if (repository.getRecipe(recipe.getName()) != null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "Recipe with this name already exists!");
+        }
+
+        if (repository.getRecipeByUrl(recipe.getImageUrl()) != null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "Recipe with this url already exists!");
+        }
+
+        if (repository.getRecipeByDescription(recipe.getDescription()) != null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "Recipe with this description already exists!");
+        }
+
+        if (repository.getRecipeByStepByStepRecipe(recipe.getRecipe()) != null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "Recipe with this step-by-step recipe already exists!");
+        }
+
+        File folder1 = new File(repository.DOWNLOADS_FOLDER);
+        File[] listOfFiles1 = folder1.listFiles();
+
+        File folder2 = new File(repository.IMAGES_FOLDER);
+        File[] listOfFiles2 = folder2.listFiles();
+
+        if (listOfFiles2 != null)
+            for (File file : listOfFiles2)
+                file.delete();
+
+        Path destDir = folder2.toPath();
+        if (listOfFiles1 != null)
+            for (File file : listOfFiles1) {
+                try {
+                    Files.copy(file.toPath(), destDir.resolve(file.getName()));
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
+        if (!repository.addRecipe(recipe)) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+                    "Failed to add recipe!");
+        }
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -167,11 +220,11 @@ public class RecipeWebsiteController
     @GetMapping("/recipes/{name}")
     public ResponseEntity<?> getRecipe(@PathVariable(name = "name") String name) {
 
-        if (name.length() > 100 || !name.matches("[а-яА-Я]+$")) {
+        if (name.length() > 100 || !name.matches("[а-яА-Я0-9 ]+$")) {
 
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "The recipe name must contain no more than 100 characters " +
-                            "and contain only Russian letters!");
+                            "and contain only numbers and Russian letters!");
         }
 
         Recipe recipe = repository.getRecipe(name);
@@ -192,11 +245,26 @@ public class RecipeWebsiteController
                             "and contain only numbers and Russian or English letters!");
         }
 
-        if (name.length() > 100 || !name.matches("[а-яА-Я]+$")) {
+        if (name.length() > 100 || !name.matches("[а-яА-Я0-9 ]+$")) {
 
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "The recipe name must contain no more than 100 characters " +
-                            "and contain only Russian letters!");
+                            "and contain only numbers and Russian letters!");
+        }
+
+        if(repository.getUser(login) == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "There is no user with this login!");
+        }
+
+        if(repository.getRecipe(name) == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "There is no recipe with this name!");
+        }
+
+        if (!repository.saveRecipe(login, name)){
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+                    "Failed to save recipe!");
         }
 
         repository.saveRecipe(login, name);
