@@ -204,11 +204,16 @@ function changeHeightRec() {
 
     document.getElementById('addFavorites').disabled = !(document.getElementById('signInButton').innerText != "Войти");
 
-    let rec = []
+    let rec = [];
+    let nameRec = document.cookie.match('(^|;) ?' + "nameRec" + '=([^;]*)(;|$)');
+    let username = document.cookie.match('(^|;) ?' + "username" + '=([^;]*)(;|$)');
+    let url_ = "http://localhost:8080/povarenok/recipes/" + nameRec[2];
+    console.log(document.cookie);
+
     //var name = document.getElementById(`NameRec${i}`).value;
     $.ajax({
         type: 'GET',
-        url: 'http://localhost:8080/povarenok/recipes/Роллы', // тут должно быть имя выбираться автоматически
+        url: url_, // тут должно быть имя выбираться автоматически
         dataType: 'json', // тип ожидаемых данных,
         contentType: 'application/json',
         success: function (data) {
@@ -216,33 +221,90 @@ function changeHeightRec() {
                 rec.push(data[key]);
             }
             let quote = "\"";
-            document.getElementById('infoNameRec').innerText = quote + rec[2] + quote;
+            document.getElementById('infoNameRec').innerText =rec[2];
 
-            document.getElementById('infoDecRec').innerText = quote + rec[9] + quote;
+            document.getElementById('infoDecRec').innerText = rec[9];
 
-            document.getElementById('infoStepRec').innerText = quote + rec[10] + quote;
+            document.getElementById('infoStepRec').innerText = rec[10] ;
 
-            document.getElementById('infoCatRec').innerText = quote + rec[6] + quote;
+            document.getElementById('infoCatRec').innerText = rec[6];
 
-            document.getElementById('infoTypeCusRec').innerText = quote + rec[5] + quote;
+            document.getElementById('infoTypeCusRec').innerText =rec[5];
 
-            document.getElementById('infoAuthorRec').innerText = quote + rec[1] + quote;
+            document.getElementById('infoAuthorRec').innerText = rec[1] ;
+
+            let strIng = "";
+
             // let ing = []
-            // for (const key in rec[8]){
-            //     ing.push(rec[]);
-            // }
+             for (let i = 0; i<rec[8].length; i++){
+                 let dig = i+1;
+                 strIng += dig + ". " + rec[8][i]["name"] + " " + rec[8][i]["grams"] + " грамм \n " ;
+             }
+            document.getElementById('infoIngRec').innerText = strIng;
 
-            console.log(rec[8].length);
 
-            document.getElementById('infoIngRec').innerText = quote + rec[8] + quote;
+            document.getElementById('infoTimeCookingRec').innerText = rec[7];
 
-            document.getElementById('infoTimeCookingRec').innerText = quote + rec[7] + quote;
+            document.getElementById('infoDateRec').innerText = rec[4];
 
-            document.getElementById('infoDateRec').innerText = quote + rec[4] + quote;
+            let src = "../downloads/" + rec[3];
 
-            document.getElementById('infoRecImage').innerText = quote + rec[3] + quote;
+            console.log(src);
+            document.getElementById('infoRecImage').setAttribute('src', src);
 
             console.log(rec);
+        }, // обработка ответа от сервера
+        error: function (data) {
+            console.log(data);
+        },
+    });
+
+    $.ajax({
+        type: 'GET',
+        url: 'http://localhost:8080/povarenok/users/' + username[2], // адрес запроса
+        dataType: 'json', // тип ожидаемых данных,
+        contentType: 'application/json',
+        success: function (data) {
+
+            let countAddedRec = data["addedRecipes"].length;
+            let countFavRec = data["savedRecipes"].length; /*ДОБАВИТЬ ПОЛУЧЕНИЕ ЧИСЛА ИЗБРАННЫХ РЕЦЕПТОВ*/
+
+            for (let i = 0; i < countFavRec; i++) {
+                console.log(data["savedRecipes"][i]["name"] );
+                console.log( nameRec);
+               if(data["savedRecipes"][i]["name"] == nameRec[2]){
+                   document.getElementById('addFavorites').innerText = "Удалить из избранного";
+
+               }
+            }
+        }, // обработка ответа от сервера
+        error: function (data) {
+            console.log(data);
+        },
+    });
+}
+
+function postUpReq() {
+    let username = document.cookie.match('(^|;) ?' + "username" + '=([^;]*)(;|$)');
+
+    var userLogin = username[2];
+    var pass = document.getElementById('signUpPassword').value;
+    var email = document.getElementById('signUpEmail').value;
+
+    let user = {
+        login: login,
+        password: pass,
+        email: email
+    }
+
+    $.ajax({
+        type: 'POST',
+        url: 'http://localhost:8080/povarenok/registration', // адрес запроса
+        data: JSON.stringify(user), // данные запроса
+        dataType: 'json', // тип ожидаемых данных,
+        contentType: 'application/json',
+        success: function (data) {
+            console.log(data);
         }, // обработка ответа от сервера
         error: function (data) {
             console.log(data);
@@ -405,14 +467,18 @@ function loadInfoSearchRec() {
 
                     let divId = document.createElement('div');
 
+                    let nameRec = "\'" + data[i]["name"] + "\'" ;
+
                     divId.innerHTML = '<div class="blockSearchRec" id=' + newIdBlockSearch + '>\n' +
                         ' <div><img src="../img/exampleRec.jpg" class="recImage" id=' + newIdRecImg + ' alt="Изображение рецепта"></div>\n' +
-                        ' <div><a href="recipe.html" class="nameRec" id=' + newIdNameRec + ' target="_self"> ' + data[i]["name"] + ' </a></div>\n' +
+                        ' <div><a href="recipe.html" onclick=" setNameRec(' + nameRec + ')" class="nameRec" id=' + newIdNameRec + ' target="_self"> ' + data[i]["name"] + ' </a></div>\n' +
                         ' <div class="nameAuthor" id=' + newIdNameAuthor + '> Автор: ' + data[i]["userLogin"] + '</div>\n' +
                         ' <div class="timeCookingRec" id=' + newIdTimeCooking + '> Время приготовления: ' + data[i]["cookingTime"] + ' минут</div>\n' +
                         '</div>';
 
                     document.getElementById("SearchingRec").append(divId);
+
+                    nameRecipe = document.getElementById(newIdNameRec).value;
 
                     document.getElementById(newIdBlockSearch).style.left = currLeftOff + 'px';
                     document.getElementById(newIdBlockSearch).style.top = currTopOff + 'px';
@@ -457,10 +523,11 @@ function loadInfoSearchRec() {
                     let newIdBlockSearch = "blockSearch" + i;
 
                     let divId = document.createElement('div');
+                    let nameRec = "\'" + data[i]["name"] + "\'" ;
 
                     divId.innerHTML = '<div class="blockSearchRec" id=' + newIdBlockSearch + '>\n' +
                         ' <div><img src="../img/exampleRec.jpg" class="recImage" id=' + newIdRecImg + ' alt="Изображение рецепта"></div>\n' +
-                        ' <div><a href="recipe.html" class="nameRec" id=' + newIdNameRec + ' target="_self"> ' + data[i]["name"] + ' </a></div>\n' +
+                        ' <div><a href="recipe.html" onclick=" setNameRec(' + nameRec + ')" class="nameRec" id=' + newIdNameRec + ' target="_self"> ' + data[i]["name"] + ' </a></div>\n' +
                         ' <div class="nameAuthor" id=' + newIdNameAuthor + '> Автор: ' + data[i]["userLogin"] + '</div>\n' +
                         ' <div class="timeCookingRec" id=' + newIdTimeCooking + '> Время приготовления: ' + data[i]["cookingTime"] + ' минут</div>\n' +
                         '</div>';
@@ -511,15 +578,27 @@ function loadInfoIndexRec() {
                 let divId = document.createElement('div');
 
                 let src = "../downloads/" + data[i]["imageUrl"];
+                let nameRec = "\'" + data[i]["name"] + "\'" ;
+
+                console.log(nameRec);
 
                 divId.innerHTML = '<div class="blockRec" id=' + newIdBlockSearch + '>\n' +
                     '  <div><img src="' + src + '" class="recImage" id=' + newIdRecImg + ' alt="Изображение рецепта"></div>\n' +
-                    '  <div><a href="recipe.html" class="nameRec" id=' + newIdNameRec + ' target="_self">' + data[i]["name"] + '</a></div>\n' +
+                    '  <div><a href="recipe.html" onclick=" setNameRec(' + nameRec + ')" class="nameRec" id=' + newIdNameRec + ' target="_self">' + data[i]["name"] + '</a></div>\n' +
                     '  <div class="nameAuthor" id=' + newIdNameAuthor + '> Автор: ' + data[i]["userLogin"] + '</div>\n' +
                     '  <div class="timeCookingRec" id=' + newIdTimeCooking + '> Время приготовления: ' + data[i]["cookingTime"] + ' минут</div>\n' +
                     '</div>';
 
                 document.getElementById("indexRec").append(divId);
+
+
+               /* let str =  newIdNameRec;
+                let strBlock = '.' + newIdBlockSearch;
+                console.log( str);
+
+                document.querySelector(strBlock).querySelector(str).onclick = function(){
+
+                }*/
 
                 document.getElementById(newIdBlockSearch).style.left = currLeftOff + 'px';
 
@@ -580,6 +659,13 @@ function loadInfoIndexRec() {
     setUserName();
 }
 
+
+function setNameRec(nameRec){
+    document.cookie = "nameRec=" + nameRec;
+}
+
+let flag = false;
+
 function loadInfoUserRec() {
     let username = document.cookie.match('(^|;) ?' + "username" + '=([^;]*)(;|$)');
 
@@ -591,67 +677,97 @@ function loadInfoUserRec() {
 
     document.getElementById("headerBlock").append(divUserName);
 
-    let countAddedRec = 4; /*ДОБАВИТЬ ПОЛУЧЕНИЕ ЧИСЛА СОЗДАННЫХ ПОЛЬЗОВАТЕЛЕМ РЕЦЕПТОВ*/
-    let countFavRec = 2; /*ДОБАВИТЬ ПОЛУЧЕНИЕ ЧИСЛА ИЗБРАННЫХ РЕЦЕПТОВ*/
+    if(!flag) {
+        $.ajax({
+            type: 'GET',
+            url: 'http://localhost:8080/povarenok/users/' + username[2], // адрес запроса
+            dataType: 'json', // тип ожидаемых данных,
+            contentType: 'application/json',
+            success: function (data) {
 
-    let currTopOff = 70;
+                let countAddedRec = data["addedRecipes"].length; /*ДОБАВИТЬ ПОЛУЧЕНИЕ ЧИСЛА СОЗДАННЫХ ПОЛЬЗОВАТЕЛЕМ РЕЦЕПТОВ*/
+                let countFavRec = data["savedRecipes"].length; /*ДОБАВИТЬ ПОЛУЧЕНИЕ ЧИСЛА ИЗБРАННЫХ РЕЦЕПТОВ*/
 
-    let heightBlockUserRecOne = 70 + 230 * countAddedRec;
-    document.getElementById('blockUserRecOne').style.height = heightBlockUserRecOne + 'px';
-    for (let i = 0; i < countAddedRec; i++) {
-        let newIdRecImg = "recImage" + i;
-        let newIdNameRec = "nameRec" + i;
-        let newIdNameAuthor = "nameAuthor" + i;
-        let newIdTimeCooking = "timeCooking" + i;
-        let newIdBlockUserRec = "subblockUserRecOne" + i;
+                let currTopOff = 70;
 
-        let divId = document.createElement('div');
+                let heightBlockUserRecOne = 70 + 230 * countAddedRec;
+                document.getElementById('blockUserRecOne').style.height = heightBlockUserRecOne + 'px';
+                for (let i = 0; i < countAddedRec; i++) {
+                    let newIdRecImg = "recImage" + i;
+                    let newIdNameRec = "nameRec" + i;
+                    let newIdNameAuthor = "nameAuthor" + i;
+                    let newIdTimeCooking = "timeCooking" + i;
+                    let newIdBlockUserRec = "subblockUserRecOne" + i;
 
-        divId.innerHTML = '<div class="subblockUserRec" id=' + newIdBlockUserRec + '>\n' +
-            '  <div><img src="../img/exampleRec.jpg" class="recImage" id=' + newIdRecImg + ' alt="Изображение рецепта"></div>\n' +
-            '  <div><a href="recipe.html" class="nameUserRec" id=' + newIdNameRec + ' target="_self"> Киш с курицей и сыром </a></div>\n' +
-            '  <div class="nameAuthorRec" id=' + newIdNameAuthor + '> Автор: nkazimirov</div>\n' +
-            '  <div class="UserTimeCooking" id=' + newIdTimeCooking + '> Время приготовления: 1 час 20 минут</div>\n' +
-            '</div>';
+                    let divId = document.createElement('div');
 
-        document.getElementById("blockUserRecOne").append(divId);
+                    let src = "../downloads/" + data["addedRecipes"][i]["imageUrl"];
+                    let nameRec = "\'" + data["addedRecipes"][i]["name"] + "\'";
 
-        document.getElementById(newIdBlockUserRec).style.top = currTopOff + 'px';
+                    divId.innerHTML = '<div class="subblockUserRec" id=' + newIdBlockUserRec + '>\n' +
+                        ' <div><img src="' + src + '" class="recImage" id=' + newIdRecImg + ' alt="Изображение рецепта"></div>\n' +
+                        ' <div><a href="recipe.html" onclick=" setNameRec(' + nameRec + ')" class="nameUserRec" id=' + newIdNameRec + ' target="_self">' + data["addedRecipes"][i]["name"] + '</a></div>\n' +
+                        ' <div class="nameAuthorRec" id=' + newIdNameAuthor + '> Автор: ' + data["addedRecipes"][i]["userLogin"] + '</div>\n' +
+                        ' <div class="UserTimeCooking" id=' + newIdTimeCooking + '> Время приготовления: ' + data["addedRecipes"][i]["cookingTime"] + ' минут</div>\n' +
+                        '</div>';
 
-        document.getElementById(newIdRecImg).style.top = 5 + 'pt';
-        document.getElementById(newIdRecImg).style.left = 10 + 'pt';
+                    document.getElementById("blockUserRecOne").append(divId);
 
-        currTopOff += 230;
-    }
+                    document.getElementById(newIdBlockUserRec).style.top = currTopOff + 'px';
 
-    currTopOff = 70;
-    let heightBlockUserRecTwo = 70 + 230 * countFavRec;
-    document.getElementById('blockUserRecTwo').style.height = heightBlockUserRecTwo + 'px';
+                    document.getElementById(newIdRecImg).style.top = 5 + 'pt';
+                    document.getElementById(newIdRecImg).style.left = 10 + 'pt';
 
-    for (let i = countAddedRec; i < countFavRec + countAddedRec; i++) {
-        let newIdRecImg = "recImage" + i;
-        let newIdNameRec = "nameRec" + i;
-        let newIdNameAuthor = "nameAuthor" + i;
-        let newIdTimeCooking = "timeCooking" + i;
-        let newIdBlockUserRec = "subblockUserRecOne" + i;
+                    currTopOff += 230;
+                }
 
-        let divId = document.createElement('div');
+                currTopOff = 70;
+                let heightBlockUserRecTwo = 70 + 230 * countFavRec;
+                document.getElementById('blockUserRecTwo').style.height = heightBlockUserRecTwo + 'px';
 
-        divId.innerHTML = '<div class="subblockUserRec" id=' + newIdBlockUserRec + '>\n' +
-            '  <div><img src="../img/exampleRec.jpg" class="recImage" id=' + newIdRecImg + ' alt="Изображение рецепта"></div>\n' +
-            '  <div><a href="recipe.html" class="nameUserRec" id=' + newIdNameRec + ' target="_self"> Киш с курицей и сыром </a></div>\n' +
-            '  <div class="nameAuthorRec" id=' + newIdNameAuthor + '> Автор: nkazimirov</div>\n' +
-            '  <div class="UserTimeCooking" id=' + newIdTimeCooking + '> Время приготовления: 1 час 20 минут</div>\n' +
-            '</div>';
+                for (let i = 0; i < countFavRec; i++) {
+                    console.log(countFavRec + 12345);
+                    let newIdRecImg = "recImage" + i + countAddedRec;
+                    let newIdNameRec = "nameRec" + i + countAddedRec;
+                    let newIdNameAuthor = "nameAuthor" + i + countAddedRec;
+                    let newIdTimeCooking = "timeCooking" + i + countAddedRec;
+                    let newIdBlockUserRec = "subblockUserRecOne" + i + countAddedRec;
 
-        document.getElementById("blockUserRecTwo").append(divId);
+                    let divId = document.createElement('div');
 
-        document.getElementById(newIdBlockUserRec).style.top = currTopOff + 'px';
+                    let src = "../downloads/" + data["savedRecipes"][i]["imageUrl"];
+                    nameRec = "\'" + data["savedRecipes"][i]["name"] + "\'";
 
-        document.getElementById(newIdRecImg).style.top = 5 + 'pt';
-        document.getElementById(newIdRecImg).style.left = 10 + 'pt';
+                    divId.innerHTML = '<div class="subblockUserRec" id=' + newIdBlockUserRec + '>\n' +
+                        ' <div><img src="' + src + '" class="recImage" id=' + newIdRecImg + ' alt="Изображение рецепта"></div>\n' +
+                        ' <div><a href="recipe.html" class="nameUserRec" id=' + newIdNameRec + ' target="_self">' + data["savedRecipes"][i]["name"] + '</a></div>\n' +
+                        ' <div class="nameAuthorRec" id=' + newIdNameAuthor + '> Автор: ' + data["savedRecipes"][i]["userLogin"] + '</div>\n' +
+                        ' <div class="UserTimeCooking" id=' + newIdTimeCooking + '> Время приготовления: ' + data["savedRecipes"][i]["cookingTime"] + ' минут</div>\n' +
+                        '</div>';
 
-        currTopOff += 230;
+// divId.innerHTML = '<div class="subblockUserRec" id=' + newIdBlockUserRec + '>\n' +
+// ' <div><img src="../img/exampleRec.jpg" class="recImage" id=' + newIdRecImg + ' alt="Изображение рецепта"></div>\n' +
+// ' <div><a href="recipe.html" class="nameUserRec" id=' + newIdNameRec + ' target="_self"> Киш с курицей и сыром </a></div>\n' +
+// ' <div class="nameAuthorRec" id=' + newIdNameAuthor + '> Автор: nkazimirov</div>\n' +
+// ' <div class="UserTimeCooking" id=' + newIdTimeCooking + '> Время приготовления: 1 час 20 минут</div>\n' +
+// '</div>';
+
+                    document.getElementById("blockUserRecTwo").append(divId);
+
+                    document.getElementById(newIdBlockUserRec).style.top = currTopOff + 'px';
+
+                    document.getElementById(newIdRecImg).style.top =
+                        5 + 'pt';
+                    document.getElementById(newIdRecImg).style.left = 10 + 'pt';
+
+                    currTopOff += 230;
+                }
+                flag = true;
+            }, // обработка ответа от сервера
+            error: function (data) {
+                console.log(data);
+            },
+        });
     }
 }
 
@@ -761,21 +877,46 @@ function postSignUpReq() {
 
 //запрос сохраняет рецепт с указанным наименованием в избранные рецепты пользователя с указанным логином
 function postSaveReq() {
-    let username = document.cookie.match('(^|;) ?' + "username" + '=([^;]*)(;|$)');
-    var login = username[2];
-    var name = "Морепродукты";  //document.getElementById('infoNameRec').value; ------раскоменитить когда будут готова реализация обработки пробелов
-    $.ajax({
-        type: 'POST',
-        url: 'http://localhost:8080/povarenok/recipes/' + login + '/save/' + name, // адрес запроса
-        dataType: 'json', // тип ожидаемых данных,
-        contentType: 'application/json',
-        success: function (data) {
-            console.log(data);
-        }, // обработка ответа от сервера
-        error: function (data) {
-            console.log(data);
-        },
-    });
+    if (document.getElementById('addFavorites').innerText == "Добавить в избранное") {
+        document.getElementById('addFavorites').innerText = "Удалить из избранного";
+        let username = document.cookie.match('(^|;) ?' + "username" + '=([^;]*)(;|$)');
+        var login = username[2];
+        var name =  document.getElementById('infoNameRec').value; //------раскоменитить когда будут готова реализация обработки пробелов
+        $.ajax({
+            type: 'POST',
+            url: 'http://localhost:8080/povarenok/recipes/' + login + '/save/' + name, // адрес запроса
+            dataType: 'json', // тип ожидаемых данных,
+            contentType: 'application/json',
+            success: function (data) {
+                console.log(data);
+
+            }, // обработка ответа от сервера
+            error: function (data) {
+                console.log(data);
+            },
+        });
+
+    } else if (document.getElementById('addFavorites').innerText == "Удалить из избранного") {
+        document.getElementById('addFavorites').innerText = "Добавить в избранное";
+        let username = document.cookie.match('(^|;) ?' + "username" + '=([^;]*)(;|$)');
+        var login = username[2];
+        var name =  document.getElementById('infoNameRec').value; //------раскоменитить когда будут готова реализация обработки пробелов
+        $.ajax({
+            type: 'POST',
+            url: 'http://localhost:8080/povarenok/recipes/' + login + '/delete/' + name, // адрес запроса
+            dataType: 'json', // тип ожидаемых данных,
+            contentType: 'application/json',
+            success: function (data) {
+                console.log(data);
+
+            }, // обработка ответа от сервера
+            error: function (data) {
+                console.log(data);
+            },
+        });
+
+    }
+
 }
 
 // запрос возвращает всю информацию о рецепте в формате JSON по наименованию

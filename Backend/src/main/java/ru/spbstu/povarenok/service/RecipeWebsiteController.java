@@ -243,8 +243,6 @@ public class RecipeWebsiteController
                     "Failed to save recipe!");
         }
 
-        repository.saveRecipe(login, name);
-
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
@@ -284,4 +282,41 @@ public class RecipeWebsiteController
                 ? new ResponseEntity<>(recipes, HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-}
+
+    @PostMapping("/recipes/{login}/delete/{name}")
+    public ResponseEntity<?> deleteRecipe(@PathVariable( name = "login") String login,
+                                          @PathVariable( name = "name") String name) {
+
+        if (login.length() > 30 || !login.matches("[a-zA-Zа-яА-Я0-9]+$")) {
+
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "Login must contain no more than 30 characters " +
+                            "and contain only numbers and Russian or English letters!");
+        }
+
+        if (name.length() > 100 || !name.matches("[а-яА-Я0-9 ]+$")) {
+
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "The recipe name must contain no more than 100 characters " +
+                            "and contain only numbers and Russian letters!");
+        }
+
+        if(repository.getUser(login) == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "There is no user with this login!");
+        }
+
+        if(repository.getRecipe(name) == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "There is no recipe with this name!");
+        }
+
+        if (!repository.deleteRecipe(login, name)){
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+                    "Failed to save recipe!");
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    }

@@ -680,6 +680,7 @@
     text-align: justify;
     letter-spacing: 0.07875px;
     padding-left: 0px;
+    white-space: pre-line;
   }
 
   #infoIngText{
