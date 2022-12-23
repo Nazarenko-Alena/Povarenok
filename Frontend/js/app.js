@@ -468,9 +468,10 @@ function loadInfoSearchRec() {
                     let divId = document.createElement('div');
 
                     let nameRec = "\'" + data[i]["name"] + "\'" ;
+                    let src = "../downloads/" + data[i]["imageUrl"];
 
                     divId.innerHTML = '<div class="blockSearchRec" id=' + newIdBlockSearch + '>\n' +
-                        ' <div><img src="../img/exampleRec.jpg" class="recImage" id=' + newIdRecImg + ' alt="Изображение рецепта"></div>\n' +
+                        ' <div><img src="' + src + '" class="recImage" id=' + newIdRecImg + ' alt="Изображение рецепта"></div>\n' +
                         ' <div><a href="recipe.html" onclick=" setNameRec(' + nameRec + ')" class="nameRec" id=' + newIdNameRec + ' target="_self"> ' + data[i]["name"] + ' </a></div>\n' +
                         ' <div class="nameAuthor" id=' + newIdNameAuthor + '> Автор: ' + data[i]["userLogin"] + '</div>\n' +
                         ' <div class="timeCookingRec" id=' + newIdTimeCooking + '> Время приготовления: ' + data[i]["cookingTime"] + ' минут</div>\n' +
