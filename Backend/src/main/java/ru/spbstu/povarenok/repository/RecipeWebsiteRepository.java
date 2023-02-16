@@ -19,10 +19,6 @@ public class RecipeWebsiteRepository
     @Value("${database.password}")
     public String DB_PASSWORD;
 
-    public String DOWNLOADS_FOLDER = "С:\\Users\\Никита\\Downloads";
-
-    public String IMAGES_FOLDER = "D:\\Сем 7\\Маслаков\\Povarenok\\Frontend\\downloads";
-
     public Connection getConnection() {
 
         Connection connection = null;

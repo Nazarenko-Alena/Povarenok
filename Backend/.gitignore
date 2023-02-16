@@ -13,3 +13,5 @@ target/
 *.ipr
 
 *.DS_Store
+
+Backend/src/main/resources/application.properties

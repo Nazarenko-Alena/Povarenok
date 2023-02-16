@@ -13,8 +13,7 @@ import ru.spbstu.povarenok.model.*;
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("/povarenok")
-public class RecipeWebsiteController
-{
+public class RecipeWebsiteController {
     private final RecipeWebsiteRepository repository;
 
     public RecipeWebsiteController(RecipeWebsiteRepository repository) {
@@ -47,17 +46,17 @@ public class RecipeWebsiteController
                             "and match the template ***@***.*** (*** - any number of characters)!");
         }
 
-        if(repository.getUser(user.getLogin()) != null) {
+        if (repository.getUser(user.getLogin()) != null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "User with this login already exists!");
         }
 
-        if(repository.getUserByEmail(user.getEmail()) != null) {
+        if (repository.getUserByEmail(user.getEmail()) != null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "User with this email already exists!");
         }
 
-        if (!repository.addUser(user)){
+        if (!repository.addUser(user)) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
                     "Failed to add user!");
         }
@@ -228,17 +227,17 @@ public class RecipeWebsiteController
                             "and contain only numbers and Russian letters!");
         }
 
-        if(repository.getUser(login) == null) {
+        if (repository.getUser(login) == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "There is no user with this login!");
         }
 
-        if(repository.getRecipe(name) == null) {
+        if (repository.getRecipe(name) == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "There is no recipe with this name!");
         }
 
-        if (!repository.saveRecipe(login, name)){
+        if (!repository.saveRecipe(login, name)) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
                     "Failed to save recipe!");
         }
@@ -268,10 +267,10 @@ public class RecipeWebsiteController
 
         LinkedList<Recipe> recipes = repository.getRecipes(category, cuisine);
 
-         return recipes != null
-                 ? new ResponseEntity<>(recipes, HttpStatus.OK)
-                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
-     }
+        return recipes != null
+                ? new ResponseEntity<>(recipes, HttpStatus.OK)
+                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
 
     @GetMapping("/recipes/keywords/{keywords}")
     public ResponseEntity<?> getRecipeByKeywords(@PathVariable(name = "keywords") String keywords) {
@@ -284,8 +283,8 @@ public class RecipeWebsiteController
     }
 
     @PostMapping("/recipes/{login}/delete/{name}")
-    public ResponseEntity<?> deleteRecipe(@PathVariable( name = "login") String login,
-                                          @PathVariable( name = "name") String name) {
+    public ResponseEntity<?> deleteRecipe(@PathVariable(name = "login") String login,
+                                          @PathVariable(name = "name") String name) {
 
         if (login.length() > 30 || !login.matches("[a-zA-Zа-яА-Я0-9]+$")) {
 
@@ -301,17 +300,17 @@ public class RecipeWebsiteController
                             "and contain only numbers and Russian letters!");
         }
 
-        if(repository.getUser(login) == null) {
+        if (repository.getUser(login) == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "There is no user with this login!");
         }
 
-        if(repository.getRecipe(name) == null) {
+        if (repository.getRecipe(name) == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "There is no recipe with this name!");
         }
 
-        if (!repository.deleteRecipe(login, name)){
+        if (!repository.deleteRecipe(login, name)) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
                     "Failed to save recipe!");
         }
@@ -319,4 +318,4 @@ public class RecipeWebsiteController
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    }
+}
