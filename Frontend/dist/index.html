@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="Главная страница сайта с рецептами">
+  <meta name="keywords" content="Povarenok, рецепты, html">
+  <title>Povarenok</title>
+  <link rel="stylesheet" href="b88d04fba731603756b1.css">
+<script defer src="index_bundle.js"></script><link href="index.css" rel="stylesheet"></head>
+<body>
+
+    <div id="headerBlock">
+      <div> <a href="index.html"><img src="f2a2117476d37c9ac0aa.png" id="logoImage" alt="Логотип"> </a> </div>
+
+      <div id="textPovarenok"> Povarenok </div>
+
+      <div id="searchBlock">
+        <div> <img src="08805f613b93b7517ad1.png" id="lupa" alt=""> </div>
+
+        <div>
+          <input type="searchLine" placeholder="Поиск по рецептам" maxlength="100" required
+                 oninput="this.value = this.value.replace(/[^а-яёА-ЯЁ\s]/gi, '');"
+                 name="searchLine" id="searchLine">
+        </div>
+
+        <div>
+          <a href="searchRes.html"><button type="submit" id="findButton" name="findButton"> Найти </button> </a>
+        </div>
+      </div>
+
+      <div>
+        <img src="1972bb70f9eb2d4580a6.png" id="signInImage" alt="Пользователь">
+      </div>
+
+<!--      <div>-->
+<!--        <a id="signInButton"  href="signIn.html"  target="_self"> Войти </a>-->
+<!--      </div>-->
+    </div>
+
+    <div>
+      <select class="comboBox" name="categoryIndex" id="categoryIndex">
+        <option selected value="">Категория</option>
+      </select>
+    </div>
+
+    <div>
+      <select class="comboBox"  name="typeCuis" id="typeCuis">
+        <option selected value="">Тип кухни</option>
+      </select>
+    </div>
+
+    <div>
+      <a href="searchRes.html">
+          <button type="submit" id="applyButton" name="applyButton">
+        Применить </button>
+        </a>
+    </div>
+
+     <div id="textRecentlyAddedRecipes"> Недавно добавленные рецепты </div>
+
+    <div id="indexRec">
+    </div>
+</body>
+
+</html>
