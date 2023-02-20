@@ -236,10 +236,10 @@ function changeHeightRec() {
             let strIng = "";
 
             // let ing = []
-             for (let i = 0; i<rec[8].length; i++){
-                 let dig = i+1;
-                 strIng += dig + ". " + rec[8][i]["name"] + " " + rec[8][i]["grams"] + " грамм \n " ;
-             }
+            for (let i = 0; i<rec[8].length; i++){
+                let dig = i+1;
+                strIng += dig + ". " + rec[8][i]["name"] + " " + rec[8][i]["grams"] + " грамм \n " ;
+            }
             document.getElementById('infoIngRec').innerText = strIng;
 
 
@@ -272,10 +272,10 @@ function changeHeightRec() {
             for (let i = 0; i < countFavRec; i++) {
                 console.log(data["savedRecipes"][i]["name"] );
                 console.log( nameRec);
-               if(data["savedRecipes"][i]["name"] == nameRec[2]){
-                   document.getElementById('addFavorites').innerText = "Удалить из избранного";
+                if(data["savedRecipes"][i]["name"] == nameRec[2]){
+                    document.getElementById('addFavorites').innerText = "Удалить из избранного";
 
-               }
+                }
             }
         }, // обработка ответа от сервера
         error: function (data) {
@@ -592,13 +592,11 @@ function loadInfoIndexRec() {
                 document.getElementById("indexRec").append(divId);
 
 
-               /* let str =  newIdNameRec;
-                let strBlock = '.' + newIdBlockSearch;
-                console.log( str);
-
-                document.querySelector(strBlock).querySelector(str).onclick = function(){
-
-                }*/
+                /* let str =  newIdNameRec;
+                 let strBlock = '.' + newIdBlockSearch;
+                 console.log( str);
+                 document.querySelector(strBlock).querySelector(str).onclick = function(){
+                 }*/
 
                 document.getElementById(newIdBlockSearch).style.left = currLeftOff + 'px';
 
