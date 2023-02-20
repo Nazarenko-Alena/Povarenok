@@ -26,7 +26,7 @@
         </div>
 
         <div>
-          <a href="searchRes.html"><button type="submit" id="findButton" name="findButton"> Найти </button> </a>
+          <a href="searchRes.html"><button type="submit" onclick="searchKeywords()" id="findButton" name="findButton"> Найти </button> </a>
         </div>
       </div>
 
@@ -34,9 +34,9 @@
         <img src="../img/user.png" id="signInImage" alt="Пользователь">
       </div>
 
-      <div>
-        <a id="signInButton"  href="signIn.html"  target="_self"> Войти </a>
-      </div>
+<!--      <div>-->
+<!--        <a id="signInButton"  href="signIn.html"  target="_self"> Войти </a>-->
+<!--      </div>-->
     </div>
 
     <div>
@@ -52,8 +52,10 @@
     </div>
 
     <div>
-      <a href="searchRes.html"><button type="submit" id="applyButton" name="applyButton">
-        Применить </button> </a>
+      <a href="searchRes.html">
+          <button type="submit" onclick="searchFilters()" id="applyButton" name="applyButton">
+        Применить </button>
+        </a>
     </div>
 
      <div id="textRecentlyAddedRecipes"> Недавно добавленные рецепты </div>

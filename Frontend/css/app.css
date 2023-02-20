@@ -680,6 +680,7 @@
     text-align: justify;
     letter-spacing: 0.07875px;
     padding-left: 0px;
+    white-space: pre-line;
   }
 
   #infoIngText{
@@ -798,11 +799,11 @@
     border-radius: 15px;
   }
 
-  /*#addFavorites:disabled{*/
-  /*  background-color: lightgrey;*/
-  /*  border: 3px solid lightgrey;*/
-  /*  cursor: not-allowed;*/
-  /*}*/
+  #addFavorites:disabled{
+    background-color: lightgrey;
+    border: 3px solid lightgrey;
+    cursor: not-allowed;
+  }
 
   #addFavorites:hover:enabled{
     background-color: #af6343;
@@ -812,7 +813,7 @@
   /*ЛИЧНЫЙ КАБИНЕТ*/
   #textUserName{
     color: black;
-    font-size: 24px;
+    font-size: 22px;
     position: absolute;
     top: 49px;
     left: 1390px;

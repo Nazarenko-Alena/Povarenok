@@ -4,10 +4,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.LinkedList;
 
 import org.springframework.web.server.ResponseStatusException;
@@ -17,8 +13,7 @@ import ru.spbstu.povarenok.model.*;
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("/povarenok")
-public class RecipeWebsiteController
-{
+public class RecipeWebsiteController {
     private final RecipeWebsiteRepository repository;
 
     public RecipeWebsiteController(RecipeWebsiteRepository repository) {
@@ -51,17 +46,17 @@ public class RecipeWebsiteController
                             "and match the template ***@***.*** (*** - any number of characters)!");
         }
 
-        if(repository.getUser(user.getLogin()) != null) {
+        if (repository.getUser(user.getLogin()) != null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "User with this login already exists!");
         }
 
-        if(repository.getUserByEmail(user.getEmail()) != null) {
+        if (repository.getUserByEmail(user.getEmail()) != null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "User with this email already exists!");
         }
 
-        if (!repository.addUser(user)){
+        if (!repository.addUser(user)) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
                     "Failed to add user!");
         }
@@ -189,26 +184,6 @@ public class RecipeWebsiteController
                     "Recipe with this step-by-step recipe already exists!");
         }
 
-        File folder1 = new File(repository.DOWNLOADS_FOLDER);
-        File[] listOfFiles1 = folder1.listFiles();
-
-        File folder2 = new File(repository.IMAGES_FOLDER);
-        File[] listOfFiles2 = folder2.listFiles();
-
-        if (listOfFiles2 != null)
-            for (File file : listOfFiles2)
-                file.delete();
-
-        Path destDir = folder2.toPath();
-        if (listOfFiles1 != null)
-            for (File file : listOfFiles1) {
-                try {
-                    Files.copy(file.toPath(), destDir.resolve(file.getName()));
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-
         if (!repository.addRecipe(recipe)) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
                     "Failed to add recipe!");
@@ -252,22 +227,20 @@ public class RecipeWebsiteController
                             "and contain only numbers and Russian letters!");
         }
 
-        if(repository.getUser(login) == null) {
+        if (repository.getUser(login) == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "There is no user with this login!");
         }
 
-        if(repository.getRecipe(name) == null) {
+        if (repository.getRecipe(name) == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "There is no recipe with this name!");
         }
 
-        if (!repository.saveRecipe(login, name)){
+        if (!repository.saveRecipe(login, name)) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
                     "Failed to save recipe!");
         }
-
-        repository.saveRecipe(login, name);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -294,10 +267,10 @@ public class RecipeWebsiteController
 
         LinkedList<Recipe> recipes = repository.getRecipes(category, cuisine);
 
-         return recipes != null
-                 ? new ResponseEntity<>(recipes, HttpStatus.OK)
-                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
-     }
+        return recipes != null
+                ? new ResponseEntity<>(recipes, HttpStatus.OK)
+                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
 
     @GetMapping("/recipes/keywords/{keywords}")
     public ResponseEntity<?> getRecipeByKeywords(@PathVariable(name = "keywords") String keywords) {
@@ -308,4 +281,41 @@ public class RecipeWebsiteController
                 ? new ResponseEntity<>(recipes, HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+
+    @PostMapping("/recipes/{login}/delete/{name}")
+    public ResponseEntity<?> deleteRecipe(@PathVariable(name = "login") String login,
+                                          @PathVariable(name = "name") String name) {
+
+        if (login.length() > 30 || !login.matches("[a-zA-Zа-яА-Я0-9]+$")) {
+
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "Login must contain no more than 30 characters " +
+                            "and contain only numbers and Russian or English letters!");
+        }
+
+        if (name.length() > 100 || !name.matches("[а-яА-Я0-9 ]+$")) {
+
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "The recipe name must contain no more than 100 characters " +
+                            "and contain only numbers and Russian letters!");
+        }
+
+        if (repository.getUser(login) == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "There is no user with this login!");
+        }
+
+        if (repository.getRecipe(name) == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "There is no recipe with this name!");
+        }
+
+        if (!repository.deleteRecipe(login, name)) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+                    "Failed to save recipe!");
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 }

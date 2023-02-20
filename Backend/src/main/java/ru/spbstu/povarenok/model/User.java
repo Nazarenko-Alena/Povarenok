@@ -11,8 +11,7 @@ public class User {
     private LinkedList<Recipe> addedRecipes;
     private LinkedList<Recipe> savedRecipes;
 
-    public User(Long id, String login, String password, String email,
-                LinkedList<Recipe> addedRecipes, LinkedList<Recipe> savedRecipes) {
+    public User(Long id, String login, String password, String email, LinkedList<Recipe> addedRecipes, LinkedList<Recipe> savedRecipes) {
         this.id = id;
         this.login = login;
         this.password = password;
