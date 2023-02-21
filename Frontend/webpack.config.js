@@ -2,6 +2,16 @@ const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
+let glob = require("glob");
+let entry = __dirname + "./js/app.js";
+let outputPath = __dirname + "/dist/";
+if (process.env.TESTBUILD) {
+    entry = glob.sync(__dirname + "./js/app.test.js");
+    outputPath = __dirname + "/test-dist/";
+}
+
+const nodeExternals = require('webpack-node-externals');
+
 module.exports = {
     entry: './js/app.js',
     module: {
@@ -28,7 +38,9 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, 'dist'),
         clean: true,
-        filename: 'index_bundle.js'
+        filename: 'index_bundle.js',
+        devtoolModuleFilenameTemplate: '[absolute-resource-path]',
+        devtoolFallbackModuleFilenameTemplate: '[absolute-resource-path]?[hash]'
     },
     plugins: [
         new HtmlWebpackPlugin({
