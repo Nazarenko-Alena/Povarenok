@@ -217,18 +217,17 @@ describe("Validation of element values", () => {
         expect(functions.validSignUpValue("alena", "12345678", "al")).toBe(true);
     });
 
-    test("validSignUpValue username incorrect", function () {
-        expect(functions.validSignUpValue("a", "12345678", "al")).toBe(false);
+    test("validSignUpValue incorrect", function () {
+        expect(functions.validSignUpValue("a", "12345", "")).toBe(false);
     });
 
     test("validSignUpValue password incorrect", function () {
         expect(functions.validSignUpValue("alena", "12345", "al")).toBe(false);
     });
 
-    test("validSignUpValue email incorrect", function () {
-        expect(functions.validSignUpValue("alena", "123456789", "")).toBe(false);
+    test("validSignUpValue username email incorrect", function () {
+        expect(functions.validSignUpValue("a", "123456789", "")).toBe(false);
     });
-
 
 })
 

@@ -1,7 +1,7 @@
-const $ = require("./jquery-3.6.2");
-//const { JSDOM } = require( "jsdom" );
-//const { window } = new JSDOM( "" );
-//const $ = require( "jquery" )( window );
+//const $ = require("./jquery-3.6.2");
+const { JSDOM } = require( "jsdom" );
+const { window } = new JSDOM( "" );
+const $ = require( "jquery" )( window );
 
 let indexBlockIng = 1;
 var currTopIng = 381;
