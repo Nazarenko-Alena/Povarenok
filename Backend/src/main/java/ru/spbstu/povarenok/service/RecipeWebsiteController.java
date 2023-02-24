@@ -23,7 +23,7 @@ public class RecipeWebsiteController {
     @PostMapping("/registration")
     public ResponseEntity<?> registerUser(@RequestBody User user) {
 
-        if (user.getLogin().length() > 30 || !user.getLogin().matches("[a-zA-Zа-яА-Я0-9]+$")) {
+        if (user.getLogin().length() > 30 || !user.getLogin().matches("[a-zA-Zа-яА-ЯёЁ0-9]+$")) {
 
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "Login must contain no more than 30 characters " +
@@ -31,7 +31,7 @@ public class RecipeWebsiteController {
         }
 
         if (user.getPassword().length() < 8 || user.getPassword().length() > 12
-                || !user.getPassword().matches("[a-zA-Zа-яА-Я0-9]+$")) {
+                || !user.getPassword().matches("[a-zA-Zа-яА-ЯёЁ0-9]+$")) {
 
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "Password must contain at least 8 and no more 12 characters " +
@@ -39,7 +39,8 @@ public class RecipeWebsiteController {
         }
 
         if (user.getEmail().length() > 30 ||
-                !user.getEmail().matches("[a-zA-Zа-яА-Я0-9.]+@[a-zA-Zа-яА-Я0-9]+[.][a-zA-Zа-яА-Я0-9]+$")) {
+                !user.getEmail().matches("[a-zA-Zа-яА-ЯёЁ0-9.]+@[a-zA-Zа-яА-ЯёЁ0-9]" +
+                        "+[.][a-zA-Zа-яА-ЯёЁ0-9]+$")) {
 
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "Mail must contain no more than 30 characters " +
@@ -67,7 +68,7 @@ public class RecipeWebsiteController {
     @GetMapping("/authorization")
     public ResponseEntity<User> getUser(@RequestParam String login, @RequestParam String password) {
 
-        if (login.length() > 30 || !login.matches("[a-zA-Zа-яА-Я0-9]+$")) {
+        if (login.length() > 30 || !login.matches("[a-zA-Zа-яА-ЯёЁ0-9]+$")) {
 
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "Login must contain no more than 30 characters " +
@@ -75,7 +76,7 @@ public class RecipeWebsiteController {
         }
 
         if (password.length() < 8 || password.length() > 12
-                || !password.matches("[a-zA-Zа-яА-Я0-9]+$")) {
+                || !password.matches("[a-zA-Zа-яА-ЯёЁ0-9]+$")) {
 
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "Password must contain at least 8 and no more 12 characters " +
@@ -92,7 +93,7 @@ public class RecipeWebsiteController {
     @GetMapping("/users/{login}")
     public ResponseEntity<User> getUser(@PathVariable(name = "login") String login) {
 
-        if (login.length() > 30 || !login.matches("[a-zA-Zа-яА-Я0-9]+$")) {
+        if (login.length() > 30 || !login.matches("[a-zA-Zа-яА-ЯёЁ0-9]+$")) {
 
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "Login must contain no more than 30 characters " +
@@ -129,7 +130,7 @@ public class RecipeWebsiteController {
     @PostMapping("/recipes/new")
     public ResponseEntity<?> addRecipe(@RequestBody Recipe recipe) {
 
-        if (recipe.getName().length() > 100 || !recipe.getName().matches("[а-яА-Я0-9 ]+$")) {
+        if (recipe.getName().length() > 100 || !recipe.getName().matches("[а-яА-ЯёЁ0-9 ]+$")) {
 
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "The recipe name must contain no more than 100 characters " +
@@ -137,7 +138,8 @@ public class RecipeWebsiteController {
         }
 
         for (Ingredient ingredient : recipe.getIngredients()) {
-            if (ingredient.getName().length() > 100 || !ingredient.getName().matches("[а-яА-Я0-9 ]+$")) {
+            if (ingredient.getName().length() > 100
+                    || !ingredient.getName().matches("[а-яА-ЯёЁ0-9 ]+$")) {
 
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                         "The ingredient name must contain no more than 100 characters " +
@@ -150,14 +152,16 @@ public class RecipeWebsiteController {
             }
         }
 
-        if (recipe.getDescription().length() > 500 || !recipe.getDescription().matches("[а-яА-Я0-9 ]+$")) {
+        if (recipe.getDescription().length() > 500
+                || !recipe.getDescription().matches("[а-яА-ЯёЁ0-9 ]+$")) {
 
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "The recipe description must contain no more than 500 characters " +
                             "and contain only numbers and Russian letters!");
         }
 
-        if (recipe.getRecipe().length() > 5000 || !recipe.getRecipe().matches("[а-яА-Я0-9 ]+$")) {
+        if (recipe.getRecipe().length() > 5000
+                || !recipe.getRecipe().matches("[а-яА-ЯёЁ0-9 ]+$")) {
 
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "The recipe must contain no more than 5000 characters " +
@@ -195,7 +199,7 @@ public class RecipeWebsiteController {
     @GetMapping("/recipes/{name}")
     public ResponseEntity<?> getRecipe(@PathVariable(name = "name") String name) {
 
-        if (name.length() > 100 || !name.matches("[а-яА-Я0-9 ]+$")) {
+        if (name.length() > 100 || !name.matches("[а-яА-ЯёЕ0-9 ]+$")) {
 
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "The recipe name must contain no more than 100 characters " +
@@ -213,14 +217,14 @@ public class RecipeWebsiteController {
     public ResponseEntity<?> saveRecipe(@PathVariable(name = "login") String login,
                                         @PathVariable(name = "name") String name) {
 
-        if (login.length() > 30 || !login.matches("[a-zA-Zа-яА-Я0-9]+$")) {
+        if (login.length() > 30 || !login.matches("[a-zA-Zа-яА-ЯёЕ0-9]+$")) {
 
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "Login must contain no more than 30 characters " +
                             "and contain only numbers and Russian or English letters!");
         }
 
-        if (name.length() > 100 || !name.matches("[а-яА-Я0-9 ]+$")) {
+        if (name.length() > 100 || !name.matches("[а-яА-ЯёЕ0-9 ]+$")) {
 
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "The recipe name must contain no more than 100 characters " +
@@ -286,14 +290,14 @@ public class RecipeWebsiteController {
     public ResponseEntity<?> deleteRecipe(@PathVariable(name = "login") String login,
                                           @PathVariable(name = "name") String name) {
 
-        if (login.length() > 30 || !login.matches("[a-zA-Zа-яА-Я0-9]+$")) {
+        if (login.length() > 30 || !login.matches("[a-zA-Zа-яА-ЯёЕ0-9]+$")) {
 
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "Login must contain no more than 30 characters " +
                             "and contain only numbers and Russian or English letters!");
         }
 
-        if (name.length() > 100 || !name.matches("[а-яА-Я0-9 ]+$")) {
+        if (name.length() > 100 || !name.matches("[а-яА-ЯёЕ0-9 ]+$")) {
 
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "The recipe name must contain no more than 100 characters " +
@@ -317,5 +321,4 @@ public class RecipeWebsiteController {
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
 }

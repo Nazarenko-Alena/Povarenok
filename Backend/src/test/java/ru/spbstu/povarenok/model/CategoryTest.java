@@ -1,5 +1,6 @@
 package ru.spbstu.povarenok.model;
 
+import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import static org.junit.Assert.*;
 
