@@ -531,7 +531,6 @@ public class RecipeWebsiteControllerTest {
         });
         actualMessage = exception.getMessage();
 
-        System.out.println(correctRecipe.getDescription().length());
 
         assertTrue(actualMessage.contains(expectedMessage));
 
