@@ -1,6 +1,6 @@
 package ru.spbstu.povarenok.repository;
 
-import org.springframework.beans.factory.annotation.Value;
+import org.postgresql.ds.PGSimpleDataSource;
 import org.springframework.stereotype.Repository;
 import java.util.LinkedList;
 import java.sql.*;
@@ -10,36 +10,10 @@ import ru.spbstu.povarenok.model.*;
 @Repository
 public class RecipeWebsiteRepository
 {
-    @Value("${database.url}")
-    public String DB_URL;
+    PGSimpleDataSource dataSource;
 
-    @Value("${database.user}")
-    public String DB_USER;
-
-    @Value("${database.password}")
-    public String DB_PASSWORD;
-
-    public String DOWNLOADS_FOLDER = "С:\\Users\\Никита\\Downloads";
-
-    public String IMAGES_FOLDER = "D:\\Сем 7\\Маслаков\\Povarenok\\Frontend\\downloads";
-
-    public Connection getConnection() {
-
-        Connection connection = null;
-
-        try {
-            Class.forName("org.postgresql.Driver");
-        } catch (ClassNotFoundException e) {
-            System.out.println(e.getMessage());
-        }
-
-        try {
-            connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-
-        return connection;
+    public RecipeWebsiteRepository(PGSimpleDataSource dataSource) {
+        this.dataSource = dataSource;
     }
 
     public boolean addUser(User user) {
@@ -47,7 +21,9 @@ public class RecipeWebsiteRepository
         String query = "INSERT INTO users (login, password, email) VALUES (\'" + user.getLogin() + "\', \'" +
                 user.getPassword() + "\', \'" + user.getEmail() + "\')";
 
-        try (Connection connection = getConnection(); Statement statement = connection.createStatement()) {
+        try {
+            Connection connection = dataSource.getConnection();
+            Statement statement = connection.createStatement();
 
             statement.execute(query);
 
@@ -59,29 +35,67 @@ public class RecipeWebsiteRepository
         return true;
     }
 
-    public User getUser(String login, String password) {
+    public LinkedList<Ingredient> getIngredients(Long idRecipe) {
+        LinkedList<Ingredient> ingredients = new LinkedList<>();
 
-        User user = null;
-        Long idUser = null;
+        String query = "SELECT * FROM ingredients WHERE id_recipe = " + idRecipe;
 
-        String query = "SELECT * FROM users WHERE login = \'" +  login + "\' AND password = \'" + password + "\'";
+        try (Connection connection = dataSource.getConnection(); Statement statement = connection.createStatement();
+             ResultSet result = statement.executeQuery(query)) {
 
-        try (Connection connection = getConnection(); Statement statement = connection.createStatement();
+            while (result.next()) {
+                ingredients.add(new Ingredient(result.getLong("id_ingredient"),
+                        result.getLong("id_recipe"), result.getString("name"),
+                        result.getDouble("grams")));
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return ingredients;
+        }
+
+        return ingredients;
+    }
+
+    public Recipe getRecipe(Long id) {
+
+        Recipe recipe = null;
+
+        LinkedList<Ingredient> ingredients = getIngredients(id);
+
+        String query = "SELECT id_recipe, users.login, recipes.name, image_url, date_added, cuisines.name, " +
+                "categories.name, cooking_time, description, recipe FROM recipes " +
+                "JOIN users ON recipes.id_user = users.id_user " +
+                "JOIN cuisines ON recipes.cuisine = cuisines.id_cuisine " +
+                "JOIN categories ON recipes.category = categories.id_category " +
+                "WHERE id_recipe = " + id;
+
+        try (Connection connection = dataSource.getConnection(); Statement statement = connection.createStatement();
              ResultSet result = statement.executeQuery(query)) {
 
             if (result.next()) {
-               idUser = result.getLong("id_user");
+                recipe = new Recipe(result.getLong("id_recipe"), result.getString("login"),
+                        result.getString("name"), result.getString("image_url"),
+                        result.getString("date_added"), result.getString(6),
+                        result.getString(7), result.getInt("cooking_time"), ingredients,
+                        result.getString("description"), result.getString("recipe"));
             }
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+
+        return recipe;
+    }
+
+    public LinkedList<Recipe> getAddedRecipes(Long idUser) {
+        LinkedList<Recipe> addedRecipes = new LinkedList<>();
 
         LinkedList<Long> idRecipes = new LinkedList<>();
 
-        query = "SELECT id_recipe FROM recipes WHERE id_user = " + idUser;
+        String query = "SELECT id_recipe FROM recipes WHERE id_user = " + idUser;
 
-        try (Connection connection = getConnection(); Statement statement = connection.createStatement();
+        try (Connection connection = dataSource.getConnection(); Statement statement = connection.createStatement();
              ResultSet result = statement.executeQuery(query)) {
 
             while (result.next()) {
@@ -90,450 +104,108 @@ public class RecipeWebsiteRepository
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-            return user;
+            return addedRecipes;
         }
 
-        LinkedList<LinkedList<Ingredient>> ingredients = new LinkedList<>();
-        LinkedList<Recipe> addedRecipes = new LinkedList<>();
+        for (Long id : idRecipes)
+            addedRecipes.add(getRecipe(id));
 
-        for (Long id : idRecipes) {
+        return addedRecipes;
+    }
 
-            query = "SELECT * FROM ingredients WHERE id_recipe = " + id;
-
-            try (Connection connection = getConnection(); Statement statement = connection.createStatement();
-                 ResultSet result = statement.executeQuery(query)) {
-
-                ingredients.add(new LinkedList<>());
-                while (result.next()) {
-                    ingredients.getLast().add(new Ingredient(result.getLong("id_ingredient"),
-                            result.getLong("id_recipe"), result.getString("name"),
-                            result.getDouble("grams")));
-                }
-
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
-                return user;
-            }
-
-            query = "SELECT id_recipe, users.login, recipes.name, image_url, date_added, cuisines.name, " +
-                    "categories.name, cooking_time, description, recipe FROM recipes " +
-                    "JOIN users ON recipes.id_user = users.id_user " +
-                    "JOIN cuisines ON recipes.cuisine = cuisines.id_cuisine " +
-                    "JOIN categories ON recipes.category = categories.id_category " +
-                    "WHERE id_recipe = " + id;
-
-            try (Connection connection = getConnection(); Statement statement = connection.createStatement();
-                 ResultSet result = statement.executeQuery(query)) {
-
-                if (result.next()) {
-                    addedRecipes.add(new Recipe(result.getLong("id_recipe"), result.getString("login"),
-                            result.getString("name"), result.getString("image_url"),
-                            result.getString("date_added"), result.getString(6),
-                            result.getString(7), result.getInt("cooking_time"), ingredients.getLast(),
-                            result.getString("description"), result.getString("recipe")));
-                }
-
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
-                return user;
-            }
-        }
-
-        idRecipes = new LinkedList<>();
-
-        query = "SELECT id_recipe FROM saved_recipes WHERE id_user = " + idUser;
-
-        try (Connection connection = getConnection(); Statement statement = connection.createStatement();
-             ResultSet result = statement.executeQuery(query)) {
-
-            while (result.next()) {
-                idRecipes.add(result.getLong("id_recipe"));
-            }
-
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            return user;
-        }
-
-        ingredients = new LinkedList<>();
+    public LinkedList<Recipe> getSavedRecipes(Long idUser) {
         LinkedList<Recipe> savedRecipes = new LinkedList<>();
 
-        for (Long id : idRecipes) {
+        LinkedList<Long> idRecipes = new LinkedList<>();
 
-            query = "SELECT * FROM ingredients WHERE id_recipe = " + id;
+        String query = "SELECT id_recipe FROM saved_recipes WHERE id_user = " + idUser;
 
-            try (Connection connection = getConnection(); Statement statement = connection.createStatement();
-                 ResultSet result = statement.executeQuery(query)) {
+        try (Connection connection = dataSource.getConnection(); Statement statement = connection.createStatement();
+             ResultSet result = statement.executeQuery(query)) {
 
-                ingredients.add(new LinkedList<>());
-                while (result.next()) {
-                    ingredients.getLast().add(new Ingredient(result.getLong("id_ingredient"),
-                            result.getLong("id_recipe"), result.getString("name"),
-                            result.getDouble("grams")));
-                }
-
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
-                return user;
+            while (result.next()) {
+                idRecipes.add(result.getLong("id_recipe"));
             }
 
-            query = "SELECT id_recipe, users.login, recipes.name, image_url, date_added, cuisines.name, " +
-                    "categories.name, cooking_time, description, recipe FROM recipes " +
-                    "JOIN users ON recipes.id_user = users.id_user " +
-                    "JOIN cuisines ON recipes.cuisine = cuisines.id_cuisine " +
-                    "JOIN categories ON recipes.category = categories.id_category " +
-                    "WHERE id_recipe = " + id;
-
-            try (Connection connection = getConnection(); Statement statement = connection.createStatement();
-                 ResultSet result = statement.executeQuery(query)) {
-
-                if (result.next()) {
-                    savedRecipes.add(new Recipe(result.getLong("id_recipe"), result.getString("login"),
-                            result.getString("name"), result.getString("image_url"),
-                            result.getString("date_added"), result.getString(6),
-                            result.getString(7), result.getInt("cooking_time"), ingredients.getLast(),
-                            result.getString("description"), result.getString("recipe")));
-                }
-
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
-                return user;
-            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return savedRecipes;
         }
 
-        query = "SELECT * FROM users WHERE login = \'" +  login + "\' AND password = \'" + password + "\'";
+        for (Long id : idRecipes)
+            savedRecipes.add(getRecipe(id));
 
-        try (Connection connection = getConnection(); Statement statement = connection.createStatement();
+        return savedRecipes;
+    }
+
+    public User getUser(String login, String password) {
+
+        Long idUser = null;
+        String email = null;
+
+        String query = "SELECT * FROM users WHERE login = \'" + login + "\' AND password = \'" + password + "\'";
+
+        try (Connection connection = dataSource.getConnection(); Statement statement = connection.createStatement();
              ResultSet result = statement.executeQuery(query)) {
 
             if (result.next()) {
-                user = new User(result.getLong("id_user"), result.getString("login"),
-                        result.getString("password"), result.getString("email"), addedRecipes, savedRecipes);
+                idUser = result.getLong("id_user");
+                email = result.getString("email");
             }
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+            return null;
         }
 
-        return user;
+        LinkedList<Recipe> addedRecipes = getAddedRecipes(idUser);
+        LinkedList<Recipe> savedRecipes = getSavedRecipes(idUser);
+
+        return new User(idUser, login, password, email, addedRecipes, savedRecipes);
     }
 
     public User getUser(String login) {
 
-        User user = null;
-        Long idUser = null;
+        String password = null;
 
         String query = "SELECT * FROM users WHERE login = \'" +  login + "\'";
 
-        try (Connection connection = getConnection(); Statement statement = connection.createStatement();
+        try (Connection connection = dataSource.getConnection(); Statement statement = connection.createStatement();
              ResultSet result = statement.executeQuery(query)) {
 
             if (result.next()) {
-                idUser = result.getLong("id_user");
+                password = result.getString("password");
             }
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+            return null;
         }
 
-        LinkedList<Long> idRecipes = new LinkedList<>();
-
-        query = "SELECT id_recipe FROM recipes WHERE id_user = " + idUser;
-
-        try (Connection connection = getConnection(); Statement statement = connection.createStatement();
-             ResultSet result = statement.executeQuery(query)) {
-
-            while (result.next()) {
-                idRecipes.add(result.getLong("id_recipe"));
-            }
-
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            return user;
-        }
-
-        LinkedList<LinkedList<Ingredient>> ingredients = new LinkedList<>();
-        LinkedList<Recipe> addedRecipes = new LinkedList<>();
-
-        for (Long id : idRecipes) {
-
-            query = "SELECT * FROM ingredients WHERE id_recipe = " + id;
-
-            try (Connection connection = getConnection(); Statement statement = connection.createStatement();
-                 ResultSet result = statement.executeQuery(query)) {
-
-                ingredients.add(new LinkedList<>());
-                while (result.next()) {
-                    ingredients.getLast().add(new Ingredient(result.getLong("id_ingredient"),
-                            result.getLong("id_recipe"), result.getString("name"),
-                            result.getDouble("grams")));
-                }
-
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
-                return user;
-            }
-
-            query = "SELECT id_recipe, users.login, recipes.name, image_url, date_added, cuisines.name, " +
-                    "categories.name, cooking_time, description, recipe FROM recipes " +
-                    "JOIN users ON recipes.id_user = users.id_user " +
-                    "JOIN cuisines ON recipes.cuisine = cuisines.id_cuisine " +
-                    "JOIN categories ON recipes.category = categories.id_category " +
-                    "WHERE id_recipe = " + id;
-
-            try (Connection connection = getConnection(); Statement statement = connection.createStatement();
-                 ResultSet result = statement.executeQuery(query)) {
-
-                if (result.next()) {
-                    addedRecipes.add(new Recipe(result.getLong("id_recipe"), result.getString("login"),
-                            result.getString("name"), result.getString("image_url"),
-                            result.getString("date_added"), result.getString(6),
-                            result.getString(7), result.getInt("cooking_time"), ingredients.getLast(),
-                            result.getString("description"), result.getString("recipe")));
-                }
-
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
-                return user;
-            }
-        }
-
-        idRecipes = new LinkedList<>();
-
-        query = "SELECT id_recipe FROM saved_recipes WHERE id_user = " + idUser;
-
-        try (Connection connection = getConnection(); Statement statement = connection.createStatement();
-             ResultSet result = statement.executeQuery(query)) {
-
-            while (result.next()) {
-                idRecipes.add(result.getLong("id_recipe"));
-            }
-
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            return user;
-        }
-
-        ingredients = new LinkedList<>();
-        LinkedList<Recipe> savedRecipes = new LinkedList<>();
-
-        for (Long id : idRecipes) {
-
-            query = "SELECT * FROM ingredients WHERE id_recipe = " + id;
-
-            try (Connection connection = getConnection(); Statement statement = connection.createStatement();
-                 ResultSet result = statement.executeQuery(query)) {
-
-                ingredients.add(new LinkedList<>());
-                while (result.next()) {
-                    ingredients.getLast().add(new Ingredient(result.getLong("id_ingredient"),
-                            result.getLong("id_recipe"), result.getString("name"),
-                            result.getDouble("grams")));
-                }
-
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
-                return user;
-            }
-
-            query = "SELECT id_recipe, users.login, recipes.name, image_url, date_added, cuisines.name, " +
-                    "categories.name, cooking_time, description, recipe FROM recipes " +
-                    "JOIN users ON recipes.id_user = users.id_user " +
-                    "JOIN cuisines ON recipes.cuisine = cuisines.id_cuisine " +
-                    "JOIN categories ON recipes.category = categories.id_category " +
-                    "WHERE id_recipe = " + id;
-
-            try (Connection connection = getConnection(); Statement statement = connection.createStatement();
-                 ResultSet result = statement.executeQuery(query)) {
-
-                if (result.next()) {
-                    savedRecipes.add(new Recipe(result.getLong("id_recipe"), result.getString("login"),
-                            result.getString("name"), result.getString("image_url"),
-                            result.getString("date_added"), result.getString(6),
-                            result.getString(7), result.getInt("cooking_time"), ingredients.getLast(),
-                            result.getString("description"), result.getString("recipe")));
-                }
-
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
-                return user;
-            }
-        }
-
-        query = "SELECT * FROM users WHERE login = \'" +  login + "\'";
-
-        try (Connection connection = getConnection(); Statement statement = connection.createStatement();
-             ResultSet result = statement.executeQuery(query)) {
-
-            if (result.next()) {
-                user = new User(result.getLong("id_user"), result.getString("login"),
-                        result.getString("password"), result.getString("email"), addedRecipes, savedRecipes);
-            }
-
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-
-        return user;
+        return getUser(login, password);
     }
 
     public User getUserByEmail(String email) {
 
-        User user = null;
-        Long idUser = null;
+        String login = null;
+        String password = null;
 
         String query = "SELECT * FROM users WHERE email = \'" +  email + "\'";
 
-        try (Connection connection = getConnection(); Statement statement = connection.createStatement();
+        try (Connection connection = dataSource.getConnection(); Statement statement = connection.createStatement();
              ResultSet result = statement.executeQuery(query)) {
 
             if (result.next()) {
-                idUser = result.getLong("id_user");
+                login = result.getString("login");
+                password = result.getString("password");
             }
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+            return null;
         }
 
-        LinkedList<Long> idRecipes = new LinkedList<>();
-
-        query = "SELECT id_recipe FROM recipes WHERE id_user = " + idUser;
-
-        try (Connection connection = getConnection(); Statement statement = connection.createStatement();
-             ResultSet result = statement.executeQuery(query)) {
-
-            while (result.next()) {
-                idRecipes.add(result.getLong("id_recipe"));
-            }
-
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            return user;
-        }
-
-        LinkedList<LinkedList<Ingredient>> ingredients = new LinkedList<>();
-        LinkedList<Recipe> addedRecipes = new LinkedList<>();
-
-        for (Long id : idRecipes) {
-
-            query = "SELECT * FROM ingredients WHERE id_recipe = " + id;
-
-            try (Connection connection = getConnection(); Statement statement = connection.createStatement();
-                 ResultSet result = statement.executeQuery(query)) {
-
-                ingredients.add(new LinkedList<>());
-                while (result.next()) {
-                    ingredients.getLast().add(new Ingredient(result.getLong("id_ingredient"),
-                            result.getLong("id_recipe"), result.getString("name"),
-                            result.getDouble("grams")));
-                }
-
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
-                return user;
-            }
-
-            query = "SELECT id_recipe, users.login, recipes.name, image_url, date_added, cuisines.name, " +
-                    "categories.name, cooking_time, description, recipe FROM recipes " +
-                    "JOIN users ON recipes.id_user = users.id_user " +
-                    "JOIN cuisines ON recipes.cuisine = cuisines.id_cuisine " +
-                    "JOIN categories ON recipes.category = categories.id_category " +
-                    "WHERE id_recipe = " + id;
-
-            try (Connection connection = getConnection(); Statement statement = connection.createStatement();
-                 ResultSet result = statement.executeQuery(query)) {
-
-                if (result.next()) {
-                    addedRecipes.add(new Recipe(result.getLong("id_recipe"), result.getString("login"),
-                            result.getString("name"), result.getString("image_url"),
-                            result.getString("date_added"), result.getString(6),
-                            result.getString(7), result.getInt("cooking_time"), ingredients.getLast(),
-                            result.getString("description"), result.getString("recipe")));
-                }
-
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
-                return user;
-            }
-        }
-
-        idRecipes = new LinkedList<>();
-
-        query = "SELECT id_recipe FROM saved_recipes WHERE id_user = " + idUser;
-
-        try (Connection connection = getConnection(); Statement statement = connection.createStatement();
-             ResultSet result = statement.executeQuery(query)) {
-
-            while (result.next()) {
-                idRecipes.add(result.getLong("id_recipe"));
-            }
-
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            return user;
-        }
-
-        ingredients = new LinkedList<>();
-        LinkedList<Recipe> savedRecipes = new LinkedList<>();
-
-        for (Long id : idRecipes) {
-
-            query = "SELECT * FROM ingredients WHERE id_recipe = " + id;
-
-            try (Connection connection = getConnection(); Statement statement = connection.createStatement();
-                 ResultSet result = statement.executeQuery(query)) {
-
-                ingredients.add(new LinkedList<>());
-                while (result.next()) {
-                    ingredients.getLast().add(new Ingredient(result.getLong("id_ingredient"),
-                            result.getLong("id_recipe"), result.getString("name"),
-                            result.getDouble("grams")));
-                }
-
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
-                return user;
-            }
-
-            query = "SELECT id_recipe, users.login, recipes.name, image_url, date_added, cuisines.name, " +
-                    "categories.name, cooking_time, description, recipe FROM recipes " +
-                    "JOIN users ON recipes.id_user = users.id_user " +
-                    "JOIN cuisines ON recipes.cuisine = cuisines.id_cuisine " +
-                    "JOIN categories ON recipes.category = categories.id_category " +
-                    "WHERE id_recipe = " + id;
-
-            try (Connection connection = getConnection(); Statement statement = connection.createStatement();
-                 ResultSet result = statement.executeQuery(query)) {
-
-                if (result.next()) {
-                    savedRecipes.add(new Recipe(result.getLong("id_recipe"), result.getString("login"),
-                            result.getString("name"), result.getString("image_url"),
-                            result.getString("date_added"), result.getString(6),
-                            result.getString(7), result.getInt("cooking_time"), ingredients.getLast(),
-                            result.getString("description"), result.getString("recipe")));
-                }
-
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
-                return user;
-            }
-        }
-
-        query = "SELECT * FROM users WHERE email = \'" +  email + "\'";
-
-        try (Connection connection = getConnection(); Statement statement = connection.createStatement();
-             ResultSet result = statement.executeQuery(query)) {
-
-            if (result.next()) {
-                user = new User(result.getLong("id_user"), result.getString("login"),
-                        result.getString("password"), result.getString("email"), addedRecipes, savedRecipes);
-            }
-
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-
-        return user;
+        return getUser(login, password);
     }
 
     public LinkedList<Category> getAllCategories() {
@@ -542,7 +214,7 @@ public class RecipeWebsiteRepository
 
         String query = "SELECT * FROM categories";
 
-        try (Connection connection = getConnection(); Statement statement = connection.createStatement();
+        try (Connection connection = dataSource.getConnection(); Statement statement = connection.createStatement();
              ResultSet result = statement.executeQuery(query);) {
 
             while (result.next()) {
@@ -562,7 +234,7 @@ public class RecipeWebsiteRepository
 
         String query = "SELECT * FROM categories WHERE name = \'" +  name + "\'";
 
-        try (Connection connection = getConnection(); Statement statement = connection.createStatement();
+        try (Connection connection = dataSource.getConnection(); Statement statement = connection.createStatement();
              ResultSet result = statement.executeQuery(query)) {
 
             if (result.next()) {
@@ -582,7 +254,7 @@ public class RecipeWebsiteRepository
 
         String query = "SELECT * FROM cuisines";
 
-        try (Connection connection = getConnection(); Statement statement = connection.createStatement();
+        try (Connection connection = dataSource.getConnection(); Statement statement = connection.createStatement();
              ResultSet result = statement.executeQuery(query)) {
 
             while (result.next()) {
@@ -602,7 +274,7 @@ public class RecipeWebsiteRepository
 
         String query = "SELECT * FROM cuisines WHERE name = \'" +  name + "\'";
 
-        try (Connection connection = getConnection(); Statement statement = connection.createStatement();
+        try (Connection connection = dataSource.getConnection(); Statement statement = connection.createStatement();
              ResultSet result = statement.executeQuery(query);) {
 
             if (result.next()) {
@@ -621,7 +293,7 @@ public class RecipeWebsiteRepository
         String query = "INSERT INTO ingredients (id_recipe, name, grams) VALUES (" + ingredient.getIdRecipe() +
                 ", \'" + ingredient.getName() + "\', " + ingredient.getGrams() + ")";
 
-        try (Connection connection = getConnection(); Statement statement = connection.createStatement()) {
+        try (Connection connection = dataSource.getConnection(); Statement statement = connection.createStatement()) {
 
             statement.execute(query);
 
@@ -644,7 +316,7 @@ public class RecipeWebsiteRepository
                 "\', \'" + recipe.getDateAdded() + "\', " + idCuisine + ", " + idCategory + ", " + recipe.getCookingTime() +
                 ", \'" + recipe.getDescription() + "\', \'" + recipe.getRecipe() + "\')";
 
-        try (Connection connection = getConnection(); Statement statement = connection.createStatement()) {
+        try (Connection connection = dataSource.getConnection(); Statement statement = connection.createStatement()) {
 
             statement.execute(query);
 
@@ -665,194 +337,86 @@ public class RecipeWebsiteRepository
 
     public Recipe getRecipe(String name) {
 
-        Recipe recipe = null;
-        LinkedList<Ingredient> ingredients = new LinkedList<>();
+        Long idRecipe = null;
 
-        String query = "SELECT * FROM ingredients " +
-                "JOIN recipes ON ingredients.id_recipe = recipes.id_recipe " +
-                "WHERE recipes.name = \'" + name + "\'";
+        String query = "SELECT * FROM recipes WHERE recipes.name = \'" + name + "\'";
 
-        try (Connection connection = getConnection(); Statement statement = connection.createStatement();
-             ResultSet result = statement.executeQuery(query)) {
-
-            while (result.next()) {
-                ingredients.add(new Ingredient(result.getLong("id_ingredient"),
-                        result.getLong("id_recipe"), result.getString("name"),
-                        result.getDouble("grams")));
-            }
-
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            return recipe;
-        }
-
-        query = "SELECT id_recipe, users.login, recipes.name, image_url, date_added, cuisines.name, " +
-                "categories.name, cooking_time, description, recipe FROM recipes " +
-                "JOIN users ON recipes.id_user = users.id_user " +
-                "JOIN cuisines ON recipes.cuisine = cuisines.id_cuisine " +
-                "JOIN categories ON recipes.category = categories.id_category " +
-                "WHERE recipes.name = \'" + name + "\'";
-
-        try (Connection connection = getConnection(); Statement statement = connection.createStatement();
+        try (Connection connection = dataSource.getConnection(); Statement statement = connection.createStatement();
              ResultSet result = statement.executeQuery(query)) {
 
             if (result.next()) {
-                recipe = new Recipe(result.getLong("id_recipe"), result.getString("login"),
-                        result.getString("name"), result.getString("image_url"),
-                        result.getString("date_added"), result.getString(6),
-                        result.getString(7), result.getInt("cooking_time"), ingredients,
-                        result.getString("description"),  result.getString("recipe"));
+                idRecipe = result.getLong("id_recipe");
             }
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+            return null;
         }
 
-        return recipe;
+        return getRecipe(idRecipe);
     }
 
     public Recipe getRecipeByUrl(String url) {
 
-        Recipe recipe = null;
-        LinkedList<Ingredient> ingredients = new LinkedList<>();
+        Long idRecipe = null;
 
-        String query = "SELECT * FROM ingredients " +
-                "JOIN recipes ON ingredients.id_recipe = recipes.id_recipe " +
-                "WHERE recipes.image_url = \'" + url + "\'";
+        String query = "SELECT * FROM recipes WHERE recipes.image_url = \'" + url + "\'";
 
-        try (Connection connection = getConnection(); Statement statement = connection.createStatement();
-             ResultSet result = statement.executeQuery(query)) {
-
-            while (result.next()) {
-                ingredients.add(new Ingredient(result.getLong("id_ingredient"),
-                        result.getLong("id_recipe"), result.getString("name"),
-                        result.getDouble("grams")));
-            }
-
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            return recipe;
-        }
-
-        query = "SELECT id_recipe, users.login, recipes.name, image_url, date_added, cuisines.name, " +
-                "categories.name, cooking_time, description, recipe FROM recipes " +
-                "JOIN users ON recipes.id_user = users.id_user " +
-                "JOIN cuisines ON recipes.cuisine = cuisines.id_cuisine " +
-                "JOIN categories ON recipes.category = categories.id_category " +
-                "WHERE recipes.image_url = \'" + url + "\'";
-
-        try (Connection connection = getConnection(); Statement statement = connection.createStatement();
+        try (Connection connection = dataSource.getConnection(); Statement statement = connection.createStatement();
              ResultSet result = statement.executeQuery(query)) {
 
             if (result.next()) {
-                recipe = new Recipe(result.getLong("id_recipe"), result.getString("login"),
-                        result.getString("name"), result.getString("image_url"),
-                        result.getString("date_added"), result.getString(6),
-                        result.getString(7), result.getInt("cooking_time"), ingredients,
-                        result.getString("description"),  result.getString("recipe"));
+                idRecipe = result.getLong("id_recipe");
             }
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+            return null;
         }
 
-        return recipe;
+        return getRecipe(idRecipe);
     }
 
     public Recipe getRecipeByDescription(String description) {
 
-        Recipe recipe = null;
-        LinkedList<Ingredient> ingredients = new LinkedList<>();
+        Long idRecipe = null;
 
-        String query = "SELECT * FROM ingredients " +
-                "JOIN recipes ON ingredients.id_recipe = recipes.id_recipe " +
-                "WHERE recipes.description = \'" + description + "\'";
+        String query = "SELECT * FROM recipes WHERE recipes.description = \'" + description + "\'";
 
-        try (Connection connection = getConnection(); Statement statement = connection.createStatement();
-             ResultSet result = statement.executeQuery(query)) {
-
-            while (result.next()) {
-                ingredients.add(new Ingredient(result.getLong("id_ingredient"),
-                        result.getLong("id_recipe"), result.getString("name"),
-                        result.getDouble("grams")));
-            }
-
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            return recipe;
-        }
-
-        query = "SELECT id_recipe, users.login, recipes.name, image_url, date_added, cuisines.name, " +
-                "categories.name, cooking_time, description, recipe FROM recipes " +
-                "JOIN users ON recipes.id_user = users.id_user " +
-                "JOIN cuisines ON recipes.cuisine = cuisines.id_cuisine " +
-                "JOIN categories ON recipes.category = categories.id_category " +
-                "WHERE recipes.description = \'" + description + "\'";
-
-        try (Connection connection = getConnection(); Statement statement = connection.createStatement();
+        try (Connection connection = dataSource.getConnection(); Statement statement = connection.createStatement();
              ResultSet result = statement.executeQuery(query)) {
 
             if (result.next()) {
-                recipe = new Recipe(result.getLong("id_recipe"), result.getString("login"),
-                        result.getString("name"), result.getString("image_url"),
-                        result.getString("date_added"), result.getString(6),
-                        result.getString(7), result.getInt("cooking_time"), ingredients,
-                        result.getString("description"),  result.getString("recipe"));
+                idRecipe = result.getLong("id_recipe");
             }
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+            return null;
         }
 
-        return recipe;
+        return getRecipe(idRecipe);
     }
 
     public Recipe getRecipeByStepByStepRecipe(String stepByStepRecipe) {
 
-        Recipe recipe = null;
-        LinkedList<Ingredient> ingredients = new LinkedList<>();
+        Long idRecipe = null;
 
-        String query = "SELECT * FROM ingredients " +
-                "JOIN recipes ON ingredients.id_recipe = recipes.id_recipe " +
-                "WHERE recipes.recipe = \'" + stepByStepRecipe + "\'";
+        String query = "SELECT * FROM recipes WHERE recipes.recipe = \'" + stepByStepRecipe + "\'";
 
-        try (Connection connection = getConnection(); Statement statement = connection.createStatement();
-             ResultSet result = statement.executeQuery(query)) {
-
-            while (result.next()) {
-                ingredients.add(new Ingredient(result.getLong("id_ingredient"),
-                        result.getLong("id_recipe"), result.getString("name"),
-                        result.getDouble("grams")));
-            }
-
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            return recipe;
-        }
-
-        query = "SELECT id_recipe, users.login, recipes.name, image_url, date_added, cuisines.name, " +
-                "categories.name, cooking_time, description, recipe FROM recipes " +
-                "JOIN users ON recipes.id_user = users.id_user " +
-                "JOIN cuisines ON recipes.cuisine = cuisines.id_cuisine " +
-                "JOIN categories ON recipes.category = categories.id_category " +
-                "WHERE recipes.recipe = \'" + stepByStepRecipe + "\'";
-
-        try (Connection connection = getConnection(); Statement statement = connection.createStatement();
+        try (Connection connection = dataSource.getConnection(); Statement statement = connection.createStatement();
              ResultSet result = statement.executeQuery(query)) {
 
             if (result.next()) {
-                recipe = new Recipe(result.getLong("id_recipe"), result.getString("login"),
-                        result.getString("name"), result.getString("image_url"),
-                        result.getString("date_added"), result.getString(6),
-                        result.getString(7), result.getInt("cooking_time"), ingredients,
-                        result.getString("description"),  result.getString("recipe"));
+                idRecipe = result.getLong("id_recipe");
             }
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+            return null;
         }
 
-        return recipe;
+        return getRecipe(idRecipe);
     }
 
     public boolean saveRecipe(String login, String name) {
@@ -862,7 +426,7 @@ public class RecipeWebsiteRepository
 
         String query = "INSERT INTO saved_recipes (id_user, id_recipe) VALUES (" + idUser + ", " + idRecipe + ")";
 
-        try (Connection connection = getConnection(); Statement statement = connection.createStatement()) {
+        try (Connection connection = dataSource.getConnection(); Statement statement = connection.createStatement()) {
 
             statement.execute(query);
 
@@ -876,13 +440,13 @@ public class RecipeWebsiteRepository
 
     public LinkedList<Recipe> getLastRecipes(Integer count) {
 
-        LinkedList<Long> idRecipes = new LinkedList<>();
         LinkedList<Recipe> recipes = new LinkedList<>();
-        LinkedList<LinkedList<Ingredient>> ingredients = new LinkedList<>();
+
+        LinkedList<Long> idRecipes = new LinkedList<>();
 
         String query = "SELECT id_recipe FROM recipes ORDER BY date_added DESC LIMIT " + count;
 
-        try (Connection connection = getConnection(); Statement statement = connection.createStatement();
+        try (Connection connection = dataSource.getConnection(); Statement statement = connection.createStatement();
              ResultSet result = statement.executeQuery(query)) {
 
             while (result.next()) {
@@ -894,56 +458,17 @@ public class RecipeWebsiteRepository
             return recipes;
         }
 
-        for (Long id : idRecipes) {
-
-            query = "SELECT * FROM ingredients WHERE id_recipe = " + id;
-
-            try (Connection connection = getConnection(); Statement statement = connection.createStatement();
-                 ResultSet result = statement.executeQuery(query)) {
-
-                ingredients.add(new LinkedList<>());
-                while (result.next()) {
-                    ingredients.getLast().add(new Ingredient(result.getLong("id_ingredient"),
-                            result.getLong("id_recipe"), result.getString("name"),
-                            result.getDouble("grams")));
-                }
-
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
-                return recipes;
-            }
-
-            query = "SELECT id_recipe, users.login, recipes.name, image_url, date_added, cuisines.name, " +
-                    "categories.name, cooking_time, description, recipe FROM recipes " +
-                    "JOIN users ON recipes.id_user = users.id_user " +
-                    "JOIN cuisines ON recipes.cuisine = cuisines.id_cuisine " +
-                    "JOIN categories ON recipes.category = categories.id_category " +
-                    "WHERE id_recipe = " + id;
-
-            try (Connection connection = getConnection(); Statement statement = connection.createStatement();
-                 ResultSet result = statement.executeQuery(query)) {
-
-                if (result.next()) {
-                    recipes.add(new Recipe(result.getLong("id_recipe"), result.getString("login"),
-                            result.getString("name"), result.getString("image_url"),
-                            result.getString("date_added"), result.getString(6),
-                            result.getString(7), result.getInt("cooking_time"), ingredients.getLast(),
-                            result.getString("description"), result.getString("recipe")));
-                }
-
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
-                return recipes;
-            }
-        }
+        for (Long id : idRecipes)
+            recipes.add(getRecipe(id));
 
         return recipes;
     }
 
     public LinkedList<Recipe> getRecipes(String category, String cuisine) {
 
-        LinkedList<Long> idRecipes = new LinkedList<>();
         LinkedList<Recipe> recipes = new LinkedList<>();
+
+        LinkedList<Long> idRecipes = new LinkedList<>();
         LinkedList<LinkedList<Ingredient>> ingredients = new LinkedList<>();
 
         String query = "SELECT id_recipe FROM recipes " +
@@ -952,7 +477,7 @@ public class RecipeWebsiteRepository
                 "WHERE cuisines.name = \'" + cuisine + "\' AND categories.name = \'" + category + "\' " +
                 "ORDER BY date_added DESC";
 
-        try (Connection connection = getConnection(); Statement statement = connection.createStatement();
+        try (Connection connection = dataSource.getConnection(); Statement statement = connection.createStatement();
              ResultSet result = statement.executeQuery(query)) {
 
             while (result.next()) {
@@ -964,63 +489,24 @@ public class RecipeWebsiteRepository
             return recipes;
         }
 
-        for (Long id : idRecipes) {
-
-            query = "SELECT * FROM ingredients WHERE id_recipe = " + id;
-
-            try (Connection connection = getConnection(); Statement statement = connection.createStatement();
-                 ResultSet result = statement.executeQuery(query)) {
-
-                ingredients.add(new LinkedList<>());
-                while (result.next()) {
-                    ingredients.getLast().add(new Ingredient(result.getLong("id_ingredient"),
-                            result.getLong("id_recipe"), result.getString("name"),
-                            result.getDouble("grams")));
-                }
-
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
-                return recipes;
-            }
-
-            query = "SELECT id_recipe, users.login, recipes.name, image_url, date_added, cuisines.name, " +
-                    "categories.name, cooking_time, description, recipe FROM recipes " +
-                    "JOIN users ON recipes.id_user = users.id_user " +
-                    "JOIN cuisines ON recipes.cuisine = cuisines.id_cuisine " +
-                    "JOIN categories ON recipes.category = categories.id_category " +
-                    "WHERE id_recipe = " + id;
-
-            try (Connection connection = getConnection(); Statement statement = connection.createStatement();
-                 ResultSet result = statement.executeQuery(query)) {
-
-                if (result.next()) {
-                    recipes.add(new Recipe(result.getLong("id_recipe"), result.getString("login"),
-                            result.getString("name"), result.getString("image_url"),
-                            result.getString("date_added"), result.getString(6),
-                            result.getString(7), result.getInt("cooking_time"), ingredients.getLast(),
-                            result.getString("description"), result.getString("recipe")));
-                }
-
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
-                return recipes;
-            }
-        }
+        for (Long id : idRecipes)
+            recipes.add(getRecipe(id));
 
         return recipes;
     }
 
     public LinkedList<Recipe> getRecipes(String keywords) {
 
-        LinkedList<Long> idRecipes = new LinkedList<>();
         LinkedList<Recipe> recipes = new LinkedList<>();
+
+        LinkedList<Long> idRecipes = new LinkedList<>();
         LinkedList<LinkedList<Ingredient>> ingredients = new LinkedList<>();
 
         String query = "SELECT id_recipe FROM recipes " +
                 "WHERE name LIKE \'%" + keywords + "%\' " +
                 "ORDER BY date_added DESC";
 
-        try (Connection connection = getConnection(); Statement statement = connection.createStatement();
+        try (Connection connection = dataSource.getConnection(); Statement statement = connection.createStatement();
              ResultSet result = statement.executeQuery(query)) {
 
             while (result.next()) {
@@ -1032,48 +518,8 @@ public class RecipeWebsiteRepository
             return recipes;
         }
 
-        for (Long id : idRecipes) {
-
-            query = "SELECT * FROM ingredients WHERE id_recipe = " + id;
-
-            try (Connection connection = getConnection(); Statement statement = connection.createStatement();
-                 ResultSet result = statement.executeQuery(query)) {
-
-                ingredients.add(new LinkedList<>());
-                while (result.next()) {
-                    ingredients.getLast().add(new Ingredient(result.getLong("id_ingredient"),
-                            result.getLong("id_recipe"), result.getString("name"),
-                            result.getDouble("grams")));
-                }
-
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
-                return recipes;
-            }
-
-            query = "SELECT id_recipe, users.login, recipes.name, image_url, date_added, cuisines.name, " +
-                    "categories.name, cooking_time, description, recipe FROM recipes " +
-                    "JOIN users ON recipes.id_user = users.id_user " +
-                    "JOIN cuisines ON recipes.cuisine = cuisines.id_cuisine " +
-                    "JOIN categories ON recipes.category = categories.id_category " +
-                    "WHERE id_recipe = " + id;
-
-            try (Connection connection = getConnection(); Statement statement = connection.createStatement();
-                 ResultSet result = statement.executeQuery(query)) {
-
-                if (result.next()) {
-                    recipes.add(new Recipe(result.getLong("id_recipe"), result.getString("login"),
-                            result.getString("name"), result.getString("image_url"),
-                            result.getString("date_added"), result.getString(6),
-                            result.getString(7), result.getInt("cooking_time"), ingredients.getLast(),
-                            result.getString("description"), result.getString("recipe")));
-                }
-
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
-                return recipes;
-            }
-        }
+        for (Long id : idRecipes)
+            recipes.add(getRecipe(id));
 
         return recipes;
     }
@@ -1085,7 +531,7 @@ public class RecipeWebsiteRepository
 
         String query = "DELETE FROM saved_recipes WHERE id_user = " + idUser + " AND id_recipe = " + idRecipe;
 
-        try (Connection connection = getConnection(); Statement statement = connection.createStatement()) {
+        try (Connection connection = dataSource.getConnection(); Statement statement = connection.createStatement()) {
 
             statement.execute(query);
 
