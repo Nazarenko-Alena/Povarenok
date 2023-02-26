@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="Страница личного кабинета">
+    <meta name="keywords" content="Povarenok, рецепты, личный кабинет, html">
+    <title>Povarenok</title>
+    <link rel="stylesheet" href="b88d04fba731603756b1.css">
+<script defer src="index_bundle.js"></script><link href="index.css" rel="stylesheet"></head>
+
+<body>
+<div id="headerBlock">
+    <div> <a href="index.html"><img src="f2a2117476d37c9ac0aa.png" id="logoImage" alt="Логотип"> </a> </div>
+
+    <div id="textPovarenok"> Povarenok </div>
+
+    <div id="searchBlock">
+        <div> <img src="08805f613b93b7517ad1.png" id="lupa" alt=""> </div>
+
+        <div>
+            <input type="searchLine" placeholder="Поиск по рецептам" maxlength="100" required
+                   oninput="this.value = this.value.replace(/[^а-яёА-ЯЁ\s]/gi, '');"
+                   name="searchLine" id="searchLine">
+        </div>
+
+        <div>
+            <a href="searchRes.html"><button type="submit" id="findButton" name="findButton"> Найти </button> </a>
+        </div>
+    </div>
+
+    <div>
+        <img src="1972bb70f9eb2d4580a6.png" id="signInImage" alt="Пользователь">
+
+    </div>
+
+    <div id="textUserAccount"> Личный кабинет </div>
+
+</div>
+
+</div>
+    <a href="addRecipe.html">
+         <button type="submit" id="AddRecButton" name="AddRecButton"> Добавить рецепт</button>
+    </a>
+</div>
+
+<div class="blockUserRec" id="blockUserRecOne">
+    <div id="textUserRec"> Мои рецепты </div>
+</div>
+
+<div class="blockUserRec" id="blockUserRecTwo">
+    <div id="textFavUserRec"> Избранные рецепты </div>
+</div>
+
+</body>
+</html>

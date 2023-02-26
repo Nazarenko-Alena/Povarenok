@@ -5,8 +5,6 @@
   <meta name="description" content="Страница входа">
   <title>Povarenok</title>
   <link rel="stylesheet" href="/css/app.css">
-
-  <script type="text/javascript" src="../js/app.js"> </script>
 </head>
 <body>
     <div id="headerBlock">
@@ -17,17 +15,17 @@
     <div class="signInUpBlock" id="signInBlock">
       <div class="signInUpText" id="textSignIn"> Вход в личный кабинет </div>
 
-      <form action="user.html" method="post" onsubmit="isCorrectSignIn()"> <!-- Вместо user.html должна быть последняя открытая страница-->
+      <form id="signInForm" action="user.html" method="post">
         <div>
           <input class="inputSignInUp" type="text" placeholder="Введите логин" minlength="2" maxlength="30" required
                  oninput="this.value = this.value.replace(/[^а-яёЁa-zA-Z0-9\s]/gi, '');"
-                 name="inputLogin" id="inputLogin" onkeydown="toggleButtonSignIn()">
+                 name="inputLogin" id="inputLogin">
         </div>
 
         <div>
           <input class="inputSignInUp" type="password" placeholder="Введите пароль" minlength="8" maxlength="12" required
                  oninput="this.value = this.value.replace(/[^а-яёЁa-zA-Z0-9\s]/gi, '');"
-                 name="inputPassword" id="inputPassword" onkeydown="toggleButtonSignIn()">
+                 name="inputPassword" id="inputPassword">
         </div>
 
         <div>

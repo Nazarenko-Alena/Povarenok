@@ -6,7 +6,6 @@
     <meta name="description" content="Страница регистрации">
     <title>Povarenok</title>
     <link rel="stylesheet" href="/css/app.css">
-    <script type="text/javascript" src="../js/app.js"></script>
 </head>
 <body>
 <div id="headerBlock">
@@ -17,28 +16,27 @@
 <div class="signInUpBlock" id="signUpBlock">
     <div id="textSignUp" class="signInUpText"> Регистрация</div>
 
-    <form action="index.html" method="post" onsubmit="isCorrectSignUp()">
-        <!-- Вместо index.html должна быть последняя открытая страница-->
+    <form id="signUpForm" action="index.html" method="post">
         <div>
             <input class="inputSignInUp" type="text" placeholder="Введите логин" minlength="2" maxlength="30" required
                    oninput="this.value = this.value.replace(/[^а-яёЁa-zA-Z0-9\s]/gi, '');"
-                   name="signUpLogin" id="signUpLogin" onkeydown="toggleButtonSignUp()">
+                   name="signUpLogin" id="signUpLogin">
         </div>
 
         <div>
             <input class="inputSignInUp" type="text" placeholder="Введите пароль" minlength="8" maxlength="12" required
                    oninput="this.value = this.value.replace(/[^а-яёЁa-zA-Z0-9\s]/gi, '');"
-                   name="signUpPassword" id="signUpPassword" onkeydown="toggleButtonSignUp()">
+                   name="signUpPassword" id="signUpPassword">
         </div>
 
         <div>
             <input class="inputSignInUp" type="text" placeholder="Введите почту" minlength="4" maxlength="30" required
                    oninput="this.value = this.value.replace(/[^а-яёЁa-zA-Z0-9\s][/@][^а-яёЁa-zA-Z0-9\s][.][^а-яёЁa-zA-Z0-9\s]/gi, '');"
-                   name="signUpEmail" id="signUpEmail" onkeydown="toggleButtonSignUp()">
+                   name="signUpEmail" id="signUpEmail">
         </div>
 
         <div>
-            <button type="submit" onclick="postSignUpReq()" id="registerButton" name="registerButton" disabled>
+            <button type="submit" id="registerButton" name="registerButton" disabled>
                 Зарегистрироваться
             </button>
         </div>
