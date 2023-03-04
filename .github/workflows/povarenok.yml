@@ -28,4 +28,4 @@ jobs:
       run: mvn compile --file ./Backend/pom.xml
       
     - name: Test with Maven
-      run: mvn test
+      run: mvn test --file ./Backend/pom.xml
