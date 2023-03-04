@@ -6,10 +6,8 @@
   <meta name="keywords" content="Povarenok, рецепты, html">
   <title>Povarenok</title>
   <link rel="stylesheet" href="/css/app.css">
-  <script type="text/javascript" src="../js/app.js"> </script>
-    <script type="text/javascript" src="/js/jquery-3.6.2.js"></script>
 </head>
-<body onload="loadInfoIndexRec()">
+<body>
 
     <div id="headerBlock">
       <div> <a href="index.html"><img src="../img/logo.png" id="logoImage" alt="Логотип"> </a> </div>
@@ -26,7 +24,7 @@
         </div>
 
         <div>
-          <a href="searchRes.html"><button type="submit" onclick="searchKeywords()" id="findButton" name="findButton"> Найти </button> </a>
+          <a href="searchRes.html"><button type="submit" id="findButton" name="findButton"> Найти </button> </a>
         </div>
       </div>
 
@@ -53,7 +51,7 @@
 
     <div>
       <a href="searchRes.html">
-          <button type="submit" onclick="searchFilters()" id="applyButton" name="applyButton">
+          <button type="submit" id="applyButton" name="applyButton">
         Применить </button>
         </a>
     </div>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script type="text/javascript" src="9720463027fe1e61713f.js"></script>
+  <meta charset="utf-8">
+  <meta name="description" content="Страница описания рецепта">
+  <meta name="keywords" content="Povarenok, рецепты, html">
+  <title>Povarenok</title>
+  <link rel="stylesheet" href="b88d04fba731603756b1.css">
+
+<script defer src="index_bundle.js"></script><link href="index.css" rel="stylesheet"></head>
+<body>
+    <div id="headerBlock">
+      <div> <a href="index.html"><img src="f2a2117476d37c9ac0aa.png" id="logoImage" alt="Логотип"> </a> </div>
+
+      <div id="textPovarenok"> Povarenok </div>
+
+      <div id="searchBlock">
+        <div> <img src="08805f613b93b7517ad1.png" id="lupa" alt=""> </div>
+
+        <div>
+          <input type="searchLine" placeholder="Поиск по рецептам" maxlength="100" required
+                 oninput="this.value = this.value.replace(/[^а-яёА-ЯЁ\s]/gi, '');"
+                 name="searchLine" id="searchLine">
+        </div>
+
+        <div>
+          <a href="searchRes.html"><button type="submit" id="findButton" name="findButton"> Найти </button> </a>
+        </div>
+      </div>
+
+      <div>
+        <img src="1972bb70f9eb2d4580a6.png" id="signInImage" alt="Пользователь">
+      </div>
+    </div>
+
+    <div>
+      <textarea class="infoRec" name="infoNameRec" id="infoNameRec" readonly></textarea>
+    </div>
+
+    <div id="infoRecLeftBlock">
+      <div>
+        <textarea class="infoRec" name="infoDecRec" id="infoDecRec" readonly ></textarea>
+      </div>
+
+      <div id="infoIngBlock">
+        <div>
+          <div id="infoIngText"><b>Ингредиенты:</b></div>
+          <textarea class="infoRec" name="infoIngRec" id="infoIngRec" readonly ></textarea>
+      </div>
+      </div>
+
+      <div id="infoStepBlock">
+        <div>
+          <div id="infoStepText"><b>Способ приготовления:</b></div>
+          <textarea class="infoRec" name="infoStepRec" id="infoStepRec" readonly ></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div id="infoRecRightBlock">
+      <div> <img class="recImage" id="infoRecImage" alt="Изображение рецепта"> </div>
+      <div>
+        <div id="catBlockInfoRec">
+          <div><b>Категория:</b></div>
+          <div name="infoCatRec" id="infoCatRec" ></div>
+        </div>
+
+        <div id="typeCusBlockInfoRec">
+          <div><b>Тип кухни:</b></div>
+          <div name="infoTypeCusRec" id="infoTypeCusRec" ></div>
+        </div>
+
+        <div id="authorBlockInfoRec">
+          <div><b>Автор:</b></div>
+          <div name="infoAuthorRec" id="infoAuthorRec" ></div>
+        </div>
+
+        <div id="timeCookingBlockInfoRec">
+          <div><b>Время приготовления:</b></div>
+          <div name="infoTimeCookingRec" id="infoTimeCookingRec" ></div>
+        </div>
+
+        <div id="dateBlockInfoRec">
+          <div><b>Дата добавления:</b></div>
+          <div name="infoDateRec" id="infoDateRec" ></div>
+        </div>
+
+        <div>
+          <button type="submit" id="addFavorites" name="addFavorites" >
+            Добавить в избранное</button>
+        </div>
+      </div>
+    </div>
+
+
+</body>
+</html>
