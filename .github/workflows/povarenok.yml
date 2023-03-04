@@ -1,0 +1,31 @@
+name: Povarenok CI
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+
+  init:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    
+    - name: Get repository code
+      uses: actions/checkout@v3
+      
+    - name: Set up JDK 11
+      uses: actions/setup-java@v3
+      with:
+        java-version: '11'
+        distribution: 'corretto'
+        cache: maven
+        
+    - name: Compile with Maven
+      run: mvn compile
+      
+    - name: Test with Maven
+      run: mvn test
