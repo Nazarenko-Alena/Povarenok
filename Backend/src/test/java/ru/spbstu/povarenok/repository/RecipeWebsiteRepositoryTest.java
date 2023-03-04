@@ -1,21 +1,24 @@
 package ru.spbstu.povarenok.repository;
 
-import org.junit.Test;
-import org.junit.Before;
-import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.mockito.junit.jupiter.MockitoExtension;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.lenient;
+import static org.mockito.Mockito.when;
 import org.mockito.Mock;
+
 import org.postgresql.ds.PGSimpleDataSource;
+
+import java.util.LinkedList;
+import java.sql.*;
+
 import ru.spbstu.povarenok.model.*;
 
-import java.sql.*;
-import java.util.LinkedList;
-
-import static org.junit.Assert.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
-
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class RecipeWebsiteRepositoryTest {
 
     @Mock
@@ -46,13 +49,13 @@ public class RecipeWebsiteRepositoryTest {
     private LinkedList<Category> categories;
     private LinkedList<Cuisine> cuisines;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         repository = new RecipeWebsiteRepository(dataSource);
 
         when(dataSource.getConnection()).thenReturn(connection);
         when(connection.createStatement()).thenReturn(statement);
-        when(statement.executeQuery(any(String.class))).thenReturn(result);
+        lenient().when(statement.executeQuery(any(String.class))).thenReturn(result);
 
         // Создаём пользователя для тестирования
 
@@ -104,13 +107,13 @@ public class RecipeWebsiteRepositoryTest {
     public void addUserTest() throws SQLException {
 
         boolean actualResult = repository.addUser(user);
-        assertEquals(true, actualResult);
+        assertTrue(actualResult);
 
 
         SQLException ex = new SQLException();
         when(statement.execute(any(String.class))).thenThrow(ex);
         actualResult = repository.addUser(user);
-        assertEquals(false, actualResult);
+        assertFalse(actualResult);
     }
 
     @Test
@@ -193,7 +196,7 @@ public class RecipeWebsiteRepositoryTest {
         SQLException ex = new SQLException();
         when(result.next()).thenThrow(ex);
         actualRecipe = repository.getRecipe(1L);
-        assertEquals(null, actualRecipe);
+        assertNull(actualRecipe);
     }
 
     @Test
@@ -390,7 +393,7 @@ public class RecipeWebsiteRepositoryTest {
         SQLException ex = new SQLException();
         when(result.next()).thenThrow(ex);
         Category actualCategory = repository.getCategory(categories.get(0).getName());
-        assertEquals(null, actualCategory);
+        assertNull(actualCategory);
     }
 
     @Test
@@ -435,7 +438,7 @@ public class RecipeWebsiteRepositoryTest {
         SQLException ex = new SQLException();
         when(result.next()).thenThrow(ex);
         Cuisine actualCuisine = repository.getCuisine(cuisines.get(0).getName());
-        assertEquals(null, actualCuisine);
+        assertNull(actualCuisine);
     }
 
     @Test
@@ -443,14 +446,14 @@ public class RecipeWebsiteRepositoryTest {
 
         for (Ingredient ingredient : ingredients) {
             boolean actualResult = repository.addIngredient(ingredient);
-            assertEquals(true, actualResult);
+            assertTrue(actualResult);
         }
 
 
         SQLException ex = new SQLException();
         when(statement.execute(any(String.class))).thenThrow(ex);
         boolean actualResult = repository.addIngredient(ingredient1);
-        assertEquals(false, actualResult);
+        assertFalse(actualResult);
     }
 
     @Test
@@ -502,10 +505,14 @@ public class RecipeWebsiteRepositoryTest {
         assertEquals(recipe1.getDescription(), actualRecipe.getDescription());
         assertEquals(recipe1.getRecipe(), actualRecipe.getRecipe());
 
+        when(result.next()).thenReturn(false);
+        actualRecipe = repository.getRecipe(recipe1.getName());
+        assertNull(actualRecipe);
+
         SQLException ex = new SQLException();
         when(result.next()).thenThrow(ex);
         actualRecipe = repository.getRecipe(recipe1.getName());
-        assertEquals(null, actualRecipe);
+        assertNull(actualRecipe);
     }
 
     @Test
@@ -557,10 +564,14 @@ public class RecipeWebsiteRepositoryTest {
         assertEquals(recipe1.getDescription(), actualRecipe.getDescription());
         assertEquals(recipe1.getRecipe(), actualRecipe.getRecipe());
 
+        when(result.next()).thenReturn(false);
+        actualRecipe = repository.getRecipeByUrl(recipe1.getImageUrl());
+        assertNull(actualRecipe);
+
         SQLException ex = new SQLException();
         when(result.next()).thenThrow(ex);
         actualRecipe = repository.getRecipeByUrl(recipe1.getImageUrl());
-        assertEquals(null, actualRecipe);
+        assertNull(actualRecipe);
     }
 
     @Test
@@ -612,10 +623,14 @@ public class RecipeWebsiteRepositoryTest {
         assertEquals(recipe1.getDescription(), actualRecipe.getDescription());
         assertEquals(recipe1.getRecipe(), actualRecipe.getRecipe());
 
+        when(result.next()).thenReturn(false);
+        actualRecipe = repository.getRecipeByDescription(recipe1.getDescription());
+        assertNull(actualRecipe);
+
         SQLException ex = new SQLException();
         when(result.next()).thenThrow(ex);
         actualRecipe = repository.getRecipeByDescription(recipe1.getDescription());
-        assertEquals(null, actualRecipe);
+        assertNull(actualRecipe);
     }
 
     @Test
@@ -667,10 +682,14 @@ public class RecipeWebsiteRepositoryTest {
         assertEquals(recipe1.getDescription(), actualRecipe.getDescription());
         assertEquals(recipe1.getRecipe(), actualRecipe.getRecipe());
 
+        when(result.next()).thenReturn(false);
+        actualRecipe = repository.getRecipeByStepByStepRecipe(recipe1.getRecipe());
+        assertNull(actualRecipe);
+
         SQLException ex = new SQLException();
         when(result.next()).thenThrow(ex);
         actualRecipe = repository.getRecipeByStepByStepRecipe(recipe1.getRecipe());
-        assertEquals(null, actualRecipe);
+        assertNull(actualRecipe);
     }
 
     @Test

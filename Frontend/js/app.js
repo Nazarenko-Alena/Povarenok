@@ -146,4 +146,3 @@ if(userHTML.test(document.location.href)){
         }
     }
 }
-

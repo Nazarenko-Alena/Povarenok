@@ -1,31 +1,29 @@
 package ru.spbstu.povarenok.service;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.mockito.junit.jupiter.MockitoExtension;
+import static org.mockito.Mockito.when;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.server.ResponseStatusException;
-import ru.spbstu.povarenok.model.*;
-import ru.spbstu.povarenok.repository.RecipeWebsiteRepository;
 
 import java.util.LinkedList;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.when;
-
-
 import org.apache.commons.io.FileUtils;
-
-import java.io.File;
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.io.IOException;
+import java.io.File;
 
-@RunWith(MockitoJUnitRunner.class)
+import ru.spbstu.povarenok.repository.RecipeWebsiteRepository;
+import ru.spbstu.povarenok.model.*;
+
+@ExtendWith(MockitoExtension.class)
 public class RecipeWebsiteControllerTest {
 
     private RecipeWebsiteController controller;
@@ -48,7 +46,7 @@ public class RecipeWebsiteControllerTest {
     private LinkedList<Recipe> recipesWithIncorrectRecipe;
 
 
-    @Before
+    @BeforeEach
     public void setUp() throws IOException {
         controller = new RecipeWebsiteController(repository);
 
@@ -132,6 +130,9 @@ public class RecipeWebsiteControllerTest {
         cuisines.add(new Cuisine(2L, "Русская"));
         cuisines.add(new Cuisine(3L, "Итальянская"));
 
+        //        Double ingredientGramsLength5 = 30000.0;
+        //        String descriptionLess500 = "Ароматный борщ, который подаётся с пампушками";
+        //        String recipeLess5000 = "Порезать капусту и лук, сварить";
 
         // Создаем рецепты для тестирования
 
@@ -147,16 +148,13 @@ public class RecipeWebsiteControllerTest {
                 "капуста капуста капуста капуста капуста капу";
 
         Double ingredientGramsLengthLess5 = 10.0;
-//        Double ingredientGramsLength5 = 30000.0;
         Double ingredientGramsLength5 = 300.0;
 
-//        String descriptionLess500 = "Ароматный борщ, который подаётся с пампушками";
         String descriptionLess500 = "Ароматный борщ который подаётся с пампушками";
         String description500 = FileUtils.readFileToString(new File("500.txt"), StandardCharsets.UTF_8);
 
-//        String recipeLess5000 = "Порезать капусту и лук, сварить";
         String recipeLess5000 = "Порезать капусту и лук сварить";
-        String recipe5000 = FileUtils.readFileToString(new File("5000.txt"), StandardCharsets.UTF_8);;
+        String recipe5000 = FileUtils.readFileToString(new File("5000.txt"), StandardCharsets.UTF_8);
 
         LinkedList< Ingredient > ingredients1 = new LinkedList<>();
         ingredients1.add(new Ingredient(1L, 1L,
@@ -249,11 +247,10 @@ public class RecipeWebsiteControllerTest {
         String actualMessage;
 
         for (User user : usersWithIncorrectLogin) {
-            exception = assertThrows(ResponseStatusException.class, () -> {
-                controller.registerUser(user);
-            });
+            exception = assertThrows(ResponseStatusException.class, () -> controller.registerUser(user));
             actualMessage = exception.getMessage();
 
+            assert actualMessage != null;
             assertTrue(actualMessage.contains(expectedMessage));
         }
 
@@ -261,11 +258,10 @@ public class RecipeWebsiteControllerTest {
                 "and contain only numbers and Russian or English letters!";
 
         for (User user : usersWithIncorrectPassword) {
-            exception = assertThrows(ResponseStatusException.class, () -> {
-                controller.registerUser(user);
-            });
+            exception = assertThrows(ResponseStatusException.class, () -> controller.registerUser(user));
             actualMessage = exception.getMessage();
 
+            assert actualMessage != null;
             assertTrue(actualMessage.contains(expectedMessage));
         }
 
@@ -273,11 +269,10 @@ public class RecipeWebsiteControllerTest {
                 "and match the template ***@***.*** (*** - any number of characters)!";
 
         for (User user : usersWithIncorrectEmail) {
-            exception = assertThrows(ResponseStatusException.class, () -> {
-                controller.registerUser(user);
-            });
+            exception = assertThrows(ResponseStatusException.class, () -> controller.registerUser(user));
             actualMessage = exception.getMessage();
 
+            assert actualMessage != null;
             assertTrue(actualMessage.contains(expectedMessage));
         }
 
@@ -288,11 +283,10 @@ public class RecipeWebsiteControllerTest {
 
         when(repository.getUser(correctUser.getLogin())).thenReturn(correctUser);
 
-        exception = assertThrows(ResponseStatusException.class, () -> {
-            controller.registerUser(correctUser);
-        });
+        exception = assertThrows(ResponseStatusException.class, () -> controller.registerUser(correctUser));
         actualMessage = exception.getMessage();
 
+        assert actualMessage != null;
         assertTrue(actualMessage.contains(expectedMessage));
 
         expectedMessage = "User with this email already exists!";
@@ -300,11 +294,10 @@ public class RecipeWebsiteControllerTest {
         when(repository.getUser(correctUser.getLogin())).thenReturn(null);
         when(repository.getUserByEmail(correctUser.getEmail())).thenReturn(correctUser);
 
-        exception = assertThrows(ResponseStatusException.class, () -> {
-            controller.registerUser(correctUser);
-        });
+        exception = assertThrows(ResponseStatusException.class, () -> controller.registerUser(correctUser));
         actualMessage = exception.getMessage();
 
+        assert actualMessage != null;
         assertTrue(actualMessage.contains(expectedMessage));
 
 
@@ -313,11 +306,10 @@ public class RecipeWebsiteControllerTest {
         when(repository.getUserByEmail(correctUser.getEmail())).thenReturn(null);
         when(repository.addUser(correctUser)).thenReturn(false);
 
-        exception = assertThrows(ResponseStatusException.class, () -> {
-            controller.registerUser(correctUser);
-        });
+        exception = assertThrows(ResponseStatusException.class, () -> controller.registerUser(correctUser));
         actualMessage = exception.getMessage();
 
+        assert actualMessage != null;
         assertTrue(actualMessage.contains(expectedMessage));
 
 
@@ -340,11 +332,10 @@ public class RecipeWebsiteControllerTest {
         String actualMessage;
 
         for (User user : usersWithIncorrectLogin) {
-            exception = assertThrows(ResponseStatusException.class, () -> {
-                controller.getUser(user.getLogin(), user.getPassword());
-            });
+            exception = assertThrows(ResponseStatusException.class, () -> controller.getUser(user.getLogin(), user.getPassword()));
             actualMessage = exception.getMessage();
 
+            assert actualMessage != null;
             assertTrue(actualMessage.contains(expectedMessage));
         }
 
@@ -352,11 +343,10 @@ public class RecipeWebsiteControllerTest {
                 "and contain only numbers and Russian or English letters!";
 
         for (User user : usersWithIncorrectPassword) {
-            exception = assertThrows(ResponseStatusException.class, () -> {
-                controller.getUser(user.getLogin(), user.getPassword());
-            });
+            exception = assertThrows(ResponseStatusException.class, () -> controller.getUser(user.getLogin(), user.getPassword()));
             actualMessage = exception.getMessage();
 
+            assert actualMessage != null;
             assertTrue(actualMessage.contains(expectedMessage));
         }
 
@@ -390,11 +380,10 @@ public class RecipeWebsiteControllerTest {
         String actualMessage;
 
         for (User user : usersWithIncorrectLogin) {
-            exception = assertThrows(ResponseStatusException.class, () -> {
-                controller.getUser(user.getLogin());
-            });
+            exception = assertThrows(ResponseStatusException.class, () -> controller.getUser(user.getLogin()));
             actualMessage = exception.getMessage();
 
+            assert actualMessage != null;
             assertTrue(actualMessage.contains(expectedMessage));
         }
 
@@ -466,11 +455,10 @@ public class RecipeWebsiteControllerTest {
         String actualMessage;
 
         for (Recipe recipe : recipesWithIncorrectName) {
-            exception = assertThrows(ResponseStatusException.class, () -> {
-                controller.addRecipe(recipe);
-            });
+            exception = assertThrows(ResponseStatusException.class, () -> controller.addRecipe(recipe));
             actualMessage = exception.getMessage();
 
+            assert actualMessage != null;
             assertTrue(actualMessage.contains(expectedMessage));
         }
 
@@ -478,32 +466,29 @@ public class RecipeWebsiteControllerTest {
                 "and contain only numbers and Russian letters!";
 
         for (Recipe recipe : recipesWithIncorrectNameOfIngredients) {
-            exception = assertThrows(ResponseStatusException.class, () -> {
-                controller.addRecipe(recipe);
-            });
+            exception = assertThrows(ResponseStatusException.class, () -> controller.addRecipe(recipe));
             actualMessage = exception.getMessage();
 
+            assert actualMessage != null;
             assertTrue(actualMessage.contains(expectedMessage));
         }
 
         expectedMessage = "Grams must be a number with no more than 5 characters!";
 
-        exception = assertThrows(ResponseStatusException.class, () -> {
-            controller.addRecipe(recipeWithIncorrectGramsOfIngredients);
-        });
+        exception = assertThrows(ResponseStatusException.class, () -> controller.addRecipe(recipeWithIncorrectGramsOfIngredients));
         actualMessage = exception.getMessage();
 
+        assert actualMessage != null;
         assertTrue(actualMessage.contains(expectedMessage));
 
         expectedMessage = "The recipe description must contain no more than 500 characters " +
                 "and contain only numbers and Russian letters!";
 
         for (Recipe recipe : recipesWithIncorrectDescription) {
-            exception = assertThrows(ResponseStatusException.class, () -> {
-                controller.addRecipe(recipe);
-            });
+            exception = assertThrows(ResponseStatusException.class, () -> controller.addRecipe(recipe));
             actualMessage = exception.getMessage();
 
+            assert actualMessage != null;
             assertTrue(actualMessage.contains(expectedMessage));
         }
 
@@ -511,11 +496,10 @@ public class RecipeWebsiteControllerTest {
                 "and contain only numbers and Russian letters!";
 
         for (Recipe recipe : recipesWithIncorrectRecipe) {
-            exception = assertThrows(ResponseStatusException.class, () -> {
-                controller.addRecipe(recipe);
-            });
+            exception = assertThrows(ResponseStatusException.class, () -> controller.addRecipe(recipe));
             actualMessage = exception.getMessage();
 
+            assert actualMessage != null;
             assertTrue(actualMessage.contains(expectedMessage));
         }
 
@@ -526,12 +510,11 @@ public class RecipeWebsiteControllerTest {
 
         when(repository.getRecipe(correctRecipe.getName())).thenReturn(correctRecipe);
 
-        exception = assertThrows(ResponseStatusException.class, () -> {
-            controller.addRecipe(correctRecipe);
-        });
+        exception = assertThrows(ResponseStatusException.class, () -> controller.addRecipe(correctRecipe));
         actualMessage = exception.getMessage();
 
 
+        assert actualMessage != null;
         assertTrue(actualMessage.contains(expectedMessage));
 
         expectedMessage = "Recipe with this url already exists!";
@@ -539,11 +522,10 @@ public class RecipeWebsiteControllerTest {
         when(repository.getRecipe(correctRecipe.getName())).thenReturn(null);
         when(repository.getRecipeByUrl(correctRecipe.getImageUrl())).thenReturn(correctRecipe);
 
-        exception = assertThrows(ResponseStatusException.class, () -> {
-            controller.addRecipe(correctRecipe);
-        });
+        exception = assertThrows(ResponseStatusException.class, () -> controller.addRecipe(correctRecipe));
         actualMessage = exception.getMessage();
 
+        assert actualMessage != null;
         assertTrue(actualMessage.contains(expectedMessage));
 
         expectedMessage = "Recipe with this description already exists!";
@@ -551,11 +533,10 @@ public class RecipeWebsiteControllerTest {
         when(repository.getRecipeByUrl(correctRecipe.getImageUrl())).thenReturn(null);
         when(repository.getRecipeByDescription(correctRecipe.getDescription())).thenReturn(correctRecipe);
 
-        exception = assertThrows(ResponseStatusException.class, () -> {
-            controller.addRecipe(correctRecipe);
-        });
+        exception = assertThrows(ResponseStatusException.class, () -> controller.addRecipe(correctRecipe));
         actualMessage = exception.getMessage();
 
+        assert actualMessage != null;
         assertTrue(actualMessage.contains(expectedMessage));
 
         expectedMessage = "Recipe with this step-by-step recipe already exists!";
@@ -563,11 +544,10 @@ public class RecipeWebsiteControllerTest {
         when(repository.getRecipeByDescription(correctRecipe.getDescription())).thenReturn(null);
         when(repository.getRecipeByStepByStepRecipe(correctRecipe.getRecipe())).thenReturn(correctRecipe);
 
-        exception = assertThrows(ResponseStatusException.class, () -> {
-            controller.addRecipe(correctRecipe);
-        });
+        exception = assertThrows(ResponseStatusException.class, () -> controller.addRecipe(correctRecipe));
         actualMessage = exception.getMessage();
 
+        assert actualMessage != null;
         assertTrue(actualMessage.contains(expectedMessage));
 
 
@@ -576,11 +556,10 @@ public class RecipeWebsiteControllerTest {
         when(repository.getRecipeByStepByStepRecipe(correctRecipe.getRecipe())).thenReturn(null);
         when(repository.addRecipe(correctRecipe)).thenReturn(false);
 
-        exception = assertThrows(ResponseStatusException.class, () -> {
-            controller.addRecipe(correctRecipe);
-        });
+        exception = assertThrows(ResponseStatusException.class, () -> controller.addRecipe(correctRecipe));
         actualMessage = exception.getMessage();
 
+        assert actualMessage != null;
         assertTrue(actualMessage.contains(expectedMessage));
 
         for (Recipe recipe : correctRecipes) {
@@ -602,11 +581,10 @@ public class RecipeWebsiteControllerTest {
         String actualMessage;
 
         for (Recipe recipe : recipesWithIncorrectName) {
-            exception = assertThrows(ResponseStatusException.class, () -> {
-                controller.getRecipe(recipe.getName());
-            });
+            exception = assertThrows(ResponseStatusException.class, () -> controller.getRecipe(recipe.getName()));
             actualMessage = exception.getMessage();
 
+            assert actualMessage != null;
             assertTrue(actualMessage.contains(expectedMessage));
         }
 
@@ -642,11 +620,10 @@ public class RecipeWebsiteControllerTest {
         Recipe correctRecipe = correctRecipes.get(0);
 
         for (User user : usersWithIncorrectLogin) {
-            exception = assertThrows(ResponseStatusException.class, () -> {
-                controller.saveRecipe(user.getLogin(), correctRecipe.getName());
-            });
+            exception = assertThrows(ResponseStatusException.class, () -> controller.saveRecipe(user.getLogin(), correctRecipe.getName()));
             actualMessage = exception.getMessage();
 
+            assert actualMessage != null;
             assertTrue(actualMessage.contains(expectedMessage));
         }
 
@@ -656,11 +633,10 @@ public class RecipeWebsiteControllerTest {
         User correctUser = correctUsers.get(0);
 
         for (Recipe recipe : recipesWithIncorrectName) {
-            exception = assertThrows(ResponseStatusException.class, () -> {
-                controller.saveRecipe(correctUser.getLogin(), recipe.getName());
-            });
+            exception = assertThrows(ResponseStatusException.class, () -> controller.saveRecipe(correctUser.getLogin(), recipe.getName()));
             actualMessage = exception.getMessage();
 
+            assert actualMessage != null;
             assertTrue(actualMessage.contains(expectedMessage));
         }
 
@@ -669,11 +645,10 @@ public class RecipeWebsiteControllerTest {
 
         when(repository.getUser(correctUser.getLogin())).thenReturn(null);
 
-        exception = assertThrows(ResponseStatusException.class, () -> {
-            controller.saveRecipe(correctUser.getLogin(), correctRecipe.getName());
-        });
+        exception = assertThrows(ResponseStatusException.class, () -> controller.saveRecipe(correctUser.getLogin(), correctRecipe.getName()));
         actualMessage = exception.getMessage();
 
+        assert actualMessage != null;
         assertTrue(actualMessage.contains(expectedMessage));
 
         expectedMessage = "There is no recipe with this name!";
@@ -681,11 +656,10 @@ public class RecipeWebsiteControllerTest {
         when(repository.getUser(correctUser.getLogin())).thenReturn(correctUser);
         when(repository.getRecipe(correctRecipe.getName())).thenReturn(null);
 
-        exception = assertThrows(ResponseStatusException.class, () -> {
-            controller.saveRecipe(correctUser.getLogin(), correctRecipe.getName());
-        });
+        exception = assertThrows(ResponseStatusException.class, () -> controller.saveRecipe(correctUser.getLogin(), correctRecipe.getName()));
         actualMessage = exception.getMessage();
 
+        assert actualMessage != null;
         assertTrue(actualMessage.contains(expectedMessage));
 
 
@@ -694,11 +668,10 @@ public class RecipeWebsiteControllerTest {
         when(repository.getRecipe(correctRecipe.getName())).thenReturn(correctRecipe);
         when(repository.saveRecipe(correctUser.getLogin(), correctRecipe.getName())).thenReturn(false);
 
-        exception = assertThrows(ResponseStatusException.class, () -> {
-            controller.saveRecipe(correctUser.getLogin(), correctRecipe.getName());
-        });
+        exception = assertThrows(ResponseStatusException.class, () -> controller.saveRecipe(correctUser.getLogin(), correctRecipe.getName()));
         actualMessage = exception.getMessage();
 
+        assert actualMessage != null;
         assertTrue(actualMessage.contains(expectedMessage));
 
 
@@ -733,18 +706,16 @@ public class RecipeWebsiteControllerTest {
         Exception exception;
         String actualMessage;
 
-        exception = assertThrows(ResponseStatusException.class, () -> {
-            controller.getRecipes(0);
-        });
+        exception = assertThrows(ResponseStatusException.class, () -> controller.getRecipes(0));
         actualMessage = exception.getMessage();
 
+        assert actualMessage != null;
         assertTrue(actualMessage.contains(expectedMessage));
 
-        exception = assertThrows(ResponseStatusException.class, () -> {
-            controller.getRecipes(-1);
-        });
+        exception = assertThrows(ResponseStatusException.class, () -> controller.getRecipes(-1));
         actualMessage = exception.getMessage();
 
+        assert actualMessage != null;
         assertTrue(actualMessage.contains(expectedMessage));
 
 
@@ -813,11 +784,10 @@ public class RecipeWebsiteControllerTest {
         Recipe correctRecipe = correctRecipes.get(0);
 
         for (User user : usersWithIncorrectLogin) {
-            exception = assertThrows(ResponseStatusException.class, () -> {
-                controller.deleteRecipe(user.getLogin(), correctRecipe.getName());
-            });
+            exception = assertThrows(ResponseStatusException.class, () -> controller.deleteRecipe(user.getLogin(), correctRecipe.getName()));
             actualMessage = exception.getMessage();
 
+            assert actualMessage != null;
             assertTrue(actualMessage.contains(expectedMessage));
         }
 
@@ -827,11 +797,10 @@ public class RecipeWebsiteControllerTest {
         User correctUser = correctUsers.get(0);
 
         for (Recipe recipe : recipesWithIncorrectName) {
-            exception = assertThrows(ResponseStatusException.class, () -> {
-                controller.deleteRecipe(correctUser.getLogin(), recipe.getName());
-            });
+            exception = assertThrows(ResponseStatusException.class, () -> controller.deleteRecipe(correctUser.getLogin(), recipe.getName()));
             actualMessage = exception.getMessage();
 
+            assert actualMessage != null;
             assertTrue(actualMessage.contains(expectedMessage));
         }
 
@@ -840,11 +809,10 @@ public class RecipeWebsiteControllerTest {
 
         when(repository.getUser(correctUser.getLogin())).thenReturn(null);
 
-        exception = assertThrows(ResponseStatusException.class, () -> {
-            controller.deleteRecipe(correctUser.getLogin(), correctRecipe.getName());
-        });
+        exception = assertThrows(ResponseStatusException.class, () -> controller.deleteRecipe(correctUser.getLogin(), correctRecipe.getName()));
         actualMessage = exception.getMessage();
 
+        assert actualMessage != null;
         assertTrue(actualMessage.contains(expectedMessage));
 
         expectedMessage = "There is no recipe with this name!";
@@ -852,11 +820,10 @@ public class RecipeWebsiteControllerTest {
         when(repository.getUser(correctUser.getLogin())).thenReturn(correctUser);
         when(repository.getRecipe(correctRecipe.getName())).thenReturn(null);
 
-        exception = assertThrows(ResponseStatusException.class, () -> {
-            controller.deleteRecipe(correctUser.getLogin(), correctRecipe.getName());
-        });
+        exception = assertThrows(ResponseStatusException.class, () -> controller.deleteRecipe(correctUser.getLogin(), correctRecipe.getName()));
         actualMessage = exception.getMessage();
 
+        assert actualMessage != null;
         assertTrue(actualMessage.contains(expectedMessage));
 
 
@@ -865,11 +832,10 @@ public class RecipeWebsiteControllerTest {
         when(repository.getRecipe(correctRecipe.getName())).thenReturn(correctRecipe);
         when(repository.deleteRecipe(correctUser.getLogin(), correctRecipe.getName())).thenReturn(false);
 
-        exception = assertThrows(ResponseStatusException.class, () -> {
-            controller.deleteRecipe(correctUser.getLogin(), correctRecipe.getName());
-        });
+        exception = assertThrows(ResponseStatusException.class, () -> controller.deleteRecipe(correctUser.getLogin(), correctRecipe.getName()));
         actualMessage = exception.getMessage();
 
+        assert actualMessage != null;
         assertTrue(actualMessage.contains(expectedMessage));
 
 
