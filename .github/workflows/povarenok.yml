@@ -25,7 +25,7 @@ jobs:
         cache: maven
         
     - name: Compile with Maven
-      run: mvn compile
+      run: mvn compile --file ./Backend/pom.xml
       
     - name: Test with Maven
       run: mvn test
