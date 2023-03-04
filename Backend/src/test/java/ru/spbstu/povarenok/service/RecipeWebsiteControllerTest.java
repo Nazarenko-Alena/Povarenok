@@ -132,6 +132,9 @@ public class RecipeWebsiteControllerTest {
         cuisines.add(new Cuisine(2L, "Русская"));
         cuisines.add(new Cuisine(3L, "Итальянская"));
 
+        //        Double ingredientGramsLength5 = 30000.0;
+        //        String descriptionLess500 = "Ароматный борщ, который подаётся с пампушками";
+        //        String recipeLess5000 = "Порезать капусту и лук, сварить";
 
         // Создаем рецепты для тестирования
 
@@ -147,14 +150,11 @@ public class RecipeWebsiteControllerTest {
                 "капуста капуста капуста капуста капуста капу";
 
         Double ingredientGramsLengthLess5 = 10.0;
-//        Double ingredientGramsLength5 = 30000.0;
         Double ingredientGramsLength5 = 300.0;
 
-//        String descriptionLess500 = "Ароматный борщ, который подаётся с пампушками";
         String descriptionLess500 = "Ароматный борщ который подаётся с пампушками";
         String description500 = FileUtils.readFileToString(new File("500.txt"), StandardCharsets.UTF_8);
 
-//        String recipeLess5000 = "Порезать капусту и лук, сварить";
         String recipeLess5000 = "Порезать капусту и лук сварить";
         String recipe5000 = FileUtils.readFileToString(new File("5000.txt"), StandardCharsets.UTF_8);;
 

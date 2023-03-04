@@ -502,6 +502,10 @@ public class RecipeWebsiteRepositoryTest {
         assertEquals(recipe1.getDescription(), actualRecipe.getDescription());
         assertEquals(recipe1.getRecipe(), actualRecipe.getRecipe());
 
+        when(result.next()).thenReturn(false);
+        actualRecipe = repository.getRecipe(recipe1.getName());
+        assertEquals(null, actualRecipe);
+
         SQLException ex = new SQLException();
         when(result.next()).thenThrow(ex);
         actualRecipe = repository.getRecipe(recipe1.getName());
@@ -556,6 +560,10 @@ public class RecipeWebsiteRepositoryTest {
 
         assertEquals(recipe1.getDescription(), actualRecipe.getDescription());
         assertEquals(recipe1.getRecipe(), actualRecipe.getRecipe());
+
+        when(result.next()).thenReturn(false);
+        actualRecipe = repository.getRecipeByUrl(recipe1.getImageUrl());
+        assertEquals(null, actualRecipe);
 
         SQLException ex = new SQLException();
         when(result.next()).thenThrow(ex);
@@ -612,6 +620,10 @@ public class RecipeWebsiteRepositoryTest {
         assertEquals(recipe1.getDescription(), actualRecipe.getDescription());
         assertEquals(recipe1.getRecipe(), actualRecipe.getRecipe());
 
+        when(result.next()).thenReturn(false);
+        actualRecipe = repository.getRecipeByDescription(recipe1.getDescription());
+        assertEquals(null, actualRecipe);
+
         SQLException ex = new SQLException();
         when(result.next()).thenThrow(ex);
         actualRecipe = repository.getRecipeByDescription(recipe1.getDescription());
@@ -666,6 +678,10 @@ public class RecipeWebsiteRepositoryTest {
 
         assertEquals(recipe1.getDescription(), actualRecipe.getDescription());
         assertEquals(recipe1.getRecipe(), actualRecipe.getRecipe());
+
+        when(result.next()).thenReturn(false);
+        actualRecipe = repository.getRecipeByStepByStepRecipe(recipe1.getRecipe());
+        assertEquals(null, actualRecipe);
 
         SQLException ex = new SQLException();
         when(result.next()).thenThrow(ex);

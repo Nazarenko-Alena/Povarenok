@@ -158,6 +158,9 @@ public class RecipeWebsiteRepository
             return null;
         }
 
+        if (idUser == null)
+            return null;
+
         LinkedList<Recipe> addedRecipes = getAddedRecipes(idUser);
         LinkedList<Recipe> savedRecipes = getSavedRecipes(idUser);
 
@@ -182,6 +185,9 @@ public class RecipeWebsiteRepository
             return null;
         }
 
+        if (password == null)
+            return null;
+
         return getUser(login, password);
     }
 
@@ -204,6 +210,9 @@ public class RecipeWebsiteRepository
             System.out.println(e.getMessage());
             return null;
         }
+
+        if (password == null)
+            return null;
 
         return getUser(login, password);
     }
@@ -353,6 +362,9 @@ public class RecipeWebsiteRepository
             return null;
         }
 
+        if (idRecipe == null)
+            return null;
+
         return getRecipe(idRecipe);
     }
 
@@ -373,6 +385,9 @@ public class RecipeWebsiteRepository
             System.out.println(e.getMessage());
             return null;
         }
+
+        if (idRecipe == null)
+            return null;
 
         return getRecipe(idRecipe);
     }
@@ -395,6 +410,9 @@ public class RecipeWebsiteRepository
             return null;
         }
 
+        if (idRecipe == null)
+            return null;
+
         return getRecipe(idRecipe);
     }
 
@@ -415,6 +433,9 @@ public class RecipeWebsiteRepository
             System.out.println(e.getMessage());
             return null;
         }
+
+        if (idRecipe == null)
+            return null;
 
         return getRecipe(idRecipe);
     }
@@ -467,9 +488,7 @@ public class RecipeWebsiteRepository
     public LinkedList<Recipe> getRecipes(String category, String cuisine) {
 
         LinkedList<Recipe> recipes = new LinkedList<>();
-
         LinkedList<Long> idRecipes = new LinkedList<>();
-        LinkedList<LinkedList<Ingredient>> ingredients = new LinkedList<>();
 
         String query = "SELECT id_recipe FROM recipes " +
                 "JOIN cuisines ON recipes.cuisine = cuisines.id_cuisine " +
