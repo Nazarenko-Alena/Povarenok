@@ -34,5 +34,5 @@ jobs:
       run: mvn test --file ./Backend/pom.xml
 
     - name: Frontend unit tests
-    - run: npm ci
-    - run: npm test
+      run: npm ci
+           npm test
