@@ -35,5 +35,5 @@ jobs:
       run: mvn test --file ./Backend/pom.xml
 
     - name: Frontend unit tests
-      run: cd Frontend
-           npm test
+      run:  npm test
+      working-directory: ./Frontend
