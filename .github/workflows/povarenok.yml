@@ -23,6 +23,20 @@ jobs:
         java-version: '11'
         distribution: 'corretto'
         cache: maven
-      
-    - name: Test with Maven
-      run: mvn test --file ./Backend/pom.xml
+
+    - name: Set up Node.js environment
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16
+        cache: 'npm'
+        cache-dependency-path: ./Frontend/package-lock.json
+
+    - name: Backend unit tests
+      run: mvn test
+      working-directory: ./Backend
+
+    - name: Frontend unit tests
+      run:  |
+        npm ci
+        npm test
+      working-directory: ./Frontend
