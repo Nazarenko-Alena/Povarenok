@@ -35,4 +35,5 @@ jobs:
       run: mvn test --file ./Backend/pom.xml
 
     - name: Frontend unit tests
-      run: npm test
+      run: cd Frontend
+           npm test
