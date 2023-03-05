@@ -32,8 +32,11 @@ jobs:
         cache-dependency-path: ./Frontend/package-lock.json
 
     - name: Backend unit tests
-      run: mvn test --file ./Backend/pom.xml
+      run: mvn test
+      working-directory: ./Backend
 
     - name: Frontend unit tests
-      run:  npm test
+      run:  |
+        npm ci
+        npm test
       working-directory: ./Frontend
