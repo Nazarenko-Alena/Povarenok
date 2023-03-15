@@ -1,7 +1,9 @@
 package ru.spbstu.povarenok.model;
 
+import lombok.EqualsAndHashCode;
 import java.util.LinkedList;
 
+@EqualsAndHashCode
 public class User {
 
     private Long id;

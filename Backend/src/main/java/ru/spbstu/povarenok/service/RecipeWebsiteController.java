@@ -197,7 +197,7 @@ public class RecipeWebsiteController {
     }
 
     @GetMapping("/recipes/{name}")
-    public ResponseEntity<?> getRecipe(@PathVariable(name = "name") String name) {
+    public ResponseEntity<Recipe> getRecipe(@PathVariable(name = "name") String name) {
 
         if (name.length() > 100 || !name.matches("[а-яА-ЯёЕ0-9 ]+$")) {
 
@@ -250,7 +250,7 @@ public class RecipeWebsiteController {
     }
 
     @GetMapping("/recipes/last")
-    public ResponseEntity<?> getRecipes(@RequestParam Integer count) {
+    public ResponseEntity<LinkedList<Recipe>> getRecipes(@RequestParam Integer count) {
 
         if (count <= 0) {
 
@@ -266,7 +266,7 @@ public class RecipeWebsiteController {
     }
 
     @GetMapping("/recipes/{category}/{cuisine}")
-    public ResponseEntity<?> getRecipes(@PathVariable(name = "category") String category,
+    public ResponseEntity<LinkedList<Recipe>> getRecipes(@PathVariable(name = "category") String category,
                                         @PathVariable(name = "cuisine") String cuisine) {
 
         LinkedList<Recipe> recipes = repository.getRecipes(category, cuisine);
@@ -277,7 +277,7 @@ public class RecipeWebsiteController {
     }
 
     @GetMapping("/recipes/keywords/{keywords}")
-    public ResponseEntity<?> getRecipeByKeywords(@PathVariable(name = "keywords") String keywords) {
+    public ResponseEntity<LinkedList<Recipe>> getRecipesByKeywords(@PathVariable(name = "keywords") String keywords) {
 
         LinkedList<Recipe> recipes = repository.getRecipes(keywords);
 

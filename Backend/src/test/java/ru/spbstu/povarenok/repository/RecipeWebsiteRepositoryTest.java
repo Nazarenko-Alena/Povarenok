@@ -1,9 +1,9 @@
 package ru.spbstu.povarenok.repository;
 
+import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
 import org.mockito.junit.jupiter.MockitoExtension;
 import static org.mockito.ArgumentMatchers.any;
@@ -11,18 +11,19 @@ import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.when;
 import org.mockito.Mock;
 
-import org.postgresql.ds.PGSimpleDataSource;
+import javax.sql.DataSource;
 
 import java.util.LinkedList;
 import java.sql.*;
 
 import ru.spbstu.povarenok.model.*;
 
+
 @ExtendWith(MockitoExtension.class)
 public class RecipeWebsiteRepositoryTest {
 
     @Mock
-    private PGSimpleDataSource dataSource;
+    private DataSource dataSource;
     private RecipeWebsiteRepository repository;
 
     @Mock

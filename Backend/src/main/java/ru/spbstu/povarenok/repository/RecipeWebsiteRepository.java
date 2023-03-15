@@ -1,18 +1,20 @@
 package ru.spbstu.povarenok.repository;
 
-import org.postgresql.ds.PGSimpleDataSource;
 import org.springframework.stereotype.Repository;
-import java.util.LinkedList;
+
+import javax.sql.DataSource;
 import java.sql.*;
+
+import java.util.LinkedList;
 
 import ru.spbstu.povarenok.model.*;
 
 @Repository
 public class RecipeWebsiteRepository
 {
-    PGSimpleDataSource dataSource;
+    DataSource dataSource;
 
-    public RecipeWebsiteRepository(PGSimpleDataSource dataSource) {
+    public RecipeWebsiteRepository(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 

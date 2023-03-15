@@ -1,5 +1,8 @@
 package ru.spbstu.povarenok.model;
 
+import lombok.EqualsAndHashCode;
+
+@EqualsAndHashCode
 public class Cuisine {
 
     Long id;

@@ -1,17 +1,17 @@
 package ru.spbstu.povarenok.service;
 
+import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
 import org.mockito.junit.jupiter.MockitoExtension;
 import static org.mockito.Mockito.when;
 import org.mockito.Mock;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 
 import java.util.LinkedList;
 
@@ -760,7 +760,7 @@ public class RecipeWebsiteControllerTest {
         when(repository.getRecipes("щи")).thenReturn(null);
 
         ResponseEntity<?> expectedResponse = new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        ResponseEntity<?> actualResponse = controller.getRecipeByKeywords("щи");
+        ResponseEntity<?> actualResponse = controller.getRecipesByKeywords("щи");
 
         assertEquals(expectedResponse, actualResponse);
 
@@ -768,7 +768,7 @@ public class RecipeWebsiteControllerTest {
         when(repository.getRecipes("щи")).thenReturn(correctRecipes);
 
         expectedResponse = new ResponseEntity<>(correctRecipes, HttpStatus.OK);
-        actualResponse = controller.getRecipeByKeywords("щи");
+        actualResponse = controller.getRecipesByKeywords("щи");
 
         assertEquals(expectedResponse, actualResponse);
     }
