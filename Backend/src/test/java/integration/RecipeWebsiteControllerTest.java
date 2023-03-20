@@ -42,7 +42,7 @@ public class RecipeWebsiteControllerTest {
 
     @Container
     private PostgreSQLContainer postgres = new PostgreSQLContainer<>("postgres:12-alpine")
-            .withInitScript("init.sql");
+            .withInitScript("schema.sql");
 
     @BeforeAll
     public static void generateData() {
