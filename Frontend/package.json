@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
+    "integrtest": "mocha ./js/*.spec.js",
     "build": "npx webpack --mode production",
     "start": "npx webpack --mode development"
   },
@@ -13,10 +14,13 @@
   "license": "ISC",
   "dependencies": {
     "@babel/polyfill": "^7.12.1",
-    "jquery": "^3.6.3",
-    "jsdom": "^21.1.0",
+    "chromedriver": "^111.0.0",
+    "geckodriver": "^3.2.0",
+    "jquery": "^3.6.4",
+    "jsdom": "^21.1.1",
     "karma-jquery": "^0.2.4",
     "path-browserify": "^1.0.1",
+    "selenium-webdriver": "^4.8.1",
     "sinon": "^15.0.1",
     "webpack-karma-jasmine": "^4.0.0"
   },
