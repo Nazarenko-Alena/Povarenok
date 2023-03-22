@@ -68,5 +68,5 @@ jobs:
     - name: Frontend integration tests
       run: |
         npm ci
-        npm integrtest
+        npm run integrtest
       working-directory: ./Frontend
