@@ -67,18 +67,17 @@ jobs:
 
     - name: Set up Chrome
       uses: browser-actions/setup-chrome@v1.2.0
+      with:
+        chrome-version: latest
+      run: chrome --version
 
     - name: Set up chromedriver
       uses: nanasess/setup-chromedriver@v1.1.0
 
     - name: Frontend integration tests
       run: |
-        rm -rf node_modules  
-        npm install
-        npm uninstall chromedriver
         npm install chromedriver
-        npm run build
-        npm run start
+        npm rebuild
         npm ci
         npm run integrtest
       working-directory: ./Frontend
