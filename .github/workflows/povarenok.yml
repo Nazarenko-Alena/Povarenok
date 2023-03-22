@@ -76,5 +76,7 @@ jobs:
         npm ci
         npm uninstall chromedriver
         npm install chromedriver
+        npm run build
+        npm run start
         npm run integrtest
       working-directory: ./Frontend
