@@ -65,11 +65,8 @@ jobs:
       run: mvn spring-boot:run -Dspring-boot.run.arguments=--spring.profiles.active=test &
       working-directory: ./Backend
 
-    - name: Set up google chrome
-      run: |
-        wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-        sudo dpkg -i google-chrome-stable_current_amd64.deb
-        google-chrome
+    - name: Set up Chrome
+      uses: browser-actions/setup-chrome@v1.2.0
 
     - name: Frontend integration tests
       run: |
