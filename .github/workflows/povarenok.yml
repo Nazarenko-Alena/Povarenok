@@ -73,10 +73,10 @@ jobs:
 
     - name: Frontend integration tests
       run: |
-        npm ci
         npm uninstall chromedriver
         npm install chromedriver
         npm run build
         npm run start
+        npm ci
         npm run integrtest
       working-directory: ./Frontend
