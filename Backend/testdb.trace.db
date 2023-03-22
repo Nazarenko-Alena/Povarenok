@@ -1,9 +1,0 @@
-2023-03-17 13:05:12 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "CATEGORIES" not found (this database is empty); SQL statement:
-SELECT * FROM categories [42104-214]
-2023-03-17 13:05:12 jdbc[5]: exception
-org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "RECIPES" not found (this database is empty); SQL statement:
-SELECT id_recipe FROM recipes ORDER BY date_added DESC LIMIT 4 [42104-214]
-2023-03-17 13:05:12 jdbc[4]: exception
-org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "CUISINES" not found (this database is empty); SQL statement:
-SELECT * FROM cuisines [42104-214]

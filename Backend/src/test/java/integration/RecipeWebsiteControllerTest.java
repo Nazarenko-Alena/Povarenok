@@ -69,7 +69,7 @@ public class RecipeWebsiteControllerTest {
         ingredientsForRecipe.add(ingredients.get(1));
         ingredientsForRecipe.add(ingredients.get(2));
 
-        recipes.add(new Recipe(1L, "polinafomina", "Борщ", "140.png", "2023-03-11",
+        recipes.add(new Recipe(1L, "polinafomina", "Борщ", "140.png", "2023-03-10",
                 "Русская", "Супы", 120, ingredientsForRecipe,
                 "Ароматный борщ с пампушками", "Порезать овощи и сварить"));
 
@@ -78,7 +78,7 @@ public class RecipeWebsiteControllerTest {
         ingredientsForRecipe.add(ingredients.get(4));
         ingredientsForRecipe.add(ingredients.get(5));
 
-        recipes.add(new Recipe(2L, "polinafomina", "Щи", "141.png", "2023-03-12",
+        recipes.add(new Recipe(2L, "polinafomina", "Щи", "141.png", "2023-03-11",
                 "Русская", "Супы", 90, ingredientsForRecipe,
                 "Вкусные щи с гренками", "Поджарить гренки и сварить щи"));
 
@@ -410,8 +410,8 @@ public class RecipeWebsiteControllerTest {
         LinkedList<Recipe> expectedRecipes = new LinkedList<>();
         expectedRecipes.add(recipes.get(4));
         expectedRecipes.add(recipes.get(3));
-        expectedRecipes.add(recipes.get(1));
         expectedRecipes.add(recipes.get(2));
+        expectedRecipes.add(recipes.get(1));
         LinkedList<Recipe> actualRecipes = response.getBody();
 
         assertEquals(expectedRecipes, actualRecipes);
