@@ -69,7 +69,7 @@ jobs:
       uses: browser-actions/setup-chrome@v1.2.0
       with:
         chrome-version: latest
-      run: chrome --version
+    - run: chrome --version
 
     - name: Set up chromedriver
       uses: nanasess/setup-chromedriver@v1.1.0
