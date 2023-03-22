@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import javax.sql.DataSource;
 
 @Component
+@Profile("test")
 public class DataSourceFactory {
 
     @Value ("${database.driverClassName}")

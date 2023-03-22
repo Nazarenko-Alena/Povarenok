@@ -32,7 +32,7 @@ jobs:
         cache-dependency-path: ./Frontend/package-lock.json
 
     - name: Backend unit tests
-      run: mvn test -Dtest="ru/spbstu/povarenok/*"
+      run: mvn test -Dtest=ru/spbstu/povarenok/*/*
       working-directory: ./Backend
 
     - name: Frontend unit tests
@@ -62,9 +62,7 @@ jobs:
       working-directory: ./Backend
 
     - name: Server start
-      run: |
-        mvn package
-        java -jar target/Povarenok-0.0.1-SNAPSHOT.jar – spring.profiles.active=test
+      run: spring-boot:run -Dspring-boot.run.arguments=--spring.profiles.active=test
       working-directory: ./Backend
 
     - name: Frontend integration tests
