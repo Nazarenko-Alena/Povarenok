@@ -1,24 +1,13 @@
 const {By,Builder, until, Select} = require("selenium-webdriver");
 const assert = require('assert').strict;
 require("chromedriver");
-// let chrome = require("selenium-webdriver");
-let chrome = require("selenium-webdriver/chrome");
 
-const webdriver = require('selenium-webdriver');
-const path = require('chromedriver').path;
 let browser;
 
 describe("Scenario 13 - Set new user", () => {
 
-    let options = new chrome.Options();
-    options.addArguments("--no-sandbox");
-    options.addArguments("--disable-dev-shm-usage");
-    options.addArguments("--disable-gpu");
-    options.addArguments("--headless");
-
-
     before(async ()=>{
-        browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).setChromeOptions(new chrome.Options().headless()).build();
+        browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).build();
         await browser.get('file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/signUp.html');
     })
 
@@ -54,8 +43,8 @@ describe("Scenario 13 - Set new user", () => {
 describe("Scenario 14 - Recent recipe", () => {
 
     before(async ()=>{
-        browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).setChromeOptions(new chrome.Options().headless()).build();
-        await browser.get('http://localhost:63343/Frontend/dist/index.html');
+        browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).build();
+        await browser.get('file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/index.html');
     })
 
     after(async ()=>{
@@ -75,7 +64,7 @@ describe("Scenario 14 - Recent recipe", () => {
             until.elementLocated(By.id('recImage0')), 10000);
         let text = await element.getAttribute('src');
 
-        assert.equal(text,"http://localhost:63343/Frontend/downloads/144.png");
+        assert.equal(text,"file:///home/runner/work/Povarenok/Povarenok/Frontend/downloads/144.png");
     });
     it('check nameAuthor0',async function () {
         let element = await browser.wait(
@@ -106,7 +95,7 @@ describe("Scenario 14 - Recent recipe", () => {
             until.elementLocated(By.id('recImage1')), 10000);
         let text = await element.getAttribute('src');
 
-        assert.equal(text,"http://localhost:63343/Frontend/downloads/143.png");
+        assert.equal(text,"file:///home/runner/work/Povarenok/Povarenok/Frontend/downloads/143.png");
     });
     it('check nameAuthor1',async function () {
         let element = await browser.wait(
@@ -137,7 +126,7 @@ describe("Scenario 14 - Recent recipe", () => {
             until.elementLocated(By.id('recImage2')), 10000);
         let text = await element.getAttribute('src');
 
-        assert.equal(text,"http://localhost:63343/Frontend/downloads/142.png");
+        assert.equal(text,"file:///home/runner/work/Povarenok/Povarenok/Frontend/downloads/142.png");
     });
     it('check nameAuthor2',async function () {
         let element = await browser.wait(
@@ -168,7 +157,7 @@ describe("Scenario 14 - Recent recipe", () => {
             until.elementLocated(By.id('recImage3')), 10000);
         let text = await element.getAttribute('src');
 
-        assert.equal(text,"http://localhost:63343/Frontend/downloads/141.png");
+        assert.equal(text,"file:///home/runner/work/Povarenok/Povarenok/Frontend/downloads/141.png");
     });
     it('check nameAuthor3',async function () {
         let element = await browser.wait(
@@ -191,7 +180,7 @@ describe("Scenario 15 - Search result by keyword", () => {
 
     before(async ()=>{
         browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).build();
-        await browser.get('http://localhost:63343/Frontend/dist/index.html');
+        await browser.get('file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/index.html');
         let searchLine = await browser.wait(
             until.elementLocated(By.id('searchLine')), 10000);
         searchLine.sendKeys("Борщ");
@@ -216,7 +205,7 @@ describe("Scenario 15 - Search result by keyword", () => {
             until.elementLocated(By.id('recImage0')), 10000);
         let text = await element.getAttribute('src');
 
-        assert.equal(text,"http://localhost:63343/Frontend/downloads/140.png");
+        assert.equal(text,"file:///home/runner/work/Povarenok/Povarenok/Frontend/downloads/140.png");
     });
     it('check nameAuthor0',async function () {
         let element = await browser.wait(
@@ -240,7 +229,7 @@ describe("Scenario 16 - Get recipe by name", () => {
 
     before(async ()=>{
         browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).build();
-        await browser.get('http://localhost:63343/Frontend/dist/index.html');
+        await browser.get('file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/index.html');
         let nameRec0 = await browser.wait(
             until.elementLocated(By.id('nameRec0')), 10000);
         nameRec0.click();
@@ -318,7 +307,7 @@ describe("Scenario 16 - Get recipe by name", () => {
             until.elementLocated(By.id('infoRecImage')), 10000);
         let text = await element.getAttribute('src');
 
-        assert.equal(text,"http://localhost:63343/Frontend/downloads/144.png");
+        assert.equal(text,"file:///home/runner/work/Povarenok/Povarenok/Frontend/downloads/144.png");
     });
 })
 
@@ -326,7 +315,7 @@ describe("Scenario 17 - Get cuisines from AddRecipe.html", () => {
 
     before(async ()=>{
         browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).build();
-        await browser.get('http://localhost:63343/Frontend/dist/addRecipe.html');
+        await browser.get('file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/addRecipe.html');
     })
 
     after(async ()=>{
@@ -368,7 +357,7 @@ describe("Scenario 18 - Get categ from AddRecipe.html", () => {
 
     before(async ()=>{
         browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).build();
-        await browser.get('http://localhost:63343/Frontend/dist/addRecipe.html');
+        await browser.get('file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/addRecipe.html');
     })
 
     after(async ()=>{
@@ -400,7 +389,7 @@ describe("Scenario 19 - Search result by filters", () => {
 
     before(async ()=>{
         browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).build();
-        await browser.get('http://localhost:63343/Frontend/dist/index.html');
+        await browser.get('file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/index.html');
 
         let filter1 = new Select(await browser.wait(
             until.elementLocated(By.id('categoryIndex')), 10000));
@@ -433,7 +422,7 @@ describe("Scenario 19 - Search result by filters", () => {
             until.elementLocated(By.id('recImage0')), 10000);
         let text = await element.getAttribute('src');
 
-        assert.equal(text,"http://localhost:63343/Frontend/downloads/141.png");
+        assert.equal(text,"file:///home/runner/work/Povarenok/Povarenok/Frontend/downloads/141.png");
     });
     it('check nameAuthor0',async function () {
         let element = await browser.wait(
@@ -463,7 +452,7 @@ describe("Scenario 19 - Search result by filters", () => {
             until.elementLocated(By.id('recImage1')), 10000);
         let text = await element.getAttribute('src');
 
-        assert.equal(text,"http://localhost:63343/Frontend/downloads/140.png");
+        assert.equal(text,"file:///home/runner/work/Povarenok/Povarenok/Frontend/downloads/140.png");
     });
     it('check nameAuthor1',async function () {
         let element = await browser.wait(
@@ -485,7 +474,7 @@ describe("Scenario 20 - Add recipe in favorites", () => {
 
     before(async ()=>{
         browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).build();
-        await browser.get('http://localhost:63343/Frontend/dist/signIn.html');
+        await browser.get('file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/signIn.html');
         await browser.manage().deleteAllCookies();
     })
 
@@ -536,7 +525,7 @@ describe("Scenario 21 - Delete recipe from favorites", () => {
 
     before(async ()=>{
         browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).build();
-        await browser.get('http://localhost:63343/Frontend/dist/signIn.html');
+        await browser.get('file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/signIn.html');
     })
 
     after(async ()=>{
@@ -585,7 +574,7 @@ describe("Scenario 22 - Add recipe", () => {
 
     before(async ()=>{
         browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).build();
-        await browser.get('http://localhost:63343/Frontend/dist/signIn.html');
+        await browser.get('file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/signIn.html');
     })
 
     after(async ()=>{

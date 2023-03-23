@@ -11,7 +11,7 @@ process.setMaxListeners(0);
 describe("E2E. Scenario 1", () => {
     before(async ()=>{
         browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).build();
-        await browser.get('http://localhost:63342/Frontend/dist/index.html');
+        await browser.get('file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/index.html');
     })
 
     after(async ()=>{
@@ -24,7 +24,7 @@ describe("E2E. Scenario 1", () => {
             until.elementLocated(By.id('signInButton')), 10000);
 
         assert.equal(await signInButton.getText(), "Войти");
-        assert.equal(await signInButton.getAttribute('href'), "http://localhost:63342/Frontend/dist/signIn.html");
+        assert.equal(await signInButton.getAttribute('href'), "file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/signIn.html");
     })
 
     it('check combo-box "Категории"',async function () {
@@ -131,12 +131,12 @@ describe("E2E. Scenario 1", () => {
         let textTimeCooking1 = await elem.getText();
 
         assert.equal(textNameAuthor0,"Автор: polinafomina");
-        assert.equal(textRecImage0,"http://localhost:63342/Frontend/downloads/141.png");
+        assert.equal(textRecImage0,"file:///home/runner/work/Povarenok/Povarenok/Frontend/downloads/141.png");
         assert.equal(textNameRec0,"ЩИ");
         assert.equal(textTimeCooking0,"Время приготовления: 90 минут");
 
         assert.equal(textNameAuthor1,"Автор: polinafomina");
-        assert.equal(textRecImage1,"http://localhost:63342/Frontend/downloads/140.png");
+        assert.equal(textRecImage1,"file:///home/runner/work/Povarenok/Povarenok/Frontend/downloads/140.png");
         assert.equal(textNameRec1,"БОРЩ");
         assert.equal(textTimeCooking1,"Время приготовления: 120 минут");
     })
@@ -153,7 +153,7 @@ describe("E2E. Scenario 1", () => {
 describe("E2E. Scenario 2", () => {
     before(async ()=>{
         browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).build();
-        await browser.get('http://localhost:63342/Frontend/dist/index.html');
+        await browser.get('file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/index.html');
     })
 
     after(async ()=>{
@@ -166,7 +166,7 @@ describe("E2E. Scenario 2", () => {
             until.elementLocated(By.id('signInButton')), 10000);
 
         assert.equal(await signInButton.getText(), "Войти");
-        assert.equal(await signInButton.getAttribute('href'), "http://localhost:63342/Frontend/dist/signIn.html");
+        assert.equal(await signInButton.getAttribute('href'), "file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/signIn.html");
     })
 
     it('check recipe "Вафли"',async function () {
@@ -186,14 +186,14 @@ describe("E2E. Scenario 2", () => {
 
         elem = await browser.getCurrentUrl();
 
-        assert.equal(elem,"http://localhost:63342/Frontend/dist/index.html");
+        assert.equal(elem,"file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/index.html");
     })
 })
 
 describe("E2E. Scenario 3", () => {
     before(async ()=>{
         browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).build();
-        await browser.get('http://localhost:63342/Frontend/dist/index.html');
+        await browser.get('file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/index.html');
     })
 
     after(async ()=>{
@@ -206,7 +206,7 @@ describe("E2E. Scenario 3", () => {
             until.elementLocated(By.id('signInButton')), 10000);
 
         assert.equal(await signInButton.getText(), "Войти");
-        assert.equal(await signInButton.getAttribute('href'), "http://localhost:63342/Frontend/dist/signIn.html");
+        assert.equal(await signInButton.getAttribute('href'), "file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/signIn.html");
     })
 
     it('check button "Найти"',async function () {
@@ -236,7 +236,7 @@ describe("E2E. Scenario 3", () => {
         let textTimeCooking0 = await elem.getText();
 
         assert.equal(textNameAuthor0,"Автор: polinafomina");
-        assert.equal(textRecImage0,"http://localhost:63342/Frontend/downloads/141.png");
+        assert.equal(textRecImage0,"file:///home/runner/work/Povarenok/Povarenok/Frontend/downloads/141.png");
         assert.equal(textNameRec0,"ЩИ");
         assert.equal(textTimeCooking0,"Время приготовления: 90 минут");
     })
@@ -254,7 +254,7 @@ describe("E2E. Scenario 3", () => {
 describe("E2E. Scenario 4", () => {
     before(async ()=>{
         browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).build();
-        await browser.get('http://localhost:63342/Frontend/dist/index.html');
+        await browser.get('file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/index.html');
     })
 
     after(async ()=>{
@@ -267,10 +267,10 @@ describe("E2E. Scenario 4", () => {
             until.elementLocated(By.id('signInButton')), 10000);
 
         assert.equal(await signInButton.getText(), "Войти");
-        assert.equal(await signInButton.getAttribute('href'), "http://localhost:63342/Frontend/dist/signIn.html");
+        assert.equal(await signInButton.getAttribute('href'), "file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/signIn.html");
 
         await signInButton.click();
-        assert.equal(await browser.getCurrentUrl(), "http://localhost:63342/Frontend/dist/signIn.html");
+        assert.equal(await browser.getCurrentUrl(), "file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/signIn.html");
     })
 
     it('check button "Войти" on signIn.html',async function () {
@@ -310,7 +310,7 @@ describe("E2E. Scenario 4", () => {
             until.elementLocated(By.id('enterButton')), 10000);
 
         await enterButton.click();
-        assert.equal(await browser.getCurrentUrl(), "http://localhost:63342/Frontend/dist/user.html");
+        assert.equal(await browser.getCurrentUrl(), "file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/user.html");
 
         let elem = await browser.wait(
             until.elementLocated(By.id('nameRec0')), 10000);
@@ -363,17 +363,17 @@ describe("E2E. Scenario 4", () => {
 
 
         assert.equal(textNameAuthor0,"Автор: polinafomina");
-        assert.equal(textRecImage0,"http://localhost:63342/Frontend/downloads/140.png");
+        assert.equal(textRecImage0,"file:///home/runner/work/Povarenok/Povarenok/Frontend/downloads/140.png");
         assert.equal(textNameRec0,"БОРЩ");
         assert.equal(textTimeCooking0,"Время приготовления: 120 минут");
 
         assert.equal(textNameAuthor1,"Автор: polinafomina");
-        assert.equal(textRecImage1,"http://localhost:63342/Frontend/downloads/141.png");
+        assert.equal(textRecImage1,"file:///home/runner/work/Povarenok/Povarenok/Frontend/downloads/141.png");
         assert.equal(textNameRec1,"ЩИ");
         assert.equal(textTimeCooking1,"Время приготовления: 90 минут");
 
         assert.equal(nameRecFav02,"БЛИНЫ");
-        assert.equal(recImageFav02,"http://localhost:63342/Frontend/downloads/142.png");
+        assert.equal(recImageFav02,"file:///home/runner/work/Povarenok/Povarenok/Frontend/downloads/142.png");
         assert.equal(nameAuthorFav02,"Автор: povarverona");
         assert.equal(timeCookingFav02,"Время приготовления: 20 минут");
     })
@@ -390,7 +390,7 @@ describe("E2E. Scenario 4", () => {
 describe("E2E. Scenario 5", () => {
     before(async ()=>{
         browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).build();
-        await browser.get('http://localhost:63342/Frontend/dist/index.html');
+        await browser.get('file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/index.html');
     })
 
     after(async ()=>{
@@ -403,10 +403,10 @@ describe("E2E. Scenario 5", () => {
             until.elementLocated(By.id('signInButton')), 10000);
 
         assert.equal(await signInButton.getText(), "Войти");
-        assert.equal(await signInButton.getAttribute('href'), "http://localhost:63342/Frontend/dist/signIn.html");
+        assert.equal(await signInButton.getAttribute('href'), "file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/signIn.html");
 
         await signInButton.click();
-        assert.equal(await browser.getCurrentUrl(), "http://localhost:63342/Frontend/dist/signIn.html");
+        assert.equal(await browser.getCurrentUrl(), "file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/signIn.html");
     })
 
     it('check button "Войти" on signIn.html',async function () {
@@ -465,7 +465,7 @@ describe("E2E. Scenario 5", () => {
             until.elementLocated(By.id('enterButton')), 10000);
 
         await enterButton.click();
-        assert.equal(await browser.getCurrentUrl(), "http://localhost:63342/Frontend/dist/user.html");
+        assert.equal(await browser.getCurrentUrl(), "file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/user.html");
 
         let elem = await browser.wait(
             until.elementLocated(By.id('nameRec0')), 10000);
@@ -518,17 +518,17 @@ describe("E2E. Scenario 5", () => {
 
 
         assert.equal(textNameAuthor0,"Автор: polinafomina");
-        assert.equal(textRecImage0,"http://localhost:63342/Frontend/downloads/140.png");
+        assert.equal(textRecImage0,"file:///home/runner/work/Povarenok/Povarenok/Frontend/downloads/140.png");
         assert.equal(textNameRec0,"БОРЩ");
         assert.equal(textTimeCooking0,"Время приготовления: 120 минут");
 
         assert.equal(textNameAuthor1,"Автор: polinafomina");
-        assert.equal(textRecImage1,"http://localhost:63342/Frontend/downloads/141.png");
+        assert.equal(textRecImage1,"file:///home/runner/work/Povarenok/Povarenok/Frontend/downloads/141.png");
         assert.equal(textNameRec1,"ЩИ");
         assert.equal(textTimeCooking1,"Время приготовления: 90 минут");
 
         assert.equal(nameRecFav02,"БЛИНЫ");
-        assert.equal(recImageFav02,"http://localhost:63342/Frontend/downloads/142.png");
+        assert.equal(recImageFav02,"file:///home/runner/work/Povarenok/Povarenok/Frontend/downloads/142.png");
         assert.equal(nameAuthorFav02,"Автор: povarverona");
         assert.equal(timeCookingFav02,"Время приготовления: 20 минут");
     })
@@ -541,7 +541,7 @@ describe("E2E. Scenario 5", () => {
 
         elem = await browser.getCurrentUrl();
 
-        assert.equal(elem,"http://localhost:63342/Frontend/dist/index.html");
+        assert.equal(elem,"file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/index.html");
     })
 
     it('check recipe "Вафли"',async function () {
@@ -566,7 +566,7 @@ describe("E2E. Scenario 5", () => {
 describe("E2E. Scenario 6", () => {
     before(async ()=>{
         browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).build();
-        await browser.get('http://localhost:63342/Frontend/dist/index.html');
+        await browser.get('file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/index.html');
     })
 
     after(async ()=>{
@@ -579,10 +579,10 @@ describe("E2E. Scenario 6", () => {
             until.elementLocated(By.id('signInButton')), 10000);
 
         assert.equal(await signInButton.getText(), "Войти");
-        assert.equal(await signInButton.getAttribute('href'), "http://localhost:63342/Frontend/dist/signIn.html");
+        assert.equal(await signInButton.getAttribute('href'), "file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/signIn.html");
 
         await signInButton.click();
-        assert.equal(await browser.getCurrentUrl(), "http://localhost:63342/Frontend/dist/signIn.html");
+        assert.equal(await browser.getCurrentUrl(), "file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/signIn.html");
     })
 
     it('check button "Зарегистрироваться" on signIn.html',async function () {
@@ -613,7 +613,7 @@ describe("E2E. Scenario 6", () => {
 
     it('check button "Зарегистрироваться" on signUp.html',async function () {
 
-        assert.equal(await browser.getCurrentUrl(), "http://localhost:63342/Frontend/dist/signUp.html");
+        assert.equal(await browser.getCurrentUrl(), "file:///home/runner/work/Povarenok/Povarenok/Frontend/signUp.html");
 
         let registerButton = await browser.wait(
             until.elementLocated(By.id('registerButton')), 10000);
@@ -658,7 +658,7 @@ describe("E2E. Scenario 6", () => {
             until.elementLocated(By.id('registerButton')), 10000);
 
         await registerButton.click();
-        assert.equal(await browser.getCurrentUrl(), "http://localhost:63342/Frontend/dist/index.html");
+        assert.equal(await browser.getCurrentUrl(), "file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/index.html");
 
         let signInButton = await browser.wait(
             until.elementLocated(By.id('signInButton')), 10000);
@@ -732,22 +732,22 @@ describe("E2E. Scenario 6", () => {
         let textTimeCooking3 = await elem.getText();
 
         assert.equal(textNameAuthor0,"Автор: povarverona");
-        assert.equal(textRecImage0,"http://localhost:63342/Frontend/downloads/144.png");
+        assert.equal(textRecImage0,"file:///home/runner/work/Povarenok/Povarenok/Frontend/downloads/144.png");
         assert.equal(textNameRec0,"СТЕЙК");
         assert.equal(textTimeCooking0,"Время приготовления: 20 минут");
 
         assert.equal(textNameAuthor1,"Автор: povarverona");
-        assert.equal(textRecImage1,"http://localhost:63342/Frontend/downloads/143.png");
+        assert.equal(textRecImage1,"file:///home/runner/work/Povarenok/Povarenok/Frontend/downloads/143.png");
         assert.equal(textNameRec1,"ВАФЛИ");
         assert.equal(textTimeCooking1,"Время приготовления: 45 минут");
 
         assert.equal(textNameAuthor2,"Автор: povarverona");
-        assert.equal(textRecImage2,"http://localhost:63342/Frontend/downloads/142.png");
+        assert.equal(textRecImage2,"file:///home/runner/work/Povarenok/Povarenok/Frontend/downloads/142.png");
         assert.equal(textNameRec2,"БЛИНЫ");
         assert.equal(textTimeCooking2,"Время приготовления: 20 минут");
 
         assert.equal(textNameAuthor3,"Автор: polinafomina");
-        assert.equal(textRecImage3,"http://localhost:63342/Frontend/downloads/141.png");
+        assert.equal(textRecImage3,"file:///home/runner/work/Povarenok/Povarenok/Frontend/downloads/141.png");
         assert.equal(textNameRec3,"ЩИ");
         assert.equal(textTimeCooking3,"Время приготовления: 90 минут");
     })
@@ -765,7 +765,7 @@ describe("E2E. Scenario 6", () => {
 describe("E2E. Scenario 7", () => {
     before(async ()=>{
         browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).build();
-        await browser.get('http://localhost:63342/Frontend/dist/index.html');
+        await browser.get('file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/index.html');
     })
 
     after(async ()=>{
@@ -778,10 +778,10 @@ describe("E2E. Scenario 7", () => {
             until.elementLocated(By.id('signInButton')), 10000);
 
         assert.equal(await signInButton.getText(), "Войти");
-        assert.equal(await signInButton.getAttribute('href'), "http://localhost:63342/Frontend/dist/signIn.html");
+        assert.equal(await signInButton.getAttribute('href'), "file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/signIn.html");
 
         await signInButton.click();
-        assert.equal(await browser.getCurrentUrl(), "http://localhost:63342/Frontend/dist/signIn.html");
+        assert.equal(await browser.getCurrentUrl(), "file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/signIn.html");
     })
 
     it('check button "Войти" on signIn.html',async function () {
@@ -821,7 +821,7 @@ describe("E2E. Scenario 7", () => {
             until.elementLocated(By.id('enterButton')), 10000);
 
         await enterButton.click();
-        assert.equal(await browser.getCurrentUrl(), "http://localhost:63342/Frontend/dist/user.html");
+        assert.equal(await browser.getCurrentUrl(), "file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/user.html");
 
         let elem = await browser.wait(
             until.elementLocated(By.id('nameRec0')), 10000);
@@ -874,17 +874,17 @@ describe("E2E. Scenario 7", () => {
 
 
         assert.equal(textNameAuthor0,"Автор: polinafomina");
-        assert.equal(textRecImage0,"http://localhost:63342/Frontend/downloads/140.png");
+        assert.equal(textRecImage0,"file:///home/runner/work/Povarenok/Povarenok/Frontend/downloads/140.png");
         assert.equal(textNameRec0,"БОРЩ");
         assert.equal(textTimeCooking0,"Время приготовления: 120 минут");
 
         assert.equal(textNameAuthor1,"Автор: polinafomina");
-        assert.equal(textRecImage1,"http://localhost:63342/Frontend/downloads/141.png");
+        assert.equal(textRecImage1,"file:///home/runner/work/Povarenok/Povarenok/Frontend/downloads/141.png");
         assert.equal(textNameRec1,"ЩИ");
         assert.equal(textTimeCooking1,"Время приготовления: 90 минут");
 
         assert.equal(nameRecFav02,"БЛИНЫ");
-        assert.equal(recImageFav02,"http://localhost:63342/Frontend/downloads/142.png");
+        assert.equal(recImageFav02,"file:///home/runner/work/Povarenok/Povarenok/Frontend/downloads/142.png");
         assert.equal(nameAuthorFav02,"Автор: povarverona");
         assert.equal(timeCookingFav02,"Время приготовления: 20 минут");
     })
@@ -914,7 +914,7 @@ describe("E2E. Scenario 7", () => {
         await signInButton.click();
 
         let elem = await browser.getCurrentUrl();
-        assert.equal(elem,"http://localhost:63342/Frontend/dist/user.html");
+        assert.equal(elem,"file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/user.html");
 
         try{
             elem = await browser.wait(
@@ -930,7 +930,7 @@ describe("E2E. Scenario 7", () => {
 describe("E2E. Scenario 8", () => {
     before(async ()=>{
         browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).build();
-        await browser.get('http://localhost:63342/Frontend/dist/index.html');
+        await browser.get('file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/index.html');
     })
 
     after(async ()=>{
@@ -943,10 +943,10 @@ describe("E2E. Scenario 8", () => {
             until.elementLocated(By.id('signInButton')), 10000);
 
         assert.equal(await signInButton.getText(), "Войти");
-        assert.equal(await signInButton.getAttribute('href'), "http://localhost:63342/Frontend/dist/signIn.html");
+        assert.equal(await signInButton.getAttribute('href'), "file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/signIn.html");
 
         await signInButton.click();
-        assert.equal(await browser.getCurrentUrl(), "http://localhost:63342/Frontend/dist/signIn.html");
+        assert.equal(await browser.getCurrentUrl(), "file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/signIn.html");
     })
 
     it('check button "Войти" on signIn.html',async function () {
@@ -986,7 +986,7 @@ describe("E2E. Scenario 8", () => {
             until.elementLocated(By.id('enterButton')), 10000);
 
         await enterButton.click();
-        assert.equal(await browser.getCurrentUrl(), "http://localhost:63342/Frontend/dist/user.html");
+        assert.equal(await browser.getCurrentUrl(), "file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/user.html");
 
         let elem = await browser.wait(
             until.elementLocated(By.id('nameRec0')), 10000);
@@ -1039,17 +1039,17 @@ describe("E2E. Scenario 8", () => {
 
 
         assert.equal(textNameAuthor0,"Автор: polinafomina");
-        assert.equal(textRecImage0,"http://localhost:63342/Frontend/downloads/140.png");
+        assert.equal(textRecImage0,"file:///home/runner/work/Povarenok/Povarenok/Frontend/downloads/140.png");
         assert.equal(textNameRec0,"БОРЩ");
         assert.equal(textTimeCooking0,"Время приготовления: 120 минут");
 
         assert.equal(textNameAuthor1,"Автор: polinafomina");
-        assert.equal(textRecImage1,"http://localhost:63342/Frontend/downloads/141.png");
+        assert.equal(textRecImage1,"file:///home/runner/work/Povarenok/Povarenok/Frontend/downloads/141.png");
         assert.equal(textNameRec1,"ЩИ");
         assert.equal(textTimeCooking1,"Время приготовления: 90 минут");
 
         assert.equal(nameRecFav02,"ВАФЛИ");
-        assert.equal(recImageFav02,"http://localhost:63342/Frontend/downloads/143.png");
+        assert.equal(recImageFav02,"file:///home/runner/work/Povarenok/Povarenok/Frontend/downloads/143.png");
         assert.equal(nameAuthorFav02,"Автор: povarverona");
         assert.equal(timeCookingFav02,"Время приготовления: 45 минут");
     })
@@ -1060,7 +1060,7 @@ describe("E2E. Scenario 8", () => {
             until.elementLocated(By.id('AddRecButton')), 10000);
         await addRecButton.click();
 
-        assert.equal(await browser.getCurrentUrl(), "http://localhost:63342/Frontend/dist/addRecipe.html")
+        assert.equal(await browser.getCurrentUrl(), "file:///home/runner/work/Povarenok/Povarenok/Frontend/addRecipe.html")
 
         let elem = await browser.wait(
             until.elementLocated(By.id('createRecButton')), 10000);
@@ -1122,7 +1122,7 @@ describe("E2E. Scenario 8", () => {
             until.elementLocated(By.id('createRecButton')), 10000);
         await createRecButton.click();
 
-        assert.equal(await browser.getCurrentUrl(), "http://localhost:63342/Frontend/dist/user.html");
+        assert.equal(await browser.getCurrentUrl(), "file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/user.html");
 
         let elem = await browser.wait(
             until.elementLocated(By.id('nameRec0')), 10000);
@@ -1192,18 +1192,18 @@ describe("E2E. Scenario 8", () => {
         let timeCookingFav02 = await elem.getText();
 
         assert.equal(textNameAuthor0,"Автор: polinafomina");
-        assert.equal(textRecImage0,"http://localhost:63342/Frontend/downloads/140.png");
+        assert.equal(textRecImage0,"file:///home/runner/work/Povarenok/Povarenok/Frontend/downloads/140.png");
         assert.equal(textNameRec0,"БОРЩ");
         assert.equal(textTimeCooking0,"Время приготовления: 120 минут");
         assert.equal(textNameAuthor1,"Автор: polinafomina");
-        assert.equal(textRecImage1,"http://localhost:63342/Frontend/downloads/141.png");
+        assert.equal(textRecImage1,"file:///home/runner/work/Povarenok/Povarenok/Frontend/downloads/141.png");
         assert.equal(textNameRec1,"ЩИ");
         assert.equal(textTimeCooking1,"Время приготовления: 90 минут");
         assert.equal(textNameAuthor2,"Автор: polinafomina");
         assert.equal(textNameRec2,"ПАСТА");
         assert.equal(textTimeCooking2,"Время приготовления: 45 минут");
         assert.equal(nameRecFav02,"ВАФЛИ");
-        assert.equal(recImageFav02,"http://localhost:63342/Frontend/downloads/143.png");
+        assert.equal(recImageFav02,"file:///home/runner/work/Povarenok/Povarenok/Frontend/downloads/143.png");
         assert.equal(nameAuthorFav02,"Автор: povarverona");
         assert.equal(timeCookingFav02,"Время приготовления: 45 минут");
     })
@@ -1225,10 +1225,10 @@ describe("E2E. Scenario 9", () => {
             until.elementLocated(By.id('signInButton')), 10000);
 
         assert.equal(await signInButton.getText(), "Войти");
-        assert.equal(await signInButton.getAttribute('href'), "http://localhost:63342/Frontend/dist/signIn.html");
+        assert.equal(await signInButton.getAttribute('href'), "file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/signIn.html");
 
         await signInButton.click();
-        assert.equal(await browser.getCurrentUrl(), "http://localhost:63342/Frontend/dist/signIn.html");
+        assert.equal(await browser.getCurrentUrl(), "file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/signIn.html");
     })
 
     it('check button "Войти" on signIn.html',async function () {
@@ -1268,7 +1268,7 @@ describe("E2E. Scenario 9", () => {
             until.elementLocated(By.id('enterButton')), 10000);
 
         await enterButton.click();
-        assert.equal(await browser.getCurrentUrl(), "http://localhost:63342/Frontend/dist/user.html");
+        assert.equal(await browser.getCurrentUrl(), "file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/user.html");
 
         let elem = await browser.wait(
             until.elementLocated(By.id('nameRec0')), 10000);
@@ -1338,18 +1338,18 @@ describe("E2E. Scenario 9", () => {
         let timeCookingFav02 = await elem.getText();
 
         assert.equal(textNameAuthor0,"Автор: polinafomina");
-        assert.equal(textRecImage0,"http://localhost:63342/Frontend/downloads/140.png");
+        assert.equal(textRecImage0,"file:///home/runner/work/Povarenok/Povarenok/Frontend/downloads/140.png");
         assert.equal(textNameRec0,"БОРЩ");
         assert.equal(textTimeCooking0,"Время приготовления: 120 минут");
         assert.equal(textNameAuthor1,"Автор: polinafomina");
-        assert.equal(textRecImage1,"http://localhost:63342/Frontend/downloads/141.png");
+        assert.equal(textRecImage1,"file:///home/runner/work/Povarenok/Povarenok/Frontend/downloads/141.png");
         assert.equal(textNameRec1,"ЩИ");
         assert.equal(textTimeCooking1,"Время приготовления: 90 минут");
         assert.equal(textNameAuthor2,"Автор: polinafomina");
         assert.equal(textNameRec2,"ПАСТА");
         assert.equal(textTimeCooking2,"Время приготовления: 45 минут");
         assert.equal(nameRecFav02,"ВАФЛИ");
-        assert.equal(recImageFav02,"http://localhost:63342/Frontend/downloads/143.png");
+        assert.equal(recImageFav02,"file:///home/runner/work/Povarenok/Povarenok/Frontend/downloads/143.png");
         assert.equal(nameAuthorFav02,"Автор: povarverona");
         assert.equal(timeCookingFav02,"Время приготовления: 45 минут");
     })
@@ -1360,7 +1360,7 @@ describe("E2E. Scenario 9", () => {
             until.elementLocated(By.id('AddRecButton')), 10000);
         await addRecButton.click();
 
-        assert.equal(await browser.getCurrentUrl(), "http://localhost:63342/Frontend/dist/addRecipe.html")
+        assert.equal(await browser.getCurrentUrl(), "file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/addRecipe.html")
 
         let elem = await browser.wait(
             until.elementLocated(By.id('createRecButton')), 10000);
@@ -1427,7 +1427,7 @@ describe("E2E. Scenario 9", () => {
             until.elementLocated(By.id('createRecButton')), 10000);
         await createRecButton.click();
 
-        assert.equal(await browser.getCurrentUrl(), "http://localhost:63342/Frontend/dist/user.html");
+        assert.equal(await browser.getCurrentUrl(), "file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/user.html");
 
         let elem = await browser.wait(
             until.elementLocated(By.id('nameRec0')), 10000);
@@ -1496,18 +1496,18 @@ describe("E2E. Scenario 9", () => {
         let timeCookingFav02 = await elem.getText();
 
         assert.equal(textNameAuthor0,"Автор: polinafomina");
-        assert.equal(textRecImage0,"http://localhost:63342/Frontend/downloads/140.png");
+        assert.equal(textRecImage0,"file:///home/runner/work/Povarenok/Povarenok/Frontend/downloads/140.png");
         assert.equal(textNameRec0,"БОРЩ");
         assert.equal(textTimeCooking0,"Время приготовления: 120 минут");
         assert.equal(textNameAuthor1,"Автор: polinafomina");
-        assert.equal(textRecImage1,"http://localhost:63342/Frontend/downloads/141.png");
+        assert.equal(textRecImage1,"file:///home/runner/work/Povarenok/Povarenok/Frontend/downloads/141.png");
         assert.equal(textNameRec1,"ЩИ");
         assert.equal(textTimeCooking1,"Время приготовления: 90 минут");
         assert.equal(textNameAuthor2,"Автор: polinafomina");
         assert.equal(textNameRec2,"ПАСТА");
         assert.equal(textTimeCooking2,"Время приготовления: 45 минут");
         assert.equal(nameRecFav02,"ВАФЛИ");
-        assert.equal(recImageFav02,"http://localhost:63342/Frontend/downloads/143.png");
+        assert.equal(recImageFav02,"file:///home/runner/work/Povarenok/Povarenok/Frontend/downloads/143.png");
         assert.equal(nameAuthorFav02,"Автор: povarverona");
         assert.equal(timeCookingFav02,"Время приготовления: 45 минут");
     })
