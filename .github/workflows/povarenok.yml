@@ -69,14 +69,20 @@ jobs:
       uses: browser-actions/setup-chrome@v1.2.0
       with:
         chrome-version: latest
-    - run: chrome --version
+    - run: |
+        sudo apt-get update 
+        sudo apt-get install google-chrome-stable
+        chrome --version
 
     - name: Set up chromedriver
       uses: nanasess/setup-chromedriver@v1.1.0
+    - run: |
+        wget http://chromedriver.storage.googleapis.com/2.23/chromedriver_linux64.zip
+        unzip chromedriver_linux64.zip
 
     - name: Frontend integration tests
       run: |
-        npm install chromedriver
+        npm install  selenium-webdriver chromedriver geckodriver
         npm rebuild
         npm ci
         npm run integrtest
