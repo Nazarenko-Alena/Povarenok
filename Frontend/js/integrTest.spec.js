@@ -1,6 +1,6 @@
 const {By,Builder, until, Select} = require("selenium-webdriver");
 const assert = require('assert').strict;
-require("chromedriver");
+require("geckodriver");
 
 let browser;
 
