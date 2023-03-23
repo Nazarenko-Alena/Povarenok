@@ -1,14 +1,14 @@
 const {By,Builder, until, Select} = require("selenium-webdriver");
 const assert = require('assert').strict;
-require("chromedriver");
+require("geckodriver");
 // let chrome = require("selenium-webdriver");
-let chrome = require("selenium-webdriver/chrome");
-
+let firefox = require("selenium-webdriver/firefox");
+let fi = new firefox.Options().addArguments("--headless");
 let browser;
-
+//
 describe("Scenario 13 - Set new user", () => {
     before(async ()=>{
-        browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).setChromeOptions(new chrome.Options().headless()).build();
+        browser = new Builder().usingServer().withCapabilities({'browserName': 'firefox' }).setFirefoxOptions(fi) .build();
         await browser.get('http://localhost:63343/Frontend/dist/signUp.html');
     })
 
@@ -16,29 +16,29 @@ describe("Scenario 13 - Set new user", () => {
         await browser.close();
     })
 
-    // it('check setNewUser',async function () {
-    //
-    //     let signUpLogin = await browser.wait(
-    //         until.elementLocated(By.id('signUpLogin')), 10000);
-    //     signUpLogin.sendKeys("nazarenko");
-    //
-    //     let signUpPassword = await browser.wait(
-    //         until.elementLocated(By.id('signUpPassword')), 10000);
-    //     signUpPassword.sendKeys("123456789");
-    //
-    //     let signUpEmail = await browser.wait(
-    //         until.elementLocated(By.id('signUpEmail')), 10000);
-    //     signUpEmail.sendKeys("nazarenko.av@edu.spbstu.ru");
-    //
-    //     let registerButton = await browser.wait(
-    //         until.elementLocated(By.id('registerButton')), 10000);
-    //     registerButton.click();
-    //
-    //     let signInButton = await browser.wait(
-    //         until.elementLocated(By.id('signInButton')), 10000);
-    //
-    //     assert(await signInButton.getText(), "nazarenko");
-    // })
+    it('check setNewUser',async function () {
+
+        let signUpLogin = await browser.wait(
+            until.elementLocated(By.id('signUpLogin')), 10000);
+        signUpLogin.sendKeys("nazarenko");
+
+        let signUpPassword = await browser.wait(
+            until.elementLocated(By.id('signUpPassword')), 10000);
+        signUpPassword.sendKeys("123456789");
+
+        let signUpEmail = await browser.wait(
+            until.elementLocated(By.id('signUpEmail')), 10000);
+        signUpEmail.sendKeys("nazarenko.av@edu.spbstu.ru");
+
+        let registerButton = await browser.wait(
+            until.elementLocated(By.id('registerButton')), 10000);
+        registerButton.click();
+
+        let signInButton = await browser.wait(
+            until.elementLocated(By.id('signInButton')), 10000);
+
+        assert(await signInButton.getText(), "nazarenko");
+    })
 })
 
 describe("Scenario 14 - Recent recipe", () => {
