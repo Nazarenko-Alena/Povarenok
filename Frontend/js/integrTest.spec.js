@@ -1,14 +1,29 @@
 const {By,Builder, until, Select} = require("selenium-webdriver");
 const assert = require('assert').strict;
-require("geckodriver");
+require("chromedriver");
 // let chrome = require("selenium-webdriver");
-let firefox = require("selenium-webdriver/firefox");
-let fi = new firefox.Options().addArguments("--headless");
+let chrome = require("selenium-webdriver/chrome");
+
+const webdriver = require('selenium-webdriver');
+const path = require('chromedriver').path;
 let browser;
-//
+
 describe("Scenario 13 - Set new user", () => {
+
+    let options = new chrome.Options();
+    options.addArguments("--no-sandbox");
+    options.addArguments("--disable-dev-shm-usage");
+    options.addArguments("--disable-gpu");
+    options.addArguments("--headless");
+
+
     before(async ()=>{
-        browser = new Builder().usingServer().withCapabilities({'browserName': 'firefox' }).setFirefoxOptions(fi) .build();
+        // browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).setChromeOptions(new chrome.Options().headless()).build();
+
+        browser = new webdriver.Builder()
+            .setChromeOptions(options)
+            .forBrowser('chrome')
+            .build();
         await browser.get('http://localhost:63343/Frontend/dist/signUp.html');
     })
 
