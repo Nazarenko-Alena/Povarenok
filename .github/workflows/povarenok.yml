@@ -57,6 +57,13 @@ jobs:
           distribution: 'corretto'
           cache: maven
 
+      - name: Set up Node.js environment
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'npm'
+          cache-dependency-path: ./Frontend/package-lock.json
+
       - name: Backend integration tests
         run: mvn test -Dtest="integration/*"
         working-directory: ./Backend
@@ -65,19 +72,8 @@ jobs:
         run: mvn spring-boot:run -Dspring-boot.run.arguments=--spring.profiles.active=test &
         working-directory: ./Backend
 
-      - name: Set up Chrome
-        uses: browser-actions/setup-chrome@v1.2.0
-        with:
-          chrome-version: latest
-      - run: chrome --version
-
-      - name: Set up chromedriver
-        uses: nanasess/setup-chromedriver@v1.1.0
-
       - name: Frontend integration tests
         run: |
-          npm install chromedriver
-          npm rebuild
           npm ci
           npm run integrtest
         working-directory: ./Frontend
