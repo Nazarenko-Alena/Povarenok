@@ -24,7 +24,7 @@ describe("Scenario 13 - Set new user", () => {
             .setChromeOptions(options)
             .forBrowser('chrome')
             .build();
-        await browser.get('http://localhost:63343/Frontend/dist/signUp.html');
+        await browser.get('https://www.google.ru/');
     })
 
     after(async ()=>{
