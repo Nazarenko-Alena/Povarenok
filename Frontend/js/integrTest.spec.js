@@ -1,16 +1,12 @@
 const {By,Builder, until, Select} = require("selenium-webdriver");
 const assert = require('assert').strict;
-require("chromedriver");
-
-//const jsdom = require('jsdom');
-//const dom = new jsdom.JSDOM("");
-//const $ = require('jquery')(dom.window);
+require("./chromedriver");
 
 let browser;
 
 describe("Scenario 13 - Set new user", () => {
     before(async ()=>{
-        browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).build();
+        browser = new Builder().usingServer().withCapabilities({'browserName': 'fi' }).build();
         await browser.get('http://localhost:63343/Frontend/dist/signUp.html');
     })
 
