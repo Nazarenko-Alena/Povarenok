@@ -1,12 +1,14 @@
 const {By,Builder, until, Select} = require("selenium-webdriver");
 const assert = require('assert').strict;
-require("geckodriver");
+require("chromedriver");
+// let chrome = require("selenium-webdriver");
+let chrome = require("selenium-webdriver/chrome");
 
 let browser;
 
 describe("Scenario 13 - Set new user", () => {
     before(async ()=>{
-        browser = new Builder().usingServer().withCapabilities({'browserName': 'firefox' }).build();
+        browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).setChromeOptions(new chrome.Options().headless()).build();
         await browser.get('http://localhost:63343/Frontend/dist/signUp.html');
     })
 
@@ -42,7 +44,7 @@ describe("Scenario 13 - Set new user", () => {
 describe("Scenario 14 - Recent recipe", () => {
 
     before(async ()=>{
-        browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).build();
+        browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).setChromeOptions(new chrome.Options().headless()).build();
         await browser.get('http://localhost:63343/Frontend/dist/index.html');
     })
 
