@@ -75,6 +75,9 @@ jobs:
       - name: chrome
         run: google-chrome --version
 
+      - name: chromedriver
+        run: chromedriver -v
+
       - name: Frontend integration tests
         run: |
           npm ci
