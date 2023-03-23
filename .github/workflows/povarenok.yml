@@ -43,7 +43,7 @@ jobs:
 
   integration-tests:
 
-    runs-on: selenium/node-chrome
+    runs-on: selenium/node-chrome:110.0
 
     steps:
 
