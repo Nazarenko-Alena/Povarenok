@@ -70,26 +70,15 @@ jobs:
       with:
         chrome-version: latest
     - run: |
-        sudo curl -sS -o - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add
-        sudo echo "deb [arch=amd64]  http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list
-        sudo apt-get -y update
-        sudo apt-get -y install google-chrome-stable
+        chmod +x ./scripts/InstallChrome.sh
 
-    - name: Set up chromedriver
-      uses: nanasess/setup-chromedriver@v1.1.0
-    - run: |
-        wget https://chromedriver.storage.googleapis.com/78.0.3904.70/chromedriver_linux64.zip
-        unzip chromedriver_linux64.zip
-        sudo mv chromedriver /usr/bin/chromedriver
-        sudo chown root:root /usr/bin/chromedriver
-        sudo chmod +x /usr/bin/chromedriver
-        sudo apt-get install xvfb
+                ./scripts/InstallChrome.sh 
+        chrome --version
 
     - name: Frontend integration tests
       run: |
         npm install  selenium-webdriver chromedriver geckodriver
         npm rebuild
         npm ci
-        Xvfb :1 -screen 0 1024x768x24 & export DISPLAY=:1
         npm run integrtest
       working-directory: ./Frontend
