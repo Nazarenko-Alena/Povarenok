@@ -9,7 +9,7 @@ let browser;
 describe("Scenario 13 - Set new user", () => {
     before(async ()=>{
         browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).setChromeOptions(new chrome.Options().headless()).build();
-        await browser.get('http://localhost:63343/Frontend/dist/signUp.html');
+        await browser.get('http://localhost:63342/Frontend/dist/signUp.html');
     })
 
     after(async ()=>{
