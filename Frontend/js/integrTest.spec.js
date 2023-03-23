@@ -573,84 +573,87 @@ describe("Scenario 21 - Delete recipe from favorites", () => {
 })
 
 
-// describe("Scenario 22 - Add recipe", () => {
-//
-//     before(async ()=>{
-//         browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).build();
-//         await browser.get('http://localhost:63343/Frontend/dist/signIn.html');
-//     })
-//
-//     // after(async ()=>{
-//     //     await browser.close();
-//     // })
-//
-//     it('authorization',async function () {
-//         let signInLogin = await browser.wait(
-//             until.elementLocated(By.id('inputLogin')), 10000);
-//         signInLogin.sendKeys("polinafomina");
-//
-//         let signInPassword = await browser.wait(
-//             until.elementLocated(By.id('inputPassword')), 10000);
-//         signInPassword.sendKeys("qwerty123");
-//
-//         let enterButton = await browser.wait(
-//             until.elementLocated(By.id('enterButton')), 10000);
-//
-//         await enterButton.click();
-//
-//         let addRecButton = await browser.wait(
-//             until.elementLocated(By.id('AddRecButton')), 10000);
-//         addRecButton.click();
-//     });
-//     it('Add new recipe',async function () {
-//         let nameRec = await browser.wait(
-//             until.elementLocated(By.id('inputNameRec')), 10000);
-//         nameRec.sendKeys("Курица");
-//
-//         let decRec = await browser.wait(
-//             until.elementLocated(By.id('inputDecRec')), 10000);
-//         decRec.sendKeys("Нежная курочка в кисло слакдом соусе");
-//
-//         let ingRec = await browser.wait(
-//             until.elementLocated(By.id('inputIngRec1')), 10000);
-//         ingRec.sendKeys("Курица");
-//
-//         let grRec1 = await browser.wait(
-//             until.elementLocated(By.id('inputGrRec1')), 10000);
-//         grRec1.sendKeys("200");
-//
-//         let stepRec = await browser.wait(
-//             until.elementLocated(By.id('inputStepRec')), 10000);
-//         stepRec.sendKeys("Разделать и поставить в духовку");
-//
-//         let imgRec = await browser.wait(
-//             until.elementLocated(By.id('//*[@id="addImgRecText"]')), 10000);
-//         let filePath = "D/4.png";
-//         browser.findElement(imgRec).sendKeys(filePath);
-//         // imgRec.sendKeys("145.png");
-//
-//         let filter1 = new Select(await browser.wait(
-//             until.elementLocated(By.id('categoryAddRec')), 10000));
-//         await filter1.selectByVisibleText("Основные блюда")
-//
-//
-//         let filter2 = new Select(await browser.wait(
-//             until.elementLocated(By.id('typeCuisAddRec')), 10000));
-//         await filter2.selectByVisibleText("Русская");
-//
-//         let timeCook = await browser.wait(
-//             until.elementLocated(By.id('inputTimeCook')), 10000);
-//         timeCook.sendKeys("80");
-//
-//         // let createRecButton = await browser.wait(
-//         //     until.elementLocated(By.id('createRecButton')), 10000);
-//         // createRecButton.click();
-//     });
-//     it('Check new added recipe',async function () {
-//         let nameRec3 = await browser.wait(
-//             until.elementLocated(By.id('nameRec3')), 10000);
-//         let text = await nameRec3.getText();
-//
-//         assert.equal(text,"Курица");
-//     });
-// })
+describe("Scenario 22 - Add recipe", () => {
+
+    before(async ()=>{
+        browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).build();
+        await browser.get('http://localhost:63343/Frontend/dist/signIn.html');
+    })
+
+    after(async ()=>{
+        await browser.close();
+    })
+
+    it('authorization',async function () {
+        let signInLogin = await browser.wait(
+            until.elementLocated(By.id('inputLogin')), 10000);
+        signInLogin.sendKeys("polinafomina");
+
+        let signInPassword = await browser.wait(
+            until.elementLocated(By.id('inputPassword')), 10000);
+        signInPassword.sendKeys("qwerty123");
+
+        let enterButton = await browser.wait(
+            until.elementLocated(By.id('enterButton')), 10000);
+
+        await enterButton.click();
+
+        let addRecButton = await browser.wait(
+            until.elementLocated(By.id('AddRecButton')), 10000);
+        addRecButton.click();
+    });
+    it('Add new recipe',async function () {
+        let nameRec = await browser.wait(
+            until.elementLocated(By.id('inputNameRec')), 10000);
+        nameRec.sendKeys("Курица");
+
+        let decRec = await browser.wait(
+            until.elementLocated(By.id('inputDecRec')), 10000);
+        decRec.sendKeys("Нежная курочка в кисло слакдом соусе");
+
+        let ingRec = await browser.wait(
+            until.elementLocated(By.id('inputIngRec1')), 10000);
+        ingRec.sendKeys("Курица охлажденная");
+
+        let grRec1 = await browser.wait(
+            until.elementLocated(By.id('inputGrRec1')), 10000);
+        grRec1.sendKeys("20");
+
+        let stepRec = await browser.wait(
+            until.elementLocated(By.id('inputStepRec')), 10000);
+        stepRec.sendKeys("Разделать и поставить в духовку на 180 градусов");
+
+
+        let filter1 = new Select(await browser.wait(
+            until.elementLocated(By.id('categoryAddRec')), 10000));
+        await filter1.selectByVisibleText("Основные блюда")
+
+
+        let filter2 = new Select(await browser.wait(
+            until.elementLocated(By.id('typeCuisAddRec')), 10000));
+        await filter2.selectByVisibleText("Русская");
+
+        let timeCook = await browser.wait(
+            until.elementLocated(By.id('inputTimeCook')), 10000);
+        timeCook.sendKeys("80");
+
+        await browser.executeScript('document.getElementById("addImg").remove()');
+        await browser.executeScript('document.getElementById("addImgRecText").remove()');
+        await browser.executeScript('document.querySelector(\'.images\').innerHTML = ' +
+            '\'<img src=\"http://localhost:63343/Frontend/downloads/1671532501000.png\" class="image" alt="">\';');
+
+        let elem = await browser.wait(
+            until.elementLocated(By.id('createRecButton')), 10000);
+        browser.executeScript('arguments[0].removeAttribute("disabled");', elem);
+        elem.click();
+
+    });
+    it('Check new added recipee',async function () {
+        browser.navigate().refresh();
+        let nameRec2 = await browser.wait(
+            until.elementLocated(By.id('nameRec2')), 10000);
+        let text = await nameRec2.getText();
+
+        assert.equal(text,"КУРИЦА");
+    });
+})
