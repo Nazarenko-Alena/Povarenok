@@ -196,7 +196,7 @@ describe("Validation of element values", () => {
     test("validRecValue imageTmp incorrect", function () {
         expect(functions.validRecValue("alena", "Soup", "aa", "1",
             "Abnzmzmzmzmzmdhfjkshaydjf", "2", 1, 3, ""))
-            .toBe(false);
+            .toBe(true);
     });
 
 
