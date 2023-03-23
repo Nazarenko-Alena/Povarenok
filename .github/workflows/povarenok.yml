@@ -73,7 +73,7 @@ jobs:
         working-directory: ./Backend
 
       - name: chrome
-        run: ./chromedriver
+        run: google-chrome --version
 
       - name: Frontend integration tests
         run: |
