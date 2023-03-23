@@ -43,7 +43,7 @@ jobs:
 
   integration-tests:
 
-    runs-on: ubuntu-latest
+    runs-on: selenium/node-chrome
 
     steps:
 
@@ -57,12 +57,12 @@ jobs:
           distribution: 'corretto'
           cache: maven
 
-      - name: Set up Node.js environment
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
-          cache: 'npm'
-          cache-dependency-path: ./Frontend/package-lock.json
+#      - name: Set up Node.js environment
+#        uses: actions/setup-node@v3
+#        with:
+#          node-version: 16
+#          cache: 'npm'
+#          cache-dependency-path: ./Frontend/package-lock.json
 
       - name: Backend integration tests
         run: mvn test -Dtest="integration/*"
