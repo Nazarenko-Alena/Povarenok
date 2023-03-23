@@ -176,7 +176,7 @@ function validRecValue(nameRec, DecRec, inputIngRecOne, inputGrRecOne, inputStep
     return(((nameRec.length > 1) && (DecRec.length > 1)
         && (inputIngRecOne.length > 1) && (inputGrRecOne.length > 0)
         && (inputStepRec.length > 20) && (inputTimeCook.length > 0)
-        && !(typeCuisAddRec === 0) && !(categoryAddRec === 0) && (imageTmp !== "")));
+        && !(typeCuisAddRec === 0) && !(categoryAddRec === 0)));
 }
 
 function toggleButtonSignIn() {
