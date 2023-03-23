@@ -74,7 +74,6 @@ jobs:
     - run: |
         sudo apt install chromium-chromedriver 
         chrome --version
-        chromedriver
 
     - name: Frontend integration tests
       run: |
