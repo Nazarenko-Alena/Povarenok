@@ -18,13 +18,8 @@ describe("Scenario 13 - Set new user", () => {
 
 
     before(async ()=>{
-        // browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).setChromeOptions(new chrome.Options().headless()).build();
-
-        browser = new webdriver.Builder()
-            .setChromeOptions(options)
-            .forBrowser('chrome')
-            .build();
-        await browser.get('https://www.google.ru/');
+        browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).setChromeOptions(new chrome.Options().headless()).build();
+        await browser.get('file:///Users/polinafomina/Documents/Study/ТРКПО/Практика/Povarenok/Frontend/dist/signUp.html');
     })
 
     after(async ()=>{
@@ -33,26 +28,26 @@ describe("Scenario 13 - Set new user", () => {
 
     it('check setNewUser',async function () {
 
-        // let signUpLogin = await browser.wait(
-        //     until.elementLocated(By.id('signUpLogin')), 10000);
-        // signUpLogin.sendKeys("nazarenko");
-        //
-        // let signUpPassword = await browser.wait(
-        //     until.elementLocated(By.id('signUpPassword')), 10000);
-        // signUpPassword.sendKeys("123456789");
-        //
-        // let signUpEmail = await browser.wait(
-        //     until.elementLocated(By.id('signUpEmail')), 10000);
-        // signUpEmail.sendKeys("nazarenko.av@edu.spbstu.ru");
-        //
-        // let registerButton = await browser.wait(
-        //     until.elementLocated(By.id('registerButton')), 10000);
-        // registerButton.click();
-        //
-        // let signInButton = await browser.wait(
-        //     until.elementLocated(By.id('signInButton')), 10000);
+        let signUpLogin = await browser.wait(
+            until.elementLocated(By.id('signUpLogin')), 10000);
+        signUpLogin.sendKeys("nazarenko");
 
-        assert("nazarenko", "nazarenko");
+        let signUpPassword = await browser.wait(
+            until.elementLocated(By.id('signUpPassword')), 10000);
+        signUpPassword.sendKeys("123456789");
+
+        let signUpEmail = await browser.wait(
+            until.elementLocated(By.id('signUpEmail')), 10000);
+        signUpEmail.sendKeys("nazarenko.av@edu.spbstu.ru");
+
+        let registerButton = await browser.wait(
+            until.elementLocated(By.id('registerButton')), 10000);
+        registerButton.click();
+
+        let signInButton = await browser.wait(
+            until.elementLocated(By.id('signInButton')), 10000);
+
+        assert(await signInButton.getText(), "nazarenko");
     })
 })
 
