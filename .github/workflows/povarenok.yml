@@ -43,6 +43,8 @@ jobs:
 
   integration-tests:
 
+    need: unit-tests
+
     runs-on: ubuntu-latest
 
     steps:
@@ -79,6 +81,8 @@ jobs:
         working-directory: ./Frontend
 
   e2e-tests:
+
+    need: unit-tests
 
     runs-on: ubuntu-latest
 
