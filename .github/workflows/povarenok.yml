@@ -80,6 +80,7 @@ jobs:
 
       - name: Frontend integration tests
         run: |
+          pwd
           npm ci
           npm run integrtest
         working-directory: ./Frontend
