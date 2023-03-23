@@ -180,7 +180,7 @@ describe("Scenario 14 - Recent recipe", () => {
 describe("Scenario 15 - Search result by keyword", () => {
 
     before(async ()=>{
-        browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).build();
+        browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).setChromeOptions(new chrome.Options().headless()).build();
         await browser.get('file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/index.html');
         let searchLine = await browser.wait(
             until.elementLocated(By.id('searchLine')), 10000);
@@ -229,7 +229,7 @@ describe("Scenario 15 - Search result by keyword", () => {
 describe("Scenario 16 - Get recipe by name", () => {
 
     before(async ()=>{
-        browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).build();
+        browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).setChromeOptions(new chrome.Options().headless()).build();
         await browser.get('file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/index.html');
         let nameRec0 = await browser.wait(
             until.elementLocated(By.id('nameRec0')), 10000);
@@ -315,7 +315,7 @@ describe("Scenario 16 - Get recipe by name", () => {
 describe("Scenario 17 - Get cuisines from AddRecipe.html", () => {
 
     before(async ()=>{
-        browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).build();
+        browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).setChromeOptions(new chrome.Options().headless()).build();
         await browser.get('file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/addRecipe.html');
     })
 
@@ -357,7 +357,7 @@ describe("Scenario 17 - Get cuisines from AddRecipe.html", () => {
 describe("Scenario 18 - Get categ from AddRecipe.html", () => {
 
     before(async ()=>{
-        browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).build();
+        browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).setChromeOptions(new chrome.Options().headless()).build();
         await browser.get('file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/addRecipe.html');
     })
 
@@ -389,7 +389,7 @@ describe("Scenario 18 - Get categ from AddRecipe.html", () => {
 describe("Scenario 19 - Search result by filters", () => {
 
     before(async ()=>{
-        browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).build();
+        browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).setChromeOptions(new chrome.Options().headless()).build();
         await browser.get('file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/index.html');
 
         let filter1 = new Select(await browser.wait(
@@ -474,7 +474,7 @@ describe("Scenario 19 - Search result by filters", () => {
 describe("Scenario 20 - Add recipe in favorites", () => {
 
     before(async ()=>{
-        browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).build();
+        browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).setChromeOptions(new chrome.Options().headless()).build();
         await browser.get('file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/signIn.html');
         await browser.manage().deleteAllCookies();
     })
@@ -525,7 +525,7 @@ describe("Scenario 20 - Add recipe in favorites", () => {
 describe("Scenario 21 - Delete recipe from favorites", () => {
 
     before(async ()=>{
-        browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).build();
+        browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).setChromeOptions(new chrome.Options().headless()).build();
         await browser.get('file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/signIn.html');
     })
 
@@ -574,7 +574,7 @@ describe("Scenario 21 - Delete recipe from favorites", () => {
 describe("Scenario 22 - Add recipe", () => {
 
     before(async ()=>{
-        browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).build();
+        browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).setChromeOptions(new chrome.Options().headless()).build();
         await browser.get('file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/signIn.html');
     })
 

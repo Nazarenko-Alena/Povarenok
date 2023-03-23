@@ -1,6 +1,7 @@
 const {By,Builder, until, Select} = require("selenium-webdriver");
 const assert = require('assert').strict;
 require("chromedriver");
+const chrome = require("selenium-webdriver/chrome");
 
 let browser;
 
@@ -10,7 +11,7 @@ process.setMaxListeners(0);
 
 describe("E2E. Scenario 1", () => {
     before(async ()=>{
-        browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).build();
+        browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).setChromeOptions(new chrome.Options().headless()).build();
         await browser.get('file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/index.html');
     })
 
@@ -152,7 +153,7 @@ describe("E2E. Scenario 1", () => {
 
 describe("E2E. Scenario 2", () => {
     before(async ()=>{
-        browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).build();
+        browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).setChromeOptions(new chrome.Options().headless()).build();
         await browser.get('file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/index.html');
     })
 
@@ -192,7 +193,7 @@ describe("E2E. Scenario 2", () => {
 
 describe("E2E. Scenario 3", () => {
     before(async ()=>{
-        browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).build();
+        browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).setChromeOptions(new chrome.Options().headless()).build();
         await browser.get('file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/index.html');
     })
 
@@ -253,7 +254,7 @@ describe("E2E. Scenario 3", () => {
 
 describe("E2E. Scenario 4", () => {
     before(async ()=>{
-        browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).build();
+        browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).setChromeOptions(new chrome.Options().headless()).build();
         await browser.get('file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/index.html');
     })
 
@@ -389,7 +390,7 @@ describe("E2E. Scenario 4", () => {
 
 describe("E2E. Scenario 5", () => {
     before(async ()=>{
-        browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).build();
+        browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).setChromeOptions(new chrome.Options().headless()).build();
         await browser.get('file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/index.html');
     })
 
@@ -565,7 +566,7 @@ describe("E2E. Scenario 5", () => {
 
 describe("E2E. Scenario 6", () => {
     before(async ()=>{
-        browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).build();
+        browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).setChromeOptions(new chrome.Options().headless()).build();
         await browser.get('file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/index.html');
     })
 
@@ -764,7 +765,7 @@ describe("E2E. Scenario 6", () => {
 
 describe("E2E. Scenario 7", () => {
     before(async ()=>{
-        browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).build();
+        browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).setChromeOptions(new chrome.Options().headless()).build();
         await browser.get('file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/index.html');
     })
 
@@ -929,7 +930,7 @@ describe("E2E. Scenario 7", () => {
 
 describe("E2E. Scenario 8", () => {
     before(async ()=>{
-        browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).build();
+        browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).setChromeOptions(new chrome.Options().headless()).build();
         await browser.get('file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/index.html');
     })
 
@@ -1211,7 +1212,7 @@ describe("E2E. Scenario 8", () => {
 
 describe("E2E. Scenario 9", () => {
     before(async ()=>{
-        browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).build();
+        browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).setChromeOptions(new chrome.Options().headless()).build();
         await browser.get('http://localhost:63342/Frontend/dist/index.html');
     })
 
