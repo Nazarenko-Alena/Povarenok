@@ -1,8 +1,8 @@
-// const $ = require("./jquery-3.6.2");
+const $ = require("./jquery-3.6.2");
 
-const { JSDOM } = require( "jsdom" );
-const { window } = new JSDOM( "" );
-const $ = require( "jquery" )( window );
+//const { JSDOM } = require( "jsdom" );
+//const { window } = new JSDOM( "" );
+//const $ = require( "jquery" )( window );
 
 let indexBlockIng = 1;
 let currTopIng = 381;
@@ -382,7 +382,7 @@ function dragAndDropFunc() {
             }
 
             imageTmpUrl = URL.createObjectURL(files[e.dataTransfer.files.length - 1]);
-            document.querySelector('.images').innerHTML = `<img src="${imageTmpUrl}" class="image" alt="">`;
+            document.querySelector('.images').innerHTML = '<img src="${imageTmpUrl}" class="image" alt="">';
             toggleButtonAddRec();
         }
 
@@ -776,7 +776,7 @@ function getUserSavedAndAddedRecipe(username){
 
                 setCurrTopOff(70);
                 document.getElementById('blockUserRecTwo').style.height =
-                    calcHeightBlock(70 + 230 * countFavRec) + 'px';
+                    calcHeightBlock(countFavRec) + 'px';
 
                 for (let i = 0; i < countFavRec; i++) {
                     let newIdRecImg = "recImageFav" + i + countAddedRec;
