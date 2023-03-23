@@ -60,7 +60,7 @@
     "phantomjs-prebuilt": "^2.1.16",
     "style-loader": "^3.3.1",
     "svg-inline-loader": "^0.8.2",
-    "webpack": "^5.75.0",
+    "webpack": "^5.76.3",
     "webpack-cli": "^5.0.1",
     "webpack-dev-server": "^4.11.1",
     "webpack-node-externals": "^3.0.0"
