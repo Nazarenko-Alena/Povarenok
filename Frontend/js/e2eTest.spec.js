@@ -614,7 +614,7 @@ describe("E2E. Scenario 6", () => {
 
     it('check button "Зарегистрироваться" on signUp.html',async function () {
 
-        assert.equal(await browser.getCurrentUrl(), "file:///home/runner/work/Povarenok/Povarenok/Frontend/signUp.html");
+        assert.equal(await browser.getCurrentUrl(), "file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/signUp.html");
 
         let registerButton = await browser.wait(
             until.elementLocated(By.id('registerButton')), 10000);
@@ -1061,7 +1061,7 @@ describe("E2E. Scenario 8", () => {
             until.elementLocated(By.id('AddRecButton')), 10000);
         await addRecButton.click();
 
-        assert.equal(await browser.getCurrentUrl(), "file:///home/runner/work/Povarenok/Povarenok/Frontend/addRecipe.html")
+        assert.equal(await browser.getCurrentUrl(), "file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/addRecipe.html")
 
         let elem = await browser.wait(
             until.elementLocated(By.id('createRecButton')), 10000);
