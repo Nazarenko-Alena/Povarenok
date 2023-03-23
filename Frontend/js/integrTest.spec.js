@@ -6,7 +6,7 @@ let browser;
 
 describe("Scenario 13 - Set new user", () => {
     before(async ()=>{
-        browser = new Builder().usingServer().withCapabilities({'browserName': 'fi' }).build();
+        browser = new Builder().usingServer().withCapabilities({'browserName': 'firefox' }).build();
         await browser.get('http://localhost:63343/Frontend/dist/signUp.html');
     })
 
