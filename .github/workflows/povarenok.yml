@@ -72,10 +72,9 @@ jobs:
         settings-path: ${{ github.workspace }} 
         chrome-version: latest
     - run: |
-        chmod +x ./scripts/InstallChrome.sh
-
-                ./scripts/InstallChrome.sh 
+        sudo apt install chromium-chromedriver 
         chrome --version
+        chromedriver
 
     - name: Frontend integration tests
       run: |
