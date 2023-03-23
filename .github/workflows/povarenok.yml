@@ -68,6 +68,8 @@ jobs:
     - name: Set up Chrome
       uses: browser-actions/setup-chrome@v1.2.0
       with:
+        server-id: github 
+        settings-path: ${{ github.workspace }} 
         chrome-version: latest
     - run: |
         chmod +x ./scripts/InstallChrome.sh
