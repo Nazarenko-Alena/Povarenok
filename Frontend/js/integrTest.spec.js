@@ -10,7 +10,7 @@ process.setMaxListeners(0);
 describe("Scenario 13 - Set new user", () => {
 
     before(async ()=>{
-        browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).setChromeOptions(new chrome.Options().headless()).build();
+        browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).setChromeOptions(options.addArguments('--headless=new')).build();
         await browser.get('file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/signUp.html');
     })
 
