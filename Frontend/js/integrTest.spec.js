@@ -4,8 +4,6 @@ require("chromedriver");
 let chrome = require("selenium-webdriver/chrome");
 let firefox = require("selenium-webdriver/firefox");
 
-const options = new chrome.Options();
-
 let browser;
 
 process.setMaxListeners(0);
@@ -13,7 +11,7 @@ process.setMaxListeners(0);
 describe("Scenario 13 - Set new user", () => {
 
     before(async ()=>{
-        browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).setChromeOptions(options.addArguments('--headless=new')).build();
+        browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).setChromeOptions(new chrome.Options().headless()).build();
         await browser.get('file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/signUp.html');
     })
 
@@ -183,20 +181,23 @@ describe("Scenario 14 - Recent recipe", () => {
 })
 
 describe("Scenario 15 - Search result by keyword", () => {
-
+    
     before(async ()=>{
-        browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).setChromeOptions(options.addArguments('--headless=new')).build();
+        browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).setChromeOptions(new chrome.Options().headless()).build();
+        await browser.get('file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/index.html');
+       
         await browser.get('file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/index.html');
         let searchLine = await browser.wait(
-            until.elementLocated(By.id('searchLine')), 10000);
+          until.elementLocated(By.id('searchLine')), 10000);
         await searchLine.sendKeys("Борщ");
+              
         let findButton = await browser.wait(
             until.elementLocated(By.id('findButton')), 10000);
         await findButton.click();
     })
 
     after(async ()=>{
-        await browser.close();
+        await browserPup.close();
     })
 
     it('check nameRecipe0',async function () {
