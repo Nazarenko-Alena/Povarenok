@@ -204,7 +204,7 @@ describe("Scenario 15 - Search result by keyword", () => {
           page.waitForNavigation(),
         ]);
         
-        await page.waitFor(1000);
+        await page.waitForSelector('#nameRec0');
         
        // let findButton = await browser.wait(
          //   until.elementLocated(By.id('findButton')), 10000);
