@@ -194,7 +194,7 @@ describe("Scenario 15 - Search result by keyword", () => {
         await browser.close();
     })
 
-    it('check nameRecipe0',async function () {
+    it('check nameRecipe4',async function () {
         let element = await browser.wait(
             until.elementLocated(By.id('nameRec0')), 10000);
         let text = await element.getText();
