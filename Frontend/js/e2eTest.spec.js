@@ -1703,3 +1703,764 @@ async function checkPancake(){
     assert.equal(infoTimeCookingRec,"20");
     assert.equal(infoDateRec,"2023-03-12");
 }
+
+describe("E2E. Scenario 10", () => {
+    before(async ()=>{
+        browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).build();
+        await browser.get('http://localhost:63342/Frontend/dist/index.html');
+    })
+
+    after(async ()=>{
+        await browser.close();
+    })
+
+    it('check button "Войти" on index.html',async function () {
+
+        let signInButton = await browser.wait(
+            until.elementLocated(By.id('signInButton')), 10000);
+
+        assert.equal(await signInButton.getText(), "Войти");
+        assert.equal(await signInButton.getAttribute('href'), "http://localhost:63342/Frontend/dist/signIn.html");
+
+        await signInButton.click();
+        assert.equal(await browser.getCurrentUrl(), "http://localhost:63342/Frontend/dist/signIn.html");
+    })
+
+    it('check button "Войти" on signIn.html',async function () {
+
+        let elem = await browser.wait(
+            until.elementLocated(By.id('enterButton')), 10000);
+        let enterButton = await elem.getAttribute('disabled');
+        assert.equal(enterButton, "true");
+
+        let inputLogin = await browser.wait(
+            until.elementLocated(By.id('inputLogin')), 10000);
+        inputLogin.sendKeys("polinafomina");
+
+        let inputPassword = await browser.wait(
+            until.elementLocated(By.id('inputPassword')), 10000);
+        inputPassword.sendKeys("qwerty123");
+
+        elem = await browser.wait(
+            until.elementLocated(By.id('enterButton')), 10000);
+        enterButton = await elem.getAttribute('disabled');
+
+        try{
+            assert.equal(enterButton, "false");
+        }
+        catch(err){
+            if(err.message !== "Expected values to be strictly equal:\n" +
+                "\n" +
+                "null !== 'false'\n"){
+                assert.equal(enterButton,"false");
+            }
+        }
+    })
+
+    it('check click button "Войти" on signIn.html',async function () {
+
+        let enterButton = await browser.wait(
+            until.elementLocated(By.id('enterButton')), 10000);
+
+        await enterButton.click();
+        assert.equal(await browser.getCurrentUrl(), "file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/user.html");
+
+        let elem = await browser.wait(
+            until.elementLocated(By.id('nameRec0')), 10000);
+        let textNameRec0 = await elem.getText();
+
+        elem = await browser.wait(
+            until.elementLocated(By.id('recImage0')), 10000);
+        let textRecImage0 = await elem.getAttribute('src');
+
+        elem = await browser.wait(
+            until.elementLocated(By.id('nameAuthor0')), 10000);
+        let textNameAuthor0 = await elem.getText();
+
+        elem = await browser.wait(
+            until.elementLocated(By.id('timeCooking0')), 10000);
+        let textTimeCooking0 = await elem.getText();
+
+
+        elem = await browser.wait(
+            until.elementLocated(By.id('nameRec1')), 10000);
+        let textNameRec1 = await elem.getText();
+
+        elem = await browser.wait(
+            until.elementLocated(By.id('recImage1')), 10000);
+        let textRecImage1 = await elem.getAttribute('src');
+
+        elem = await browser.wait(
+            until.elementLocated(By.id('nameAuthor1')), 10000);
+        let textNameAuthor1 = await elem.getText();
+
+        elem = await browser.wait(
+            until.elementLocated(By.id('timeCooking1')), 10000);
+        let textTimeCooking1 = await elem.getText();
+
+
+        elem = await browser.wait(
+            until.elementLocated(By.id('nameRec2')), 10000);
+        let textNameRec2 = await elem.getText();
+
+        elem = await browser.wait(
+            until.elementLocated(By.id('recImage2')), 10000);
+        let textRecImage2 = await elem.getAttribute('src');
+
+        elem = await browser.wait(
+            until.elementLocated(By.id('nameAuthor2')), 10000);
+        let textNameAuthor2 = await elem.getText();
+
+        elem = await browser.wait(
+            until.elementLocated(By.id('timeCooking2')), 10000);
+        let textTimeCooking2 = await elem.getText();
+
+
+        elem = await browser.wait(
+            until.elementLocated(By.id('nameRecFav03')), 10000);
+        let nameRecFav02 = await elem.getText();
+
+        elem = await browser.wait(
+            until.elementLocated(By.id('recImageFav03')), 10000);
+        let recImageFav02 = await elem.getAttribute('src');
+
+        elem = await browser.wait(
+            until.elementLocated(By.id('nameAuthorFav03')), 10000);
+        let nameAuthorFav02 = await elem.getText();
+
+        elem = await browser.wait(
+            until.elementLocated(By.id('timeCookingFav03')), 10000);
+        let timeCookingFav02 = await elem.getText();
+
+        assert.equal(textNameAuthor0,"Автор: polinafomina");
+        assert.equal(textRecImage0,"file:///home/runner/work/Povarenok/Povarenok/Frontend/downloads/140.png");
+        assert.equal(textNameRec0,"БОРЩ");
+        assert.equal(textTimeCooking0,"Время приготовления: 120 минут");
+        assert.equal(textNameAuthor1,"Автор: polinafomina");
+        assert.equal(textRecImage1,"file:///home/runner/work/Povarenok/Povarenok/Frontend/downloads/141.png");
+        assert.equal(textNameRec1,"ЩИ");
+        assert.equal(textTimeCooking1,"Время приготовления: 90 минут");
+        assert.equal(textNameAuthor2,"Автор: polinafomina");
+        assert.equal(textNameRec2,"ПАСТА");
+        assert.equal(textTimeCooking2,"Время приготовления: 45 минут");
+        assert.equal(nameRecFav02,"ВАФЛИ");
+        assert.equal(recImageFav02,"file:///home/runner/work/Povarenok/Povarenok/Frontend/downloads/143.png");
+        assert.equal(nameAuthorFav02,"Автор: povarverona");
+        assert.equal(timeCookingFav02,"Время приготовления: 45 минут");
+    })
+
+    it('check button "Добавить рецепт"',async function () {
+
+        let addRecButton = await browser.wait(
+            until.elementLocated(By.id('AddRecButton')), 10000);
+        await addRecButton.click();
+
+        assert.equal(await browser.getCurrentUrl(), "file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/addRecipe.html")
+
+        let elem = await browser.wait(
+            until.elementLocated(By.id('createRecButton')), 10000);
+
+        let createRecButton = await elem.getAttribute('disabled');
+        assert.equal(createRecButton, "true");
+
+        let inputNameRec = await browser.wait(
+            until.elementLocated(By.id('inputNameRec')), 10000);
+        await inputNameRec.sendKeys("Паста");
+
+        let inputDecRec = await browser.wait(
+            until.elementLocated(By.id('inputDecRec')), 10000);
+        await inputDecRec.sendKeys("Для приготовления традиционного соуса карбонара используется панчетта");
+
+        let inputIngRec1 = await browser.wait(
+            until.elementLocated(By.id('inputIngRec1')), 10000);
+        await inputIngRec1.sendKeys("Спагетти");
+
+        let addIngButton = await browser.wait(
+            until.elementLocated(By.id('addIngButton')), 10000);
+        await addIngButton.click();
+
+        let inputIngRec2 = await browser.wait(
+            until.elementLocated(By.id('inputIngRec2')), 10000);
+        await inputIngRec2.sendKeys("Бекон");
+
+        let inputGrRec2 = await browser.wait(
+            until.elementLocated(By.id('inputGrRec2')), 10000);
+        await inputGrRec2.sendKeys("150");
+
+        let inputGrRec1 = await browser.wait(
+            until.elementLocated(By.id('inputGrRec1')), 10000);
+        await inputGrRec1.sendKeys("250");
+
+        let inputStepRec = await browser.wait(
+            until.elementLocated(By.id('inputStepRec')), 10000);
+        await inputStepRec
+            .sendKeys("Отварите спагетти в подсоленной воде согласно инструкции на упаковке до состояния аль денте");
+
+        let inputTimeCook = await browser.wait(
+            until.elementLocated(By.id('inputTimeCook')), 10000);
+        await inputTimeCook.sendKeys("45");
+
+        let select = new Select(await browser.wait(
+            until.elementLocated(By.id('typeCuisAddRec')), 10000));
+        await select.selectByVisibleText("Итальянская");
+
+        select = new Select(await browser.wait(
+            until.elementLocated(By.id('categoryAddRec')), 10000));
+        await select.selectByVisibleText("Паста");
+
+        browser.executeScript('document.querySelector(\'.images\').innerHTML = ' +
+            '\'<img src=\"file:///home/runner/work/Povarenok/Povarenok/Frontend/downloads/1671507028000.png\" class="image" alt="">\';');
+
+        try{
+            createRecButton = await elem.getAttribute('disabled');
+            assert.equal(createRecButton, "false");
+        }
+        catch(err){
+            if(err.message !== "Expected values to be strictly equal:\n" +
+                "\n" +
+                "null !== 'false'\n"){
+                assert.equal(createRecButton,"false");
+            }
+        }
+    })
+
+    it('check click button "Создать рецепт"',async function () {
+        let createRecButton = await browser.wait(
+            until.elementLocated(By.id('createRecButton')), 10000);
+        await createRecButton.click();
+
+        assert.equal(await browser.getCurrentUrl(), "file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/user.html");
+
+        let elem = await browser.wait(
+            until.elementLocated(By.id('nameRec0')), 10000);
+        let textNameRec0 = await elem.getText();
+
+        elem = await browser.wait(
+            until.elementLocated(By.id('recImage0')), 10000);
+        let textRecImage0 = await elem.getAttribute('src');
+
+        elem = await browser.wait(
+            until.elementLocated(By.id('nameAuthor0')), 10000);
+        let textNameAuthor0 = await elem.getText();
+
+        elem = await browser.wait(
+            until.elementLocated(By.id('timeCooking0')), 10000);
+        let textTimeCooking0 = await elem.getText();
+
+
+        elem = await browser.wait(
+            until.elementLocated(By.id('nameRec1')), 10000);
+        let textNameRec1 = await elem.getText();
+
+        elem = await browser.wait(
+            until.elementLocated(By.id('recImage1')), 10000);
+        let textRecImage1 = await elem.getAttribute('src');
+
+        elem = await browser.wait(
+            until.elementLocated(By.id('nameAuthor1')), 10000);
+        let textNameAuthor1 = await elem.getText();
+
+        elem = await browser.wait(
+            until.elementLocated(By.id('timeCooking1')), 10000);
+        let textTimeCooking1 = await elem.getText();
+
+
+        elem = await browser.wait(
+            until.elementLocated(By.id('nameRec2')), 10000);
+        let textNameRec2 = await elem.getText();
+
+        elem = await browser.wait(
+            until.elementLocated(By.id('recImage2')), 10000);
+        let textRecImage2 = await elem.getAttribute('src');
+
+        elem = await browser.wait(
+            until.elementLocated(By.id('nameAuthor2')), 10000);
+        let textNameAuthor2 = await elem.getText();
+
+        elem = await browser.wait(
+            until.elementLocated(By.id('timeCooking2')), 10000);
+        let textTimeCooking2 = await elem.getText();
+
+        elem = await browser.wait(
+            until.elementLocated(By.id('nameRecFav03')), 10000);
+        let nameRecFav02 = await elem.getText();
+
+        elem = await browser.wait(
+            until.elementLocated(By.id('recImageFav03')), 10000);
+        let recImageFav02 = await elem.getAttribute('src');
+
+        elem = await browser.wait(
+            until.elementLocated(By.id('nameAuthorFav03')), 10000);
+        let nameAuthorFav02 = await elem.getText();
+
+        elem = await browser.wait(
+            until.elementLocated(By.id('timeCookingFav03')), 10000);
+        let timeCookingFav02 = await elem.getText();
+
+        assert.equal(textNameAuthor0,"Автор: polinafomina");
+        assert.equal(textRecImage0,"file:///home/runner/work/Povarenok/Povarenok/Frontend/downloads/140.png");
+        assert.equal(textNameRec0,"БОРЩ");
+        assert.equal(textTimeCooking0,"Время приготовления: 120 минут");
+        assert.equal(textNameAuthor1,"Автор: polinafomina");
+        assert.equal(textRecImage1,"file:///home/runner/work/Povarenok/Povarenok/Frontend/downloads/141.png");
+        assert.equal(textNameRec1,"ЩИ");
+        assert.equal(textTimeCooking1,"Время приготовления: 90 минут");
+        assert.equal(textNameAuthor2,"Автор: polinafomina");
+        assert.equal(textNameRec2,"ПАСТА");
+        assert.equal(textTimeCooking2,"Время приготовления: 45 минут");
+        assert.equal(nameRecFav02,"ВАФЛИ");
+        assert.equal(recImageFav02,"file:///home/runner/work/Povarenok/Povarenok/Frontend/downloads/143.png");
+        assert.equal(nameAuthorFav02,"Автор: povarverona");
+        assert.equal(timeCookingFav02,"Время приготовления: 45 минут");
+    })
+})
+
+describe("E2E. Scenario 11", () => {
+    before(async ()=>{
+        browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).build();
+        await browser.get('file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/index.html');
+    })
+
+    after(async ()=>{
+        await browser.close();
+    })
+
+    it('check button "Войти" on index.html',async function () {
+
+        let signInButton = await browser.wait(
+            until.elementLocated(By.id('signInButton')), 10000);
+
+        assert.equal(await signInButton.getText(), "Войти");
+        assert.equal(await signInButton.getAttribute('href'), "file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/signIn.html");
+
+        await signInButton.click();
+        assert.equal(await browser.getCurrentUrl(), "file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/signIn.html");
+    })
+
+    it('check button "Войти" on signIn.html',async function () {
+
+        let elem = await browser.wait(
+            until.elementLocated(By.id('enterButton')), 10000);
+        let enterButton = await elem.getAttribute('disabled');
+        assert.equal(enterButton, "true");
+
+        let inputLogin = await browser.wait(
+            until.elementLocated(By.id('inputLogin')), 10000);
+        inputLogin.sendKeys("polinafomina");
+
+        let inputPassword = await browser.wait(
+            until.elementLocated(By.id('inputPassword')), 10000);
+        inputPassword.sendKeys("qwerty123");
+
+        elem = await browser.wait(
+            until.elementLocated(By.id('enterButton')), 10000);
+        enterButton = await elem.getAttribute('disabled');
+
+        try{
+            assert.equal(enterButton, "false");
+        }
+        catch(err){
+            if(err.message !== "Expected values to be strictly equal:\n" +
+                "\n" +
+                "null !== 'false'\n"){
+                assert.equal(enterButton,"false");
+            }
+        }
+    })
+
+    it('check click button "Войти" on signIn.html',async function () {
+
+        let enterButton = await browser.wait(
+            until.elementLocated(By.id('enterButton')), 10000);
+
+        await enterButton.click();
+        assert.equal(await browser.getCurrentUrl(), "file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/user.html");
+
+        let elem = await browser.wait(
+            until.elementLocated(By.id('nameRec0')), 10000);
+        let textNameRec0 = await elem.getText();
+
+        elem = await browser.wait(
+            until.elementLocated(By.id('recImage0')), 10000);
+        let textRecImage0 = await elem.getAttribute('src');
+
+        elem = await browser.wait(
+            until.elementLocated(By.id('nameAuthor0')), 10000);
+        let textNameAuthor0 = await elem.getText();
+
+        elem = await browser.wait(
+            until.elementLocated(By.id('timeCooking0')), 10000);
+        let textTimeCooking0 = await elem.getText();
+
+
+        elem = await browser.wait(
+            until.elementLocated(By.id('nameRec1')), 10000);
+        let textNameRec1 = await elem.getText();
+
+        elem = await browser.wait(
+            until.elementLocated(By.id('recImage1')), 10000);
+        let textRecImage1 = await elem.getAttribute('src');
+
+        elem = await browser.wait(
+            until.elementLocated(By.id('nameAuthor1')), 10000);
+        let textNameAuthor1 = await elem.getText();
+
+        elem = await browser.wait(
+            until.elementLocated(By.id('timeCooking1')), 10000);
+        let textTimeCooking1 = await elem.getText();
+
+
+        elem = await browser.wait(
+            until.elementLocated(By.id('nameRec2')), 10000);
+        let textNameRec2 = await elem.getText();
+
+        elem = await browser.wait(
+            until.elementLocated(By.id('recImage2')), 10000);
+        let textRecImage2 = await elem.getAttribute('src');
+
+        elem = await browser.wait(
+            until.elementLocated(By.id('nameAuthor2')), 10000);
+        let textNameAuthor2 = await elem.getText();
+
+        elem = await browser.wait(
+            until.elementLocated(By.id('timeCooking2')), 10000);
+        let textTimeCooking2 = await elem.getText();
+
+
+        elem = await browser.wait(
+            until.elementLocated(By.id('nameRecFav03')), 10000);
+        let nameRecFav02 = await elem.getText();
+
+        elem = await browser.wait(
+            until.elementLocated(By.id('recImageFav03')), 10000);
+        let recImageFav02 = await elem.getAttribute('src');
+
+        elem = await browser.wait(
+            until.elementLocated(By.id('nameAuthorFav03')), 10000);
+        let nameAuthorFav02 = await elem.getText();
+
+        elem = await browser.wait(
+            until.elementLocated(By.id('timeCookingFav03')), 10000);
+        let timeCookingFav02 = await elem.getText();
+
+        assert.equal(textNameAuthor0,"Автор: polinafomina");
+        assert.equal(textRecImage0,"file:///home/runner/work/Povarenok/Povarenok/Frontend/downloads/140.png");
+        assert.equal(textNameRec0,"БОРЩ");
+        assert.equal(textTimeCooking0,"Время приготовления: 120 минут");
+        assert.equal(textNameAuthor1,"Автор: polinafomina");
+        assert.equal(textRecImage1,"file:///home/runner/work/Povarenok/Povarenok/Frontend/downloads/141.png");
+        assert.equal(textNameRec1,"ЩИ");
+        assert.equal(textTimeCooking1,"Время приготовления: 90 минут");
+        assert.equal(textNameAuthor2,"Автор: polinafomina");
+        assert.equal(textNameRec2,"ПАСТА");
+        assert.equal(textTimeCooking2,"Время приготовления: 45 минут");
+        assert.equal(nameRecFav02,"ВАФЛИ");
+        assert.equal(recImageFav02,"file:///home/runner/work/Povarenok/Povarenok/Frontend/downloads/143.png");
+        assert.equal(nameAuthorFav02,"Автор: povarverona");
+        assert.equal(timeCookingFav02,"Время приготовления: 45 минут");
+    })
+
+    it('check button "Добавить рецепт"',async function () {
+
+        let addRecButton = await browser.wait(
+            until.elementLocated(By.id('AddRecButton')), 10000);
+        await addRecButton.click();
+
+        assert.equal(await browser.getCurrentUrl(), "file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/addRecipe.html")
+
+        let elem = await browser.wait(
+            until.elementLocated(By.id('createRecButton')), 10000);
+
+        let createRecButton = await elem.getAttribute('disabled');
+        assert.equal(createRecButton, "true");
+
+        let inputNameRec = await browser.wait(
+            until.elementLocated(By.id('inputNameRec')), 10000);
+        await inputNameRec.sendKeys("Паста");
+
+        let inputDecRec = await browser.wait(
+            until.elementLocated(By.id('inputDecRec')), 10000);
+        await inputDecRec.sendKeys("Для приготовления традиционного соуса карбонара используется панчетта");
+
+        let inputIngRec1 = await browser.wait(
+            until.elementLocated(By.id('inputIngRec1')), 10000);
+        await inputIngRec1.sendKeys("Спагетти");
+
+        let addIngButton = await browser.wait(
+            until.elementLocated(By.id('addIngButton')), 10000);
+        await addIngButton.click();
+
+        let inputIngRec2 = await browser.wait(
+            until.elementLocated(By.id('inputIngRec2')), 10000);
+        await inputIngRec2.sendKeys("Бекон");
+
+        let inputGrRec2 = await browser.wait(
+            until.elementLocated(By.id('inputGrRec2')), 10000);
+        await inputGrRec2.sendKeys("150");
+
+        let inputGrRec1 = await browser.wait(
+            until.elementLocated(By.id('inputGrRec1')), 10000);
+        await inputGrRec1.sendKeys("250");
+
+        let deleteIng2 = await browser.wait(
+            until.elementLocated(By.id('deleteIng2')), 10000);
+        deleteIng2.click();
+
+        let inputStepRec = await browser.wait(
+            until.elementLocated(By.id('inputStepRec')), 10000);
+        await inputStepRec
+            .sendKeys("Отварите спагетти в подсоленной воде согласно инструкции на упаковке до состояния аль денте");
+
+        let inputTimeCook = await browser.wait(
+            until.elementLocated(By.id('inputTimeCook')), 10000);
+        await inputTimeCook.sendKeys("45");
+
+        let select = new Select(await browser.wait(
+            until.elementLocated(By.id('typeCuisAddRec')), 10000));
+        await select.selectByVisibleText("Итальянская");
+
+        select = new Select(await browser.wait(
+            until.elementLocated(By.id('categoryAddRec')), 10000));
+        await select.selectByVisibleText("Паста");
+
+        browser.executeScript('document.querySelector(\'.images\').innerHTML = ' +
+            '\'<img src=\"file:///home/runner/work/Povarenok/Povarenok/Frontend/downloads/1671507028000.png\" class="image" alt="">\';');
+
+        try{
+            createRecButton = await elem.getAttribute('disabled');
+            assert.equal(createRecButton, "false");
+        }
+        catch(err){
+            if(err.message !== "Expected values to be strictly equal:\n" +
+                "\n" +
+                "null !== 'false'\n"){
+                assert.equal(createRecButton,"false");
+            }
+        }
+    })
+
+    it('check click button "Создать рецепт"',async function () {
+        let createRecButton = await browser.wait(
+            until.elementLocated(By.id('createRecButton')), 10000);
+        await createRecButton.click();
+
+        assert.equal(await browser.getCurrentUrl(), "file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/user.html");
+
+        let elem = await browser.wait(
+            until.elementLocated(By.id('nameRec0')), 10000);
+        let textNameRec0 = await elem.getText();
+
+        elem = await browser.wait(
+            until.elementLocated(By.id('recImage0')), 10000);
+        let textRecImage0 = await elem.getAttribute('src');
+
+        elem = await browser.wait(
+            until.elementLocated(By.id('nameAuthor0')), 10000);
+        let textNameAuthor0 = await elem.getText();
+
+        elem = await browser.wait(
+            until.elementLocated(By.id('timeCooking0')), 10000);
+        let textTimeCooking0 = await elem.getText();
+
+
+        elem = await browser.wait(
+            until.elementLocated(By.id('nameRec1')), 10000);
+        let textNameRec1 = await elem.getText();
+
+        elem = await browser.wait(
+            until.elementLocated(By.id('recImage1')), 10000);
+        let textRecImage1 = await elem.getAttribute('src');
+
+        elem = await browser.wait(
+            until.elementLocated(By.id('nameAuthor1')), 10000);
+        let textNameAuthor1 = await elem.getText();
+
+        elem = await browser.wait(
+            until.elementLocated(By.id('timeCooking1')), 10000);
+        let textTimeCooking1 = await elem.getText();
+
+
+        elem = await browser.wait(
+            until.elementLocated(By.id('nameRec2')), 10000);
+        let textNameRec2 = await elem.getText();
+
+        elem = await browser.wait(
+            until.elementLocated(By.id('recImage2')), 10000);
+        let textRecImage2 = await elem.getAttribute('src');
+
+        elem = await browser.wait(
+            until.elementLocated(By.id('nameAuthor2')), 10000);
+        let textNameAuthor2 = await elem.getText();
+
+        elem = await browser.wait(
+            until.elementLocated(By.id('timeCooking2')), 10000);
+        let textTimeCooking2 = await elem.getText();
+
+        elem = await browser.wait(
+            until.elementLocated(By.id('nameRecFav03')), 10000);
+        let nameRecFav02 = await elem.getText();
+
+        elem = await browser.wait(
+            until.elementLocated(By.id('recImageFav03')), 10000);
+        let recImageFav02 = await elem.getAttribute('src');
+
+        elem = await browser.wait(
+            until.elementLocated(By.id('nameAuthorFav03')), 10000);
+        let nameAuthorFav02 = await elem.getText();
+
+        elem = await browser.wait(
+            until.elementLocated(By.id('timeCookingFav03')), 10000);
+        let timeCookingFav02 = await elem.getText();
+
+        assert.equal(textNameAuthor0,"Автор: polinafomina");
+        assert.equal(textRecImage0,"file:///home/runner/work/Povarenok/Povarenok/Frontend/downloads/140.png");
+        assert.equal(textNameRec0,"БОРЩ");
+        assert.equal(textTimeCooking0,"Время приготовления: 120 минут");
+        assert.equal(textNameAuthor1,"Автор: polinafomina");
+        assert.equal(textRecImage1,"file:///home/runner/work/Povarenok/Povarenok/Frontend/downloads/141.png");
+        assert.equal(textNameRec1,"ЩИ");
+        assert.equal(textTimeCooking1,"Время приготовления: 90 минут");
+        assert.equal(textNameAuthor2,"Автор: polinafomina");
+        assert.equal(textNameRec2,"ПАСТА");
+        assert.equal(textTimeCooking2,"Время приготовления: 45 минут");
+        assert.equal(nameRecFav02,"ВАФЛИ");
+        assert.equal(recImageFav02,"file:///home/runner/work/Povarenok/Povarenok/Frontend/downloads/143.png");
+        assert.equal(nameAuthorFav02,"Автор: povarverona");
+        assert.equal(timeCookingFav02,"Время приготовления: 45 минут");
+    })
+})
+
+describe("E2E. Scenario 12", () => {
+    before(async ()=>{
+        browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).build();
+        await browser.get('file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/index.html');
+    })
+
+    after(async ()=>{
+        await browser.close();
+    })
+
+    it('check button "Войти"',async function () {
+
+        let signInButton = await browser.wait(
+            until.elementLocated(By.id('signInButton')), 10000);
+
+        assert.equal(await signInButton.getText(), "Войти");
+        assert.equal(await signInButton.getAttribute('href'), "file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/signIn.html");
+    })
+
+    it('check combo-box "Категории"',async function () {
+
+        let elem = await browser.wait(
+            until.elementLocated(By.id('categoryIndex')), 10000);
+        elem.click();
+
+        let select = new Select(await browser.wait(
+            until.elementLocated(By.id('categoryIndex')), 10000));
+
+        let optionList = await select.getOptions();
+
+        assert.equal(await optionList[1].getText(),"Бульоны");
+        assert.equal(await optionList[3].getText(),"Выпечка и десерты");
+        assert.equal(await optionList[5].getText(),"Завтраки");
+        assert.equal(await optionList[7].getText(),"Закуски");
+        assert.equal(await optionList[9].getText(),"Напитки");
+        assert.equal(await optionList[11].getText(),"Основные блюда");
+        assert.equal(await optionList[13].getText(),"Паста");
+        assert.equal(await optionList[15].getText(),"Пиццы");
+        assert.equal(await optionList[17].getText(),"Салаты");
+        assert.equal(await optionList[19].getText(),"Соусы и маринады");
+        assert.equal(await optionList[21].getText(),"Супы");
+        assert.equal(await optionList[23].getText(),"Сэндвичи");
+
+        await select.selectByVisibleText("Напитки");
+    })
+
+    it('check combo-box "Тип кухни"',async function () {
+
+        let elem = await browser.wait(
+            until.elementLocated(By.id('typeCuis')), 10000);
+        elem.click();
+
+        let select = new Select(await browser.wait(
+            until.elementLocated(By.id('typeCuis')), 10000));
+
+        let optionList = await select.getOptions();
+
+        assert.equal(await optionList[1].getText(),"Американская");
+        assert.equal(await optionList[3].getText(),"Армянская");
+        assert.equal(await optionList[5].getText(),"Белорусская");
+        assert.equal(await optionList[7].getText(),"Британская");
+        assert.equal(await optionList[9].getText(),"Вьетнамская");
+        assert.equal(await optionList[11].getText(),"Греческая");
+        assert.equal(await optionList[13].getText(),"Грузинская");
+        assert.equal(await optionList[15].getText(),"Европейская");
+        assert.equal(await optionList[17].getText(),"Индийская");
+        assert.equal(await optionList[19].getText(),"Испанская");
+        assert.equal(await optionList[21].getText(),"Итальянская");
+        assert.equal(await optionList[23].getText(),"Китайская");
+        assert.equal(await optionList[25].getText(),"Корейская");
+        assert.equal(await optionList[27].getText(),"Мексиканская");
+        assert.equal(await optionList[29].getText(),"Паназиатская");
+        assert.equal(await optionList[31].getText(),"Русская");
+        assert.equal(await optionList[33].getText(),"Средиземноморская");
+        assert.equal(await optionList[35].getText(),"Тайская");
+        assert.equal(await optionList[37].getText(),"Узбекская");
+        assert.equal(await optionList[39].getText(),"Украинская");
+        assert.equal(await optionList[41].getText(),"Французская");
+        assert.equal(await optionList[43].getText(),"Японская");
+
+        await select.selectByVisibleText("Мексиканская");
+    })
+
+    it('check button "Применить"',async function () {
+
+        let applyButton = await browser.wait(
+            until.elementLocated(By.id('applyButton')), 10000);
+        await applyButton.click();
+
+        let elem = await browser.wait(
+            until.elementLocated(By.id('textCountRes')), 10000);
+        let textCountRes = await elem.getText();
+
+        assert.equal(textCountRes,"ВСЕГО РЕЦЕПТОВ НАЙДЕНО:");
+
+    })
+})
+
+describe("E2E. Scenario 13", () => {
+    before(async ()=>{
+        browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).build();
+        await browser.get('file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/index.html');
+    })
+
+    after(async ()=>{
+        await browser.close();
+    })
+
+    it('check button "Войти"',async function () {
+
+        let signInButton = await browser.wait(
+            until.elementLocated(By.id('signInButton')), 10000);
+
+        assert.equal(await signInButton.getText(), "Войти");
+        assert.equal(await signInButton.getAttribute('href'), "file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/signIn.html");
+    })
+
+    it('check button "Найти"',async function () {
+
+        let searchLine = await browser.wait(
+            until.elementLocated(By.id('searchLine')), 10000);
+        await searchLine.sendKeys("Пюре");
+
+        let findButton = await browser.wait(
+            until.elementLocated(By.id('findButton')), 10000);
+        await findButton.click();
+
+        let elem = await browser.wait(
+            until.elementLocated(By.id('textCountRes')), 10000);
+        let textCountRes = await elem.getText();
+
+        assert.equal(textCountRes,"ВСЕГО РЕЦЕПТОВ НАЙДЕНО:");
+    })
+})
