@@ -3,6 +3,7 @@ const assert = require('assert').strict;
 require("chromedriver");
 let chrome = require("selenium-webdriver/chrome");
 let firefox = require("selenium-webdriver/firefox");
+const puppeteer = require('puppeteer');
 
 let browserPup;
 
