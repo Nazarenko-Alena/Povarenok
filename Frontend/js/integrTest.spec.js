@@ -189,6 +189,7 @@ describe("Scenario 15 - Search result by keyword", () => {
         await searchLine.sendKeys("Борщ");
         let findButton = await browser.wait(
             until.elementLocated(By.id('findButton')), 10000);
+        await browser.manage().addCookie({ name: 'keyword', value: 'Борщ' })  ;
         await findButton.click();
     })
 
