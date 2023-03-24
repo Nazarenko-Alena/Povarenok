@@ -192,17 +192,7 @@ describe("Scenario 15 - Search result by keyword", () => {
         await searchLine.sendKeys("Борщ");
         let findButton = await browser.wait(
             until.elementLocated(By.id('findButton')), 10000);
-
-        browser.get("https://www.whatismybrowser.com/detect/are-cookies-enabled");
-        let val = await browser.wait(
-            until.elementLocated(By.id('detected_value.value')), 10000);
-
-        console.log(await val.getText());
-
-        //await findButton.click();
-
-
-
+        await findButton.click();
     })
 
     after(async ()=>{
