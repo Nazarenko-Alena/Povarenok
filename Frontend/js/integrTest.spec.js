@@ -190,13 +190,13 @@ describe("Scenario 15 - Search result by keyword", () => {
         let findButton = await browser.wait(
             until.elementLocated(By.id('findButton')), 10000);
 
-        console.log(await browser.manage().getCookies());
-        await browser.executeScript(" document.cookie = \"keyword=\" + document.getElementById('searchLine').value;");
-        console.log(await browser.manage().getCookies());
-        browser.refresh();
-        console.log(await browser.manage().getCookies());
+        browser.get("https://www.whatismybrowser.com/detect/are-cookies-enabled");
+        let val = await browser.wait(
+            until.elementLocated(By.id('detected_value.value')), 10000);
 
-        await findButton.click();
+        console.log(await val.getText());
+
+        //await findButton.click();
 
 
 
