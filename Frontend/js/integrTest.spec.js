@@ -3,11 +3,6 @@ const assert = require('assert').strict;
 require("chromedriver");
 let chrome = require("selenium-webdriver/chrome");
 let firefox = require("selenium-webdriver/firefox");
-const puppeteer = require('puppeteer');
-
-let browserPup;
-
-const options = new chrome.Options();
 
 let browser;
 
@@ -186,29 +181,19 @@ describe("Scenario 14 - Recent recipe", () => {
 })
 
 describe("Scenario 15 - Search result by keyword", () => {
-
-    let page;
     
     before(async ()=>{
-        browserPup = await puppeteer.launch({headless: false});
-        page = await browserPup.newPage();
-        await page.goto('file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/index.html');
-        //await browser.get('file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/index.html');
-        //let searchLine = await browser.wait(
-          //  until.elementLocated(By.id('searchLine')), 10000);
-       // await searchLine.sendKeys("Борщ");
+        browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).setChromeOptions(new chrome.Options().headless()).build();
+        await browser.get('file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/index.html');
        
-        await page.$eval('#searchLine', el => el.value = 'Борщ');
-        await Promise.all([
-          page.click("#findButton"),
-          page.waitForNavigation(),
-        ]);
-        
-        await page.waitForSelector('#nameRec0');
-        
-       // let findButton = await browser.wait(
-         //   until.elementLocated(By.id('findButton')), 10000);
-        //await findButton.click();
+        await browser.get('file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/index.html');
+        let searchLine = await browser.wait(
+          until.elementLocated(By.id('searchLine')), 10000);
+        await searchLine.sendKeys("Борщ");
+              
+        let findButton = await browser.wait(
+            until.elementLocated(By.id('findButton')), 10000);
+        await findButton.click();
     })
 
     after(async ()=>{
@@ -216,14 +201,9 @@ describe("Scenario 15 - Search result by keyword", () => {
     })
 
     it('check nameRecipe0',async function () {
-        //let element = await browser.wait(
-         //   until.elementLocated(By.id('nameRec0')), 10000);
-        //let text = await element.getText();
-
-        let text = await page.evaluate(() => {
-        let nameRec = document.querySelector('#nameRec0').innerText;
-        return nameRec;
-        });
+        let element = await browser.wait(
+            until.elementLocated(By.id('nameRec0')), 10000);
+        let text = await element.getText();
 
         assert.equal(text,"БОРЩ");
     });
