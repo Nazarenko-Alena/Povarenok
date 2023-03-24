@@ -198,8 +198,11 @@ describe("Scenario 15 - Search result by keyword", () => {
           //  until.elementLocated(By.id('searchLine')), 10000);
        // await searchLine.sendKeys("Борщ");
        
-        await page.$eval('input[name=searchLine]', el => el.value = 'Борщ');
-        await page.click('input[name="findButton"]');
+        await page.$eval('#searchLine', el => el.value = 'Борщ');
+        await Promise.all([
+          page.click("#findButton"),
+          page.waitForNavigation(),
+        ]);
         
        // let findButton = await browser.wait(
          //   until.elementLocated(By.id('findButton')), 10000);
