@@ -190,7 +190,7 @@ describe("Scenario 15 - Search result by keyword", () => {
     let page;
     
     before(async ()=>{
-        browserPup = await puppeteer.launch();
+        browserPup = await puppeteer.launch({headless: false});
         page = await browserPup.newPage();
         await page.goto('file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/index.html');
         //await browser.get('file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/index.html');
