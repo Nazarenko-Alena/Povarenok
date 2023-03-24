@@ -182,19 +182,24 @@ describe("Scenario 14 - Recent recipe", () => {
 describe("Scenario 15 - Search result by keyword", () => {
 
     before(async ()=>{
-        browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).build();
+        browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).setChromeOptions(new chrome.Options().headless()).build();
         await browser.get('file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/index.html');
         let searchLine = await browser.wait(
             until.elementLocated(By.id('searchLine')), 10000);
         await searchLine.sendKeys("Борщ");
         let findButton = await browser.wait(
-            until.elementLocated(By.id('findButton')), 10000);        
+            until.elementLocated(By.id('findButton')), 10000);
+
+        console.log(await browser.manage().getCookies());
+        await browser.executeScript(" document.cookie = \"keyword=\" + document.getElementById('searchLine').value;");
+        console.log(await browser.manage().getCookies());
+        browser.refresh();
+        console.log(await browser.manage().getCookies());
+
         await findButton.click();
 
-       await browser.manage().addCookie("keyword", "Борщ" );
-       console.log(await browser.manage().getCookies());
-       await browser.get('file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/searchRes.html');
-       console.log(await browser.manage().getCookies());
+
+
     })
 
     after(async ()=>{
