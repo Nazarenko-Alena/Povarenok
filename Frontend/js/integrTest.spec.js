@@ -192,7 +192,7 @@ describe("Scenario 15 - Search result by keyword", () => {
     before(async ()=>{
         browserPup = await puppeteer.launch();
         page = await browserPup.newPage();
-        await page.goto('file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/index.html',{waitUntil: 'domcontentloaded'});
+        await page.goto('file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/index.html');
         //await browser.get('file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/index.html');
         //let searchLine = await browser.wait(
           //  until.elementLocated(By.id('searchLine')), 10000);
