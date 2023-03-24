@@ -13,7 +13,7 @@ process.setMaxListeners(0);
 describe("Scenario 13 - Set new user", () => {
 
     before(async ()=>{
-        browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).setChromeOptions(options.addArguments('--headless=new')).build();
+        browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).build();
         await browser.get('file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/signUp.html');
     })
 
@@ -185,7 +185,7 @@ describe("Scenario 14 - Recent recipe", () => {
 describe("Scenario 15 - Search result by keyword", () => {
 
     before(async ()=>{
-        browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).setChromeOptions(options.addArguments('--headless=new')).build();
+        browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).build();
         await browser.get('file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/index.html');
         let searchLine = await browser.wait(
             until.elementLocated(By.id('searchLine')), 10000);
