@@ -194,7 +194,7 @@ describe("Scenario 15 - Search result by keyword", () => {
 
        // await browser.manage().addCookie({ name: 'keyword=', value: 'Борщ' });
 
-        console.log(await browser.manage().getCookie("keyword"));
+        console.log(await browser.manage().getCookies());
     })
 
     after(async ()=>{
