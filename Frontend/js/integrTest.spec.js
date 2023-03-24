@@ -2,6 +2,7 @@ const {By,Builder, until, Select} = require("selenium-webdriver");
 const assert = require('assert').strict;
 require("chromedriver");
 let chrome = require("selenium-webdriver/chrome");
+const pickle = require("mocha/mocha");
 
 let browser;
 
@@ -189,8 +190,11 @@ describe("Scenario 15 - Search result by keyword", () => {
         await searchLine.sendKeys("Борщ");
         let findButton = await browser.wait(
             until.elementLocated(By.id('findButton')), 10000);
-        browser.executeScript('document.cookie = "keyword=" + document.getElementById(\'searchLine\').value;');
         await findButton.click();
+
+       // await browser.manage().addCookie({ name: 'keyword=', value: 'Борщ' });
+
+        console.log(await browser.manage().getCookie("keyword"));
     })
 
     after(async ()=>{
