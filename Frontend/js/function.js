@@ -16,11 +16,11 @@ function setUserName() {
 
     if (username) {
         divUserName.innerHTML = '<div>\n' +
-            ' <a id="signInButton" href="user.html" target="_self">' + username[2] + '</a>\n' +
+            ' <a id="signInButton" href="file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/user.html" target="_self">' + username[2] + '</a>\n' +
             ' </div>';
     } else {
         divUserName.innerHTML = '<div>\n' +
-            ' <a id="signInButton" href="signIn.html" target="_self"> Войти </a>\n' +
+            ' <a id="signInButton" href="file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/signIn.html" target="_self"> Войти </a>\n' +
             ' </div>';
     }
 
@@ -497,7 +497,7 @@ function getSearchResByKeyword(searchRec){
 
                     divId.innerHTML = '<div class="blockSearchRec" id=' + newIdBlockSearch + '>\n' +
                         ' <div><img src="' + src + '" class="recImage" id=' + newIdRecImg + ' alt="ИзображениеРецепта"></div>\n' +
-                        ' <div><a href="recipe.html" class="nameRec" id=' + newIdNameRec + ' target="_self"> ' + data[i]["name"] + ' </a></div>\n' +
+                        ' <div><a href="file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/recipe.html" class="nameRec" id=' + newIdNameRec + ' target="_self"> ' + data[i]["name"] + ' </a></div>\n' +
                         ' <div class="nameAuthor" id=' + newIdNameAuthor + '> Автор: ' + data[i]["userLogin"] + '</div>\n' +
                         ' <div class="timeCookingRec" id=' + newIdTimeCooking + '> Время приготовления: ' + data[i]["cookingTime"] + ' минут</div>\n' +
                         '</div>';
@@ -556,7 +556,7 @@ function getSearchResByFilter(filter1, filter2){
 
                     divId.innerHTML = '<div class="blockSearchRec" id=' + newIdBlockSearch + '>\n' +
                         ' <div><img src="' + src + '" class="recImage" id=' + newIdRecImg + ' alt="ИзображениеРецепта"></div>\n' +
-                        ' <div><a href="recipe.html" class="nameRec" id=' + newIdNameRec + ' target="_self"> ' + data[i]["name"] + ' </a></div>\n' +
+                        ' <div><a href="file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/recipe.html" class="nameRec" id=' + newIdNameRec + ' target="_self"> ' + data[i]["name"] + ' </a></div>\n' +
                         ' <div class="nameAuthor" id=' + newIdNameAuthor + '> Автор: ' + data[i]["userLogin"] + '</div>\n' +
                         ' <div class="timeCookingRec" id=' + newIdTimeCooking + '> Время приготовления: ' + data[i]["cookingTime"] + ' минут</div>\n' +
                         '</div>';
@@ -613,7 +613,7 @@ function getRecentRec(countSearchBlock){
 
                 divId.innerHTML = '<div class="blockRec" id=' + newIdBlockSearch + '>\n' +
                     '  <div><img src="' + src + '" class="recImage" id=' + newIdRecImg + ' alt="ИзображениеРецепта"></div>\n' +
-                    '  <div><a href="recipe.html" class="nameRec" id=' + newIdNameRec + ' target="_self">' + data[i]["name"] + '</a></div>\n' +
+                    '  <div><a href="file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/recipe.html" class="nameRec" id=' + newIdNameRec + ' target="_self">' + data[i]["name"] + '</a></div>\n' +
                     '  <div class="nameAuthor" id=' + newIdNameAuthor + '> Автор: ' + data[i]["userLogin"] + '</div>\n' +
                     '  <div class="timeCookingRec" id=' + newIdTimeCooking + '> Время приготовления: ' + data[i]["cookingTime"] + ' минут</div>\n' +
                     '</div>';
@@ -754,7 +754,7 @@ function getUserSavedAndAddedRecipe(username){
 
                     divId.innerHTML = '<div class="subblockUserRec" id=' + newIdBlockUserRec + '>\n' +
                         ' <div><img src="' + src + '" class="recImage" id=' + newIdRecImg + ' alt="ИзображениеРецепта"></div>\n' +
-                        ' <div><a href="recipe.html" class="nameUserRec" id=' + newIdNameRec + ' target="_self">' + data["addedRecipes"][i]["name"] + '</a></div>\n' +
+                        ' <div><a href="file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/recipe.html" class="nameUserRec" id=' + newIdNameRec + ' target="_self">' + data["addedRecipes"][i]["name"] + '</a></div>\n' +
                         ' <div class="nameAuthorRec" id=' + newIdNameAuthor + '> Автор: ' + data["addedRecipes"][i]["userLogin"] + '</div>\n' +
                         ' <div class="UserTimeCooking" id=' + newIdTimeCooking + '> Время приготовления: ' + data["addedRecipes"][i]["cookingTime"] + ' минут</div>\n' +
                         '</div>';
@@ -792,7 +792,7 @@ function getUserSavedAndAddedRecipe(username){
 
                     divId.innerHTML = '<div class="subblockUserRec" id=' + newIdBlockUserRec + '>\n' +
                         ' <div><img src="' + src + '" class="recImage" id=' + newIdRecImg + ' alt="ИзображениеРецепта"></div>\n' +
-                        ' <div><a href="recipe.html" class="nameUserRec" id=' + newIdNameRec + ' target="_self">' + data["savedRecipes"][i]["name"] + '</a></div>\n' +
+                        ' <div><a href="file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/recipe.html" class="nameUserRec" id=' + newIdNameRec + ' target="_self">' + data["savedRecipes"][i]["name"] + '</a></div>\n' +
                         ' <div class="nameAuthorRec" id=' + newIdNameAuthor + '> Автор: ' + data["savedRecipes"][i]["userLogin"] + '</div>\n' +
                         ' <div class="UserTimeCooking" id=' + newIdTimeCooking + '> Время приготовления: ' + data["savedRecipes"][i]["cookingTime"] + ' минут</div>\n' +
                         '</div>';
