@@ -5,6 +5,8 @@ let chrome = require("selenium-webdriver/chrome");
 
 let browser;
 
+process.setMaxListeners(0);
+
 describe("Scenario 13 - Set new user", () => {
 
     before(async ()=>{
@@ -476,7 +478,6 @@ describe("Scenario 19 - Search result by filters", () => {
      before(async ()=>{
          browser = new Builder().usingServer().withCapabilities({'browserName': 'chrome' }).setChromeOptions(new chrome.Options().headless()).build();
          await browser.get('file:///home/runner/work/Povarenok/Povarenok/Frontend/dist/signIn.html');
-         await browser.manage().deleteAllCookies();
      })
 
      after(async ()=>{
@@ -568,7 +569,6 @@ describe("Scenario 19 - Search result by filters", () => {
          assert.equal(text,"БЛИНЫ");
      });
  })
-
 
  describe("Scenario 22 - Add recipe", () => {
 
