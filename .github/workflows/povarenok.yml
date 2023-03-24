@@ -99,7 +99,6 @@ jobs:
 
       - name: Frontend integration tests
         run: |
-          npm install puppeteer
           npm ci
           npm run integrtest
         working-directory: ./Frontend
