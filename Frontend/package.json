@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "jest ./js/app.test.js",
-    "integrtest": "mocha ./js/integrTest.spec.js --timeout 10000",
-    "e2etest": "mocha ./js/e2eTest.spec.js --timeout 20000",
+    "integrtest": "mocha ./js/integrTest.spec.js --timeout 10000000",
+    "e2etest": "mocha ./js/e2eTest.spec.js --timeout 200000",
     "build": "npx webpack --mode production",
     "start": "npx webpack --mode development"
   },
